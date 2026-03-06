@@ -82,19 +82,19 @@ const teamMembers = [
   {
     name: "JJ Figueroa",
     title: "Managing Director",
-    bio: "Real estate developer, broker, and financier with over two decades of experience. Co-owner and Managing Director of Alcazar Development Group (ADG), where he leads acquisitions, financial modeling, capital structuring, and overall development strategy for the firm's multifamily portfolio throughout Florida. He is also co-founder of Figueroa-Heller Capital Partners, a private mortgage lending platform. Earlier in his career, he worked with Caribe Homes Corporation, contributing to the development and sales of 17 single-family communities across South Florida totaling more than 2,200 homes.",
+    bio: "Real estate developer, broker, and financier with over two decades of experience. He is also co-founder of Figueroa-Heller Capital Partners, a private mortgage lending platform. Earlier in his career, he worked with Caribe Homes Corporation, contributing to the development and sales of 17 single-family communities across South Florida totaling more than 2,200 homes.",
     image: "/assets/images/website/jj-figueroa.jpg",
   },
   {
     name: "Justo L. Fernandez",
     title: "Managing Director",
-    bio: "Real estate development executive with more than four decades of industry experience. As Managing Director and co-owner at Alcazar Development Group, he oversees pre-construction planning, project execution, and construction oversight across ADG's multifamily development pipeline. Prior to entering development, he spent 30 years in the financial industry at Mercantil Commercebank, serving as Executive Vice President and leading the Commercial Real Estate Division while managing a loan portfolio exceeding $1.6 billion.",
+    bio: "Real estate development executive with more than four decades of industry experience. Prior to entering development, he spent 30 years in the financial industry at Mercantil Commercebank, serving as Executive Vice President and leading the Commercial Real Estate Division while managing a loan portfolio exceeding $1.6 billion.",
     image: "/assets/images/website/justo-fernandez.jpg",
   },
   {
     name: "Guillermo Villar",
     title: "Principal",
-    bio: "Principal and strategic advisor at Alcazar Development Group, bringing more than four decades of financial and real estate expertise to the firm's multifamily development initiatives. Prior to joining ADG, he built a distinguished international banking career with Chase and Mercantil, ultimately serving as President and CEO of Commercebank in Miami. His background includes leadership roles in corporate lending, financial management, and global banking operations.",
+    bio: "Bringing more than four decades of financial and real estate expertise. He built a distinguished international banking career with Chase and Mercantil, ultimately serving as President and CEO of Commercebank in Miami. His background includes leadership roles in corporate lending, financial management, and global banking operations.",
     image: "/assets/images/website/guillermo-villar.jpg",
   },
 ];
