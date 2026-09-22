@@ -1081,7 +1081,7 @@ export function ADGWebsite() {
                 fontWeight: 300,
                 opacity: 0.82,
                 maxWidth: 540,
-                margin: "0 auto 40px",
+                margin: isMobile ? "0 auto" : "0 auto 40px",
                 lineHeight: 1.6,
                 padding: isMobile ? "0 4px" : undefined,
               }}
