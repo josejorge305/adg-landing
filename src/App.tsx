@@ -1,80 +1,198 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 const ADG_CYAN = "#00B4D8";
 const ADG_DARK = "#0A0A0A";
+const ADG_SERIF = "'Playfair Display', Georgia, serif";
 
 const projects = [
   {
+    name: "Aura Living",
+    location: "Naranja, Florida",
+    address: "",
+    coords: [25.506306, -80.43595] as [number, number],
+    units: "220 Units",
+    type: "Affordable Housing",
+    status: "BREAKING GROUND Q1 2027",
+    statusColor: "#00E676",
+    description:
+      "A seven-story mid-rise affordable housing development serving households at or below 60% AMI. The community offers a diversified unit mix of one, two, and three-bedroom residences addressing critical workforce housing demand in this submarket.",
+    detail: "",
+    stats: [
+      { label: "Units", value: "220" },
+      { label: "Stories", value: "8-story mid-rise" },
+      { label: "AMI", value: "At or below 60%" },
+      { label: "Role", value: "Developer, Guarantor" },
+    ],
+    award: null,
+    image: "/assets/images/website/aura-living-render-4.jpg",
+    gallery: [
+      "/assets/images/website/aura-living-render-4.jpg",
+      "/assets/images/website/aura-living-render-2.jpg",
+      "/assets/images/website/aura-living-render-3.jpg",
+      "/assets/images/website/aura-living-render-1.jpg",
+    ],
+  },
+  {
+    name: "Aura at Silver Lakes",
+    location: "Leesburg, Florida",
+    address: "",
+    coords: [28.838044, -81.811317] as [number, number],
+    units: "256 Units",
+    type: "Affordable Housing",
+    status: "BREAKING GROUND Q4 2026",
+    statusColor: "#00E676",
+    description:
+      "A 256-unit affordable housing community featuring garden-style apartments with two, three, and four-bedroom residences serving households at or below 60% AMI, addressing critical workforce housing demand in the Lake County MSA.",
+    detail: "",
+    stats: [
+      { label: "Unit mix", value: "2, 3 & 4-bedroom" },
+      { label: "AMI", value: "At or below 60%" },
+      { label: "Status", value: "Pre-development" },
+      { label: "Market", value: "Lake County MSA" },
+    ],
+    award: null,
+    image: "/assets/images/website/aura-at-silver-lakes-site.jpg",
+    gallery: [],
+  },
+  {
+    name: "Alcazar Millenium",
+    location: "Naranja, Florida",
+    address: "SW 150th Ave & SW 280th St, Naranja, FL",
+    coords: [25.506342, -80.437331] as [number, number],
+    units: "192 Units",
+    type: "Affordable Housing",
+    status: "IN DEVELOPMENT",
+    statusColor: "#FFD60A",
+    description: "",
+    detail: "",
+    stats: [],
+    award: null,
+    image: "/assets/images/website/alcazar-millenium.jpg",
+    gallery: [],
+  },
+  {
     name: "Alcazar Apartment Villas",
     location: "Naranja, Florida",
+    address: "14981 SW 283rd St, Homestead, FL 33033",
+    coords: [25.5044, -80.434] as [number, number],
     units: "288 Units",
     type: "Market Rate Apartments",
     status: "SOLD Q4 2021",
     statusColor: "#FF6B35",
     description:
       "Award-winning 288-unit market rent apartment community comprised of twelve buildings with 1, 2 and 3 bedroom units and a resort-style clubhouse.",
+    detail: "",
+    stats: [
+      { label: "Phase I", value: "216 units, 2018" },
+      { label: "Phase II", value: "72 units, 2019" },
+      { label: "Financing", value: "HUD 221(d)(4)" },
+      { label: "Exit", value: "Sold Q1 2021" },
+    ],
     award: "SFBJ Structures Awards — Best Affordable Residential",
-    image: "/assets/images/website/alcazar-apartment-villas.jpg",
-  },
-  {
-    name: "Aura Living",
-    location: "Naranja, Florida",
-    units: "220 Units",
-    type: "Affordable Housing",
-    status: "BREAKING GROUND Q3 2026",
-    statusColor: "#00E676",
-    description:
-      "A 220-unit, seven-story mid-rise affordable housing development serving households at or below 60% AMI. The community offers a diversified unit mix of one, two, and three-bedroom residences addressing critical workforce housing demand in this submarket.",
-    award: null,
-    image: "/assets/images/website/aura-living.jpg",
-  },
-  {
-    name: "Aura at Silver Lakes",
-    location: "Leesburg, Florida",
-    units: "256 Units",
-    type: "Affordable Housing",
-    status: "BREAKING GROUND Q3 2026",
-    statusColor: "#00E676",
-    description:
-      "A 256-unit affordable housing community featuring garden-style apartments with two, three, and four-bedroom residences serving households at or below 60% AMI, addressing critical workforce housing demand in the Lake County MSA.",
-    award: null,
-    image: "/assets/images/website/aura-at-silver-lakes.jpg",
-  },
-  {
-    name: "Alcazar Millenium",
-    location: "Naranja, Florida",
-    units: "192 Units",
-    type: "Mixed Use",
-    status: "IN DEVELOPMENT",
-    statusColor: "#FFD60A",
-    description:
-      "A mixed-use development site accommodating 192 market rent apartments and 5,000 square feet of commercial space at SW 150th Avenue and 280th Street.",
-    award: null,
-    image: "/assets/images/website/alcazar-millenium.jpg",
+    image: "/assets/images/website/alcazar-villas-photo-2.jpg",
+    gallery: [
+      "/assets/images/website/alcazar-villas-photo-2.jpg",
+      "/assets/images/website/alcazar-villas-photo-1.jpg",
+      "/assets/images/website/alcazar-villas-photo-3.jpg",
+      "/assets/images/website/alcazar-villas-photo-4.jpg",
+      "/assets/images/website/alcazar-villas-photo-7.jpg",
+      "/assets/images/website/alcazar-villas-photo-8.jpg",
+      "/assets/images/website/alcazar-villas-photo-9.jpg",
+      "/assets/images/website/alcazar-villas-photo-10.jpg",
+    ],
   },
   {
     name: "Spring Gardens",
     location: "Miami Health District",
+    address: "1005 Spring Garden Rd, Miami, FL 33136",
+    coords: [25.785618, -80.211316] as [number, number],
     units: "240 Units",
     type: "Multifamily Development",
-    status: "CURRENTLY LEASING",
+    status: "STABILIZED",
     statusColor: "#00E676",
     description:
       "A 240-unit multifamily development located in the Downtown Miami Health District. A joint venture with Estates Investment Group.",
+    detail: "",
+    stats: [
+      { label: "Stories", value: "8" },
+      { label: "Delivered", value: "2020, on schedule" },
+      { label: "Role", value: "General Partner" },
+      { label: "Status", value: "Owned & operated" },
+    ],
     award: null,
     image: "/assets/images/website/spring-gardens.jpg",
+    gallery: [
+      "/assets/images/website/spring-gardens-aerial.jpg",
+      "/assets/images/website/spring-gardens-pool.jpg",
+      "/assets/images/website/spring-gardens-lounge.jpg",
+      "/assets/images/website/spring-gardens-kitchen.jpg",
+      "/assets/images/website/spring-gardens-rooftop.jpg",
+    ],
+  },
+];
+
+const limitedPartnerPositions = [
+  {
+    name: "The Holly by Soleste",
+    location: "Hollywood, Florida",
+    address: "2001 Van Buren St, Hollywood, FL 33020",
+    coords: [26.009647, -80.147081] as [number, number],
+    units: "503 Units",
+    type: "Class A, Two Towers — QOZ",
+    role: "Limited Partner",
+    description:
+      "A 503-unit, two-tower Class A community adjacent to Young Circle in downtown Hollywood, structured as a Qualified Opportunity Zone investment. GP: The Estate Companies.",
+    stats: [
+      { label: "Towers", value: "8 & 12 stories" },
+      { label: "Construction loan", value: "$70.8M, Nationwide Mutual" },
+      { label: "Leased", value: "81% north tower (Q2 2026)" },
+      { label: "Structure", value: "Qualified Opportunity Zone" },
+    ],
+    award: null,
+    image: "/assets/images/website/the-holly-by-soleste-aerial.jpg",
+    gallery: [
+      "/assets/images/website/the-holly-by-soleste-aerial.jpg",
+      "/assets/images/website/the-holly-by-soleste-north-tower.jpg",
+      "/assets/images/website/the-holly-by-soleste-lobby.jpg",
+    ],
   },
   {
-    name: "Kendallwood",
-    location: "Miami, Florida",
-    units: "36,500 SF",
-    type: "Class A Office",
-    status: "100% LEASED",
-    statusColor: "#00B4D8",
+    name: "Gran Vista at Doral",
+    location: "Doral, Florida",
+    address: "4400 NW 79th Ave, Doral, FL 33166",
+    coords: [25.814465, -80.326682] as [number, number],
+    units: "148 Units",
+    type: "Mid-Rise Multifamily",
+    role: "Limited Partner",
     description:
-      "A 36,500 square foot office building built in 2007. Interior space completely renovated as a Class A building in 2016 and 100% leased to a government agency.",
+      "148-unit multifamily mid-rise located in Doral, FL.",
+    stats: [
+      { label: "Held since", value: "2011" },
+      { label: "Years held", value: "15+" },
+    ],
     award: null,
-    image: "/assets/images/website/kendallwood.jpg",
+    image: "/assets/images/website/gran-vista-at-doral.jpg",
+    gallery: ["/assets/images/website/gran-vista-at-doral.jpg"],
+  },
+  {
+    name: "Cinnamon Cove",
+    location: "Tampa, Florida",
+    address: "12401 N 15th St, Tampa, FL 33612",
+    coords: [28.060726, -82.442751] as [number, number],
+    units: "309 Units",
+    type: "Garden Multifamily, Value-Add",
+    role: "Limited Partner",
+    description:
+      "309-unit Garden-style value-add community acquired in 2025.",
+    stats: [
+      { label: "Acquired", value: "2025" },
+      { label: "Strategy", value: "Value-add" },
+    ],
+    award: null,
+    image: "/assets/images/website/cinnamon-cove.jpg",
+    gallery: ["/assets/images/website/cinnamon-cove.jpg"],
   },
 ];
 
@@ -172,9 +290,112 @@ function AnimatedCounter({ target }: { target: string }) {
   return <span ref={ref}>{count}</span>;
 }
 
+// Esri "Dark Gray Canvas" — a purpose-built dark, muted basemap (base + label layers)
+const DARK_BASE_TILES =
+  "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}";
+const DARK_LABEL_TILES =
+  "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}";
+const TILE_ATTRIBUTION = "Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors";
+
+function makePin(color: string) {
+  return L.divIcon({
+    className: "adg-pin",
+    html: `<span class="adg-pin-halo" style="background:${color}"></span><span class="adg-pin-dot" style="background:${color};box-shadow:0 0 14px ${color}"></span>`,
+    iconSize: [36, 36],
+    iconAnchor: [18, 18],
+  });
+}
+
+function createDarkMap(el: HTMLElement, opts: L.MapOptions = {}) {
+  const map = L.map(el, {
+    scrollWheelZoom: false,
+    dragging: !L.Browser.mobile,
+    zoomControl: true,
+    zoomSnap: 0.25,
+    ...opts,
+  });
+  map.attributionControl.setPrefix(false);
+  L.tileLayer(DARK_BASE_TILES, { attribution: TILE_ATTRIBUTION, maxZoom: 16 }).addTo(map);
+  L.tileLayer(DARK_LABEL_TILES, { maxZoom: 16 }).addTo(map);
+  return map;
+}
+
+// Single-property location map shown inside the detail modal
+function PropertyMap({ coords, height }: { coords: [number, number]; height: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!ref.current) return;
+    const map = createDarkMap(ref.current, { center: coords, zoom: 15 });
+    L.marker(coords, { icon: makePin(ADG_CYAN), keyboard: false }).addTo(map);
+    // The modal animates in, so re-measure once it has settled
+    const t = setTimeout(() => map.invalidateSize(), 300);
+    return () => {
+      clearTimeout(t);
+      map.remove();
+    };
+  }, [coords[0], coords[1]]);
+  return (
+    <div
+      ref={ref}
+      style={{
+        height,
+        width: "100%",
+        borderRadius: 12,
+        overflow: "hidden",
+        border: "1px solid rgba(255,255,255,0.08)",
+        isolation: "isolate",
+      }}
+    />
+  );
+}
+
+// Portfolio-wide footprint map — every development and investment position in one view
+function FootprintMap({
+  height,
+  onSelect,
+}: {
+  height: number;
+  onSelect: (item: { kind: "project" | "lp"; index: number }) => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!ref.current) return;
+    const map = createDarkMap(ref.current);
+    const points: [number, number][] = [];
+    const add = (coords: [number, number], name: string, location: string, color: string, item: { kind: "project" | "lp"; index: number }) => {
+      const m = L.marker(coords, { icon: makePin(color), keyboard: false }).addTo(map);
+      m.bindTooltip(`<strong>${name}</strong><br/>${location}`, { className: "adg-tip", direction: "top", offset: [0, -12] });
+      m.on("click", () => onSelect(item));
+      points.push(coords);
+    };
+    projects.forEach((p, i) => add(p.coords, p.name, p.location, ADG_CYAN, { kind: "project", index: i }));
+    limitedPartnerPositions.forEach((p, i) => add(p.coords, p.name, p.location, "#E6E6E6", { kind: "lp", index: i }));
+    map.fitBounds(L.latLngBounds(points), { padding: [60, 60] });
+    return () => {
+      map.remove();
+    };
+  }, []);
+  return (
+    <div
+      ref={ref}
+      style={{
+        height,
+        width: "100%",
+        borderRadius: 16,
+        overflow: "hidden",
+        border: "1px solid rgba(255,255,255,0.08)",
+        isolation: "isolate",
+      }}
+    />
+  );
+}
+
 export function ADGWebsite() {
   const [scrollY, setScrollY] = useState(0);
   const [activeProject, setActiveProject] = useState<number | null>(null);
+  const [modalItem, setModalItem] = useState<{ kind: "project" | "lp"; index: number } | null>(null);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+  const [shovelGlow, setShovelGlow] = useState(0);
   const [heroTextVisible, setHeroTextVisible] = useState(false);
   const [navSolid, setNavSolid] = useState(false);
   const [taglineIndex, setTaglineIndex] = useState(0);
@@ -215,8 +436,21 @@ export function ADGWebsite() {
     const handleScroll = () => {
       setScrollY(window.scrollY);
       setNavSolid(window.scrollY > 80);
+
+      // Sun-glint on the groundbreaking shovel photo — intensity tracks how far
+      // the image has traveled through the viewport as the page scrolls.
+      if (aboutRef.current) {
+        const rect = aboutRef.current.getBoundingClientRect();
+        const vh = window.innerHeight || 1;
+        // 0 when the section's top just enters the bottom of the viewport,
+        // 1 when its bottom reaches the top of the viewport.
+        const progress = (vh - rect.top) / (vh + rect.height);
+        const clamped = Math.min(1, Math.max(0, progress));
+        setShovelGlow(clamped);
+      }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -229,6 +463,37 @@ export function ADGWebsite() {
     }
     return () => { document.body.style.overflow = ""; };
   }, [mobileMenuOpen]);
+
+  // Lock body scroll when the property modal is open; close on Escape
+  useEffect(() => {
+    if (modalItem) {
+      setGalleryIndex(0);
+      document.body.style.overflow = "hidden";
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === "Escape") setModalItem(null);
+      };
+      window.addEventListener("keydown", onKey);
+      return () => {
+        document.body.style.overflow = "";
+        window.removeEventListener("keydown", onKey);
+      };
+    }
+    document.body.style.overflow = "";
+  }, [modalItem]);
+
+  // Auto-advance the modal gallery every 5 seconds
+  useEffect(() => {
+    if (!modalItem) return;
+    const gallery =
+      modalItem.kind === "project"
+        ? projects[modalItem.index].gallery
+        : limitedPartnerPositions[modalItem.index].gallery;
+    if (!gallery || gallery.length <= 1) return;
+    const timer = setTimeout(() => {
+      setGalleryIndex((i) => (i + 1) % gallery.length);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [modalItem, galleryIndex]);
 
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
@@ -269,6 +534,25 @@ export function ADGWebsite() {
 
   const compact = isMobile || isTablet;
 
+  // Sun-glint intensity on the shovel photo — pulses a couple of times as the
+  // image travels through the viewport, like a reflective surface catching light.
+  const shovelGlintIntensity = Math.pow(Math.abs(Math.sin(shovelGlow * Math.PI * 2.5)), 2);
+
+  const modalData = !modalItem
+    ? null
+    : modalItem.kind === "project"
+    ? {
+        ...projects[modalItem.index],
+        badge: projects[modalItem.index].status,
+        badgeColor: projects[modalItem.index].statusColor,
+      }
+    : {
+        ...limitedPartnerPositions[modalItem.index],
+        detail: "",
+        badge: limitedPartnerPositions[modalItem.index].role,
+        badgeColor: ADG_CYAN,
+      };
+
   return (
     <div
       style={{
@@ -301,6 +585,33 @@ export function ADGWebsite() {
         input::placeholder, textarea::placeholder {
           color: rgba(255,255,255,0.3);
         }
+        /* ---- Map styling (dark, on-brand) ---- */
+        .leaflet-container { background: #0d0d0f; font-family: 'Outfit', sans-serif; }
+        .adg-pin-dot, .adg-pin-halo {
+          position: absolute; left: 50%; top: 50%;
+          width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%;
+        }
+        .adg-pin-dot { border: 2px solid #0A0A0A; }
+        .adg-pin-halo { animation: adgPulse 2.4s ease-out infinite; }
+        @keyframes adgPulse {
+          0% { transform: scale(1); opacity: 0.55; }
+          100% { transform: scale(3.4); opacity: 0; }
+        }
+        .leaflet-bar { border: 1px solid rgba(255,255,255,0.1) !important; box-shadow: none !important; }
+        .leaflet-bar a {
+          background: #141416 !important; color: rgba(255,255,255,0.8) !important;
+          border-bottom-color: rgba(255,255,255,0.08) !important;
+        }
+        .leaflet-bar a:hover { background: #1c1c1f !important; color: #fff !important; }
+        .leaflet-control-attribution {
+          background: rgba(10,10,10,0.7) !important; color: rgba(255,255,255,0.45) !important; font-size: 10px;
+        }
+        .leaflet-control-attribution a { color: rgba(255,255,255,0.6) !important; }
+        .leaflet-tooltip.adg-tip {
+          background: #0d0d0f; color: #fff; border: 1px solid rgba(0,180,216,0.35); border-radius: 6px;
+          font-family: 'Outfit', sans-serif; font-size: 12px; line-height: 1.4; padding: 6px 10px; box-shadow: none;
+        }
+        .leaflet-tooltip.adg-tip::before { display: none; }
       `}</style>
 
       {/* Global grain overlay */}
@@ -659,11 +970,12 @@ export function ADGWebsite() {
           <div style={{ overflow: "hidden", marginBottom: isMobile ? 0 : 8, paddingBottom: 8 }}>
             <h1
               style={{
+                fontFamily: ADG_SERIF,
                 fontSize: isMobile ? "clamp(32px, 10vw, 48px)" : "clamp(48px, 8vw, 96px)",
-                fontWeight: 900,
+                fontWeight: 700,
                 lineHeight: 1.1,
                 margin: 0,
-                letterSpacing: isMobile ? -1 : -3,
+                letterSpacing: isMobile ? -0.5 : -1,
                 transform: heroTextVisible ? "translateY(0)" : "translateY(100%)",
                 opacity: heroTextVisible && !taglineFading ? 1 : heroTextVisible ? 0 : 0,
                 transition: "all 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
@@ -677,14 +989,14 @@ export function ADGWebsite() {
           <div style={{ overflow: "hidden", marginBottom: isMobile ? 0 : 8, paddingBottom: 8 }}>
             <h1
               style={{
+                fontFamily: ADG_SERIF,
                 fontSize: isMobile ? "clamp(32px, 10vw, 48px)" : "clamp(48px, 8vw, 96px)",
-                fontWeight: 900,
+                fontWeight: 700,
+                fontStyle: "italic",
                 lineHeight: 1.1,
                 margin: 0,
-                letterSpacing: isMobile ? -1 : -3,
-                background: `linear-gradient(135deg, ${ADG_CYAN}, #0077B6, #48CAE4)`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
+                letterSpacing: isMobile ? -0.5 : -1,
+                color: ADG_CYAN,
                 opacity: heroTextVisible && !taglineFading ? 1 : heroTextVisible ? 0 : 0,
                 transition: "all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.08s",
               }}
@@ -693,21 +1005,38 @@ export function ADGWebsite() {
             </h1>
           </div>
 
-          {/* Tagline bottom */}
-          <div style={{ overflow: "hidden", marginBottom: isMobile ? 16 : 32, paddingBottom: 8 }}>
+          {/* Tagline bottom — hidden spacer reserves height for the longest line so rotation never shifts the layout */}
+          <div style={{ position: "relative", marginBottom: isMobile ? 16 : 32 }}>
             <h1
+              aria-hidden="true"
               style={{
+                fontFamily: ADG_SERIF,
                 fontSize: isMobile ? "clamp(32px, 10vw, 48px)" : "clamp(48px, 8vw, 96px)",
-                fontWeight: 900,
+                fontWeight: 700,
                 lineHeight: 1.1,
                 margin: 0,
-                letterSpacing: isMobile ? -1 : -3,
-                opacity: heroTextVisible && !taglineFading ? 1 : heroTextVisible ? 0 : 0,
-                transition: "all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.16s",
+                letterSpacing: isMobile ? -0.5 : -1,
+                visibility: "hidden",
               }}
             >
-              {taglines[taglineIndex].bottom}
+              Strengthening Communities.
             </h1>
+            <div style={{ position: "absolute", inset: 0, overflow: "hidden", paddingBottom: 8 }}>
+              <h1
+                style={{
+                  fontFamily: ADG_SERIF,
+                  fontSize: isMobile ? "clamp(32px, 10vw, 48px)" : "clamp(48px, 8vw, 96px)",
+                  fontWeight: 700,
+                  lineHeight: 1.1,
+                  margin: 0,
+                  letterSpacing: isMobile ? -0.5 : -1,
+                  opacity: heroTextVisible && !taglineFading ? 1 : heroTextVisible ? 0 : 0,
+                  transition: "all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.16s",
+                }}
+              >
+                {taglines[taglineIndex].bottom}
+              </h1>
+            </div>
           </div>
 
           {/* Progress dots */}
@@ -758,6 +1087,45 @@ export function ADGWebsite() {
               afford. ADG develops workforce communities that close the gap between income and rent
               — built to institutional standards, designed for real life.
             </p>
+
+            {/* Hero CTAs */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                width: isMobile ? "100%" : undefined,
+              }}
+            >
+              <button
+                onClick={() => scrollToSection("contact")}
+                style={{
+                  background: `linear-gradient(135deg, ${ADG_CYAN}, #0077B6)`,
+                  border: "none",
+                  color: "#fff",
+                  cursor: "pointer",
+                  fontSize: isMobile ? 12 : 13,
+                  fontWeight: 700,
+                  letterSpacing: isMobile ? 1 : 2,
+                  textTransform: "uppercase" as const,
+                  fontFamily: "'Space Mono', monospace",
+                  padding: isMobile ? "14px 24px" : "16px 36px",
+                  borderRadius: 4,
+                  boxShadow: "0 0 20px rgba(0,180,216,0.3)",
+                  transition: "all 0.3s",
+                  width: isMobile ? "100%" : undefined,
+                }}
+                onMouseEnter={(e) => {
+                  (e.target as HTMLElement).style.transform = "translateY(-2px)";
+                  (e.target as HTMLElement).style.boxShadow = "0 4px 30px rgba(0,180,216,0.5)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.target as HTMLElement).style.transform = "translateY(0)";
+                  (e.target as HTMLElement).style.boxShadow = "0 0 20px rgba(0,180,216,0.3)";
+                }}
+              >
+                Get In Touch
+              </button>
+            </div>
           </div>
 
           {/* Scroll indicator — hidden on mobile */}
@@ -803,9 +1171,10 @@ export function ADGWebsite() {
           </div>
           <h2
             style={{
+              fontFamily: ADG_SERIF,
               fontSize: isMobile ? "clamp(28px, 7vw, 48px)" : "clamp(36px, 5vw, 64px)",
-              fontWeight: 800,
-              lineHeight: 1.05,
+              fontWeight: 700,
+              lineHeight: 1.1,
               margin: 0,
               maxWidth: 650,
             }}
@@ -813,9 +1182,8 @@ export function ADGWebsite() {
             Homes where{" "}
             <span
               style={{
-                background: `linear-gradient(135deg, ${ADG_CYAN}, #48CAE4)`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
+                fontStyle: "italic",
+                color: ADG_CYAN,
               }}
             >
               Florida's workforce
@@ -845,7 +1213,10 @@ export function ADGWebsite() {
           {projects.map((project, i) => (
             <div
               key={i}
-              onClick={() => setActiveProject(activeProject === i ? null : i)}
+              onClick={() => {
+                setActiveProject(activeProject === i ? null : i);
+                setModalItem({ kind: "project", index: i });
+              }}
               style={{
                 minWidth: isMobile ? "calc(100vw - 48px)" : 420,
                 maxWidth: isMobile ? "calc(100vw - 48px)" : 420,
@@ -963,7 +1334,7 @@ export function ADGWebsite() {
                 >
                   {project.type} · {project.units}
                 </div>
-                <h3 style={{ fontSize: isMobile ? 22 : 26, fontWeight: 800, margin: "0 0 6px", lineHeight: 1.1 }}>
+                <h3 style={{ fontFamily: ADG_SERIF, fontSize: isMobile ? 22 : 26, fontWeight: 700, margin: "0 0 6px", lineHeight: 1.2 }}>
                   {project.name}
                 </h3>
                 <p style={{ fontSize: 14, fontWeight: 400, opacity: 0.6, margin: 0 }}>
@@ -1050,13 +1421,13 @@ export function ADGWebsite() {
           <div key={i} style={{ textAlign: "center" }}>
             <div
               style={{
+                fontFamily: ADG_SERIF,
                 fontSize: isMobile ? "clamp(28px, 8vw, 40px)" : "clamp(36px, 4vw, 56px)",
-                fontWeight: 900,
-                background: `linear-gradient(135deg, #fff, ${ADG_CYAN})`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
+                fontWeight: 700,
+                color: ADG_CYAN,
+                fontVariantNumeric: "tabular-nums",
                 lineHeight: 1,
-                marginBottom: 8,
+                marginBottom: 10,
               }}
             >
               <AnimatedCounter target={stat.number} />
@@ -1074,6 +1445,165 @@ export function ADGWebsite() {
             </div>
           </div>
         ))}
+      </section>
+
+      {/* ===== LIMITED PARTNER POSITIONS SECTION ===== */}
+      <section
+        id="lp-positions"
+        style={{ padding: isMobile ? "60px 20px" : "100px 60px", position: "relative" }}
+      >
+        <div style={{ marginBottom: isMobile ? 32 : 56 }}>
+          <div
+            style={{
+              fontFamily: "'Space Mono', monospace",
+              fontSize: 12,
+              letterSpacing: 6,
+              color: ADG_CYAN,
+              marginBottom: 16,
+              textTransform: "uppercase" as const,
+            }}
+          >
+            Investment Portfolio
+          </div>
+          <p style={{ fontSize: isMobile ? 14 : 15, opacity: 0.5, maxWidth: 560, margin: 0, lineHeight: 1.6 }}>
+            Capital positions alongside institutional sponsors.
+          </p>
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
+            gap: isMobile ? 20 : 24,
+          }}
+        >
+          {limitedPartnerPositions.map((lp, i) => (
+            <div
+              key={i}
+              onClick={() => setModalItem({ kind: "lp", index: i })}
+              style={{
+                borderRadius: 12,
+                overflow: "hidden",
+                cursor: "pointer",
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = `${ADG_CYAN}55`;
+                (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)";
+                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+              }}
+            >
+              <div style={{ position: "relative", height: 180 }}>
+                <img
+                  src={lp.image}
+                  alt={lp.name}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = "none";
+                  }}
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.75) 100%)",
+                  }}
+                />
+              </div>
+              <div style={{ padding: isMobile ? 18 : 22 }}>
+                <div
+                  style={{
+                    fontFamily: "'Space Mono', monospace",
+                    fontSize: 10,
+                    letterSpacing: 2,
+                    opacity: 0.5,
+                    marginBottom: 6,
+                    textTransform: "uppercase" as const,
+                  }}
+                >
+                  {lp.type} · {lp.units}
+                </div>
+                <h3 style={{ fontFamily: ADG_SERIF, fontSize: 18, fontWeight: 700, margin: "0 0 4px" }}>{lp.name}</h3>
+                <p style={{ fontSize: 13, opacity: 0.5, margin: 0 }}>{lp.location}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ===== FOOTPRINT MAP SECTION ===== */}
+      <section id="footprint" style={{ padding: isMobile ? "40px 20px 60px" : "60px 60px 100px" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            justifyContent: "space-between",
+            alignItems: isMobile ? "flex-start" : "flex-end",
+            gap: 20,
+            marginBottom: isMobile ? 24 : 36,
+          }}
+        >
+          <div>
+            <div
+              style={{
+                fontFamily: "'Space Mono', monospace",
+                fontSize: 12,
+                letterSpacing: 6,
+                color: ADG_CYAN,
+                marginBottom: 16,
+                textTransform: "uppercase" as const,
+              }}
+            >
+              Our Footprint
+            </div>
+            <h2
+              style={{
+                fontFamily: ADG_SERIF,
+                fontSize: isMobile ? "clamp(28px, 7vw, 40px)" : "clamp(32px, 4vw, 52px)",
+                fontWeight: 700,
+                lineHeight: 1.15,
+                margin: 0,
+              }}
+            >
+              Across <span style={{ fontStyle: "italic", color: ADG_CYAN }}>Florida.</span>
+            </h2>
+          </div>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+            {[
+              { label: "Developments", color: ADG_CYAN },
+              { label: "Investment positions", color: "#E6E6E6" },
+            ].map((l) => (
+              <div key={l.label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <span
+                  style={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: "50%",
+                    background: l.color,
+                    boxShadow: `0 0 10px ${l.color}`,
+                  }}
+                />
+                <span
+                  style={{
+                    fontFamily: "'Space Mono', monospace",
+                    fontSize: 11,
+                    letterSpacing: 2,
+                    textTransform: "uppercase" as const,
+                    opacity: 0.6,
+                  }}
+                >
+                  {l.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <FootprintMap height={isMobile ? 360 : 500} onSelect={setModalItem} />
       </section>
 
       {/* ===== ABOUT SECTION ===== */}
@@ -1110,14 +1640,15 @@ export function ADGWebsite() {
           </div>
           <h2
             style={{
+              fontFamily: ADG_SERIF,
               fontSize: compact ? "clamp(28px, 7vw, 40px)" : "clamp(32px, 4vw, 52px)",
-              fontWeight: 800,
-              lineHeight: 1.1,
+              fontWeight: 700,
+              lineHeight: 1.15,
               margin: "0 0 24px",
             }}
           >
             Closing the gap{" "}
-            <span style={{ fontWeight: 300, fontStyle: "italic" }}>
+            <span style={{ fontWeight: 500, fontStyle: "italic", color: ADG_CYAN }}>
               between income and rent.
             </span>
           </h2>
@@ -1135,24 +1666,18 @@ export function ADGWebsite() {
             returns aren't mutually exclusive.
           </p>
           <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-            <div
+            <img
+              src="/assets/images/website/sfbj-structures-award-2026.png"
+              alt="SFBJ Structures Awards"
               style={{
-                width: 48,
-                height: 48,
-                background: `linear-gradient(135deg, ${ADG_CYAN}22, ${ADG_CYAN}08)`,
-                border: `1px solid ${ADG_CYAN}33`,
-                borderRadius: 8,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 20,
+                height: 44,
+                width: "auto",
                 flexShrink: 0,
               }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill={ADG_CYAN}>
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-              </svg>
-            </div>
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = "none";
+              }}
+            />
             <div>
               <div style={{ fontSize: 13, fontWeight: 600 }}>SFBJ Structures Awards</div>
               <div style={{ fontSize: 12, opacity: 0.5 }}>Best Affordable Residential 2018</div>
@@ -1205,6 +1730,26 @@ export function ADGWebsite() {
                 borderRadius: 20,
               }}
             />
+            {/* Sun reflection — an elongated specular streak that slides across the
+                shovel's polished surface as the page scrolls, like a moving glint
+                rather than a static glow */}
+            <div
+              style={{
+                position: "absolute",
+                left: `${20 + shovelGlow * 16}%`,
+                top: `${54 + shovelGlow * 20}%`,
+                width: compact ? 130 : 210,
+                height: compact ? 38 : 60,
+                transform: `translate(-50%, -50%) rotate(-24deg) scaleX(${0.75 + shovelGlintIntensity * 0.5})`,
+                borderRadius: "50%",
+                background:
+                  "radial-gradient(ellipse, rgba(255,255,255,0.98) 0%, rgba(255,240,200,0.85) 20%, rgba(255,205,110,0.4) 46%, rgba(255,180,60,0) 70%)",
+                opacity: 0.25 + shovelGlintIntensity * 0.7,
+                mixBlendMode: "screen",
+                filter: "blur(1.5px)",
+                pointerEvents: "none",
+              }}
+            />
           </div>
           {/* Floating cyan blur accent — hidden on mobile */}
           {!compact && (
@@ -1250,9 +1795,10 @@ export function ADGWebsite() {
           </div>
           <h2
             style={{
+              fontFamily: ADG_SERIF,
               fontSize: compact ? "clamp(28px, 7vw, 40px)" : "clamp(36px, 5vw, 56px)",
-              fontWeight: 800,
-              lineHeight: 1.1,
+              fontWeight: 700,
+              lineHeight: 1.15,
               margin: 0,
               opacity: teamInView ? 1 : 0,
               transform: teamInView ? "translateY(0)" : "translateY(30px)",
@@ -1262,9 +1808,8 @@ export function ADGWebsite() {
             The people behind{" "}
             <span
               style={{
-                background: `linear-gradient(135deg, ${ADG_CYAN}, #48CAE4)`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
+                fontStyle: "italic",
+                color: ADG_CYAN,
               }}
             >
               the mission.
@@ -1350,7 +1895,7 @@ export function ADGWebsite() {
                     .join("")}
                 </span>
               </div>
-              <h3 style={{ fontSize: compact ? 20 : 22, fontWeight: 700, margin: "0 0 4px" }}>{member.name}</h3>
+              <h3 style={{ fontFamily: ADG_SERIF, fontSize: compact ? 20 : 22, fontWeight: 700, margin: "0 0 4px" }}>{member.name}</h3>
               <div
                 style={{
                   fontFamily: "'Space Mono', monospace",
@@ -1403,14 +1948,15 @@ export function ADGWebsite() {
           </div>
           <h2
             style={{
+              fontFamily: ADG_SERIF,
               fontSize: compact ? "clamp(28px, 7vw, 40px)" : "clamp(36px, 4vw, 52px)",
-              fontWeight: 800,
-              lineHeight: 1.1,
+              fontWeight: 700,
+              lineHeight: 1.15,
               margin: "0 0 32px",
             }}
           >
             Let's house{" "}
-            <span style={{ fontWeight: 300, fontStyle: "italic" }}>Florida's workforce.</span>
+            <span style={{ fontWeight: 500, fontStyle: "italic", color: ADG_CYAN }}>Florida's workforce.</span>
           </h2>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
@@ -1596,12 +2142,13 @@ export function ADGWebsite() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <img
-            src="/assets/images/website/adg-logo.png"
-            alt="ADG"
+            src="/assets/images/website/adg-full-logo-white.jpg"
+            alt="Alcazar Development Group — Registered Trademark"
             style={{
-              height: isMobile ? 32 : 40,
+              height: isMobile ? 40 : 52,
               width: "auto",
               objectFit: "contain",
+              borderRadius: 6,
               flexShrink: 0,
             }}
             onError={(e) => {
@@ -1647,6 +2194,264 @@ export function ADGWebsite() {
           ADG-OS Platform →
         </button>
       </footer>
+
+      {/* ===== PROPERTY DETAIL MODAL ===== */}
+      {modalData && (
+        <div
+          onClick={() => setModalItem(null)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 2000,
+            background: "rgba(5,5,8,0.88)",
+            backdropFilter: "blur(12px)",
+            display: "flex",
+            alignItems: isMobile ? "flex-end" : "center",
+            justifyContent: "center",
+            padding: isMobile ? 0 : 24,
+            animation: "fadeIn 0.3s ease",
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: "#0d0d0f",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: isMobile ? "20px 20px 0 0" : 20,
+              width: "100%",
+              maxWidth: 880,
+              maxHeight: isMobile ? "92vh" : "88vh",
+              overflowY: "auto",
+              position: "relative",
+            }}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setModalItem(null)}
+              style={{
+                position: "absolute",
+                top: 16,
+                right: 16,
+                zIndex: 10,
+                width: 36,
+                height: 36,
+                borderRadius: "50%",
+                background: "rgba(0,0,0,0.6)",
+                backdropFilter: "blur(10px)",
+                border: "1px solid rgba(255,255,255,0.15)",
+                color: "#fff",
+                fontSize: 16,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              &#x2715;
+            </button>
+
+            {/* Gallery */}
+            <div style={{ position: "relative", height: isMobile ? 220 : 380, background: "#000" }}>
+              <img
+                src={modalData.gallery && modalData.gallery.length > 0 ? modalData.gallery[galleryIndex] : modalData.image}
+                alt={modalData.name}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = "none";
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(13,13,15,0.95) 100%)",
+                }}
+              />
+              {modalData.gallery && modalData.gallery.length > 1 && (
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: 14,
+                    left: 0,
+                    right: 0,
+                    display: "flex",
+                    gap: 6,
+                    justifyContent: "center",
+                  }}
+                >
+                  {modalData.gallery.map((_, gi) => (
+                    <button
+                      key={gi}
+                      onClick={() => setGalleryIndex(gi)}
+                      style={{
+                        width: gi === galleryIndex ? 22 : 8,
+                        height: 3,
+                        borderRadius: 2,
+                        border: "none",
+                        background: gi === galleryIndex ? ADG_CYAN : "rgba(255,255,255,0.3)",
+                        cursor: "pointer",
+                        transition: "all 0.3s",
+                        padding: 0,
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Body */}
+            <div style={{ padding: isMobile ? "24px 20px 32px" : "32px 44px 44px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
+                {modalItem?.kind === "project" && (
+                  <span
+                    style={{
+                      padding: "5px 12px",
+                      borderRadius: 4,
+                      background: `${modalData.badgeColor}18`,
+                      border: `1px solid ${modalData.badgeColor}55`,
+                      fontFamily: "'Space Mono', monospace",
+                      fontSize: 10,
+                      fontWeight: 700,
+                      letterSpacing: 1.5,
+                      color: modalData.badgeColor,
+                      textTransform: "uppercase" as const,
+                    }}
+                  >
+                    {modalData.badge}
+                  </span>
+                )}
+                <span
+                  style={{
+                    fontFamily: "'Space Mono', monospace",
+                    fontSize: 11,
+                    letterSpacing: 1.5,
+                    opacity: 0.4,
+                    textTransform: "uppercase" as const,
+                  }}
+                >
+                  {modalData.type} · {modalData.units}
+                </span>
+              </div>
+
+              <h2 style={{ fontFamily: ADG_SERIF, fontSize: isMobile ? 24 : 32, fontWeight: 700, margin: "0 0 6px", lineHeight: 1.2 }}>
+                {modalData.name}
+              </h2>
+              <p style={{ fontSize: 14, opacity: 0.5, margin: "0 0 24px" }}>{modalData.location}</p>
+
+              {modalData.stats && modalData.stats.length > 0 && (
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
+                    gap: 16,
+                    padding: isMobile ? "16px 0" : "20px 0",
+                    borderTop: "1px solid rgba(255,255,255,0.08)",
+                    borderBottom: "1px solid rgba(255,255,255,0.08)",
+                    marginBottom: 24,
+                  }}
+                >
+                  {modalData.stats.map((s, si) => (
+                    <div key={si}>
+                      <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 2 }}>{s.value}</div>
+                      <div
+                        style={{
+                          fontFamily: "'Space Mono', monospace",
+                          fontSize: 10,
+                          letterSpacing: 1,
+                          opacity: 0.45,
+                          textTransform: "uppercase" as const,
+                        }}
+                      >
+                        {s.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {modalData.description && (
+                <p style={{ fontSize: 15, lineHeight: 1.7, opacity: 0.75, margin: "0 0 16px" }}>
+                  {modalData.description}
+                </p>
+              )}
+              {modalData.detail && (
+                <p style={{ fontSize: 14, lineHeight: 1.7, opacity: 0.55, margin: 0 }}>{modalData.detail}</p>
+              )}
+
+              {modalData.award && (
+                <div
+                  style={{
+                    marginTop: 20,
+                    padding: "10px 14px",
+                    background: "rgba(0,180,216,0.1)",
+                    border: `1px solid ${ADG_CYAN}33`,
+                    borderRadius: 6,
+                    fontSize: 12,
+                    fontFamily: "'Space Mono', monospace",
+                    color: ADG_CYAN,
+                    letterSpacing: 1,
+                    display: "inline-block",
+                  }}
+                >
+                  ★ {modalData.award}
+                </div>
+              )}
+
+              {/* Location map */}
+              {modalData.coords && (
+                <div style={{ marginTop: 32 }}>
+                  <div
+                    style={{
+                      fontFamily: "'Space Mono', monospace",
+                      fontSize: 11,
+                      letterSpacing: 4,
+                      color: ADG_CYAN,
+                      textTransform: "uppercase" as const,
+                      marginBottom: 12,
+                    }}
+                  >
+                    Location
+                  </div>
+                  <PropertyMap key={modalData.name} coords={modalData.coords} height={isMobile ? 180 : 220} />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      gap: 12,
+                      flexWrap: "wrap",
+                      marginTop: 12,
+                    }}
+                  >
+                    <span style={{ fontSize: 13, opacity: 0.55 }}>{modalData.address || modalData.location}</span>
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${modalData.coords[0]},${modalData.coords[1]}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        fontFamily: "'Space Mono', monospace",
+                        fontSize: 11,
+                        fontWeight: 700,
+                        letterSpacing: 2,
+                        textTransform: "uppercase" as const,
+                        color: ADG_CYAN,
+                        background: "rgba(0,180,216,0.1)",
+                        border: `1px solid ${ADG_CYAN}33`,
+                        padding: "8px 16px",
+                        borderRadius: 4,
+                        textDecoration: "none",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      Open in Google Maps →
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
