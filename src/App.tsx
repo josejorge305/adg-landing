@@ -1837,6 +1837,7 @@ export function ADGWebsite() {
               style={{
                 padding: compact ? 28 : 40,
                 borderRadius: 16,
+                overflow: "hidden",
                 background: "rgba(255,255,255,0.02)",
                 border: "1px solid rgba(255,255,255,0.06)",
                 textAlign: "center",
@@ -1856,49 +1857,22 @@ export function ADGWebsite() {
                 e.currentTarget.style.transform = "translateY(0)";
               }}
             >
-              {/* Avatar */}
+              {/* Portrait: fills the top of the card edge to edge */}
               <div
                 style={{
-                  width: compact ? 80 : 100,
-                  height: compact ? 80 : 100,
-                  borderRadius: "50%",
-                  background: `linear-gradient(135deg, ${ADG_CYAN}22, ${ADG_CYAN}08)`,
-                  border: `2px solid ${ADG_CYAN}33`,
-                  margin: "0 auto 24px",
+                  margin: compact ? "-28px -28px 24px" : "-40px -40px 28px",
+                  aspectRatio: "720 / 456",
+                  background: "#000",
+                  borderBottom: "1px solid rgba(255,255,255,0.06)",
                   overflow: "hidden",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  position: "relative",
                 }}
               >
                 <img
-                  src={member.image}
+                  src={member.image.replace(".jpg", "-card.jpg")}
                   alt={member.name}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", position: "relative", zIndex: 2 }}
-                  onLoad={(e) => {
-                    const sibling = (e.target as HTMLImageElement).nextElementSibling as HTMLElement;
-                    if (sibling) sibling.style.display = "none";
-                  }}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = "none";
-                  }}
+                  loading="lazy"
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                 />
-                <span
-                  style={{
-                    position: "absolute",
-                    fontSize: compact ? 24 : 32,
-                    fontWeight: 800,
-                    color: ADG_CYAN,
-                    pointerEvents: "none",
-                    zIndex: 1,
-                  }}
-                >
-                  {member.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </span>
               </div>
               <h3 style={{ fontFamily: ADG_SERIF, fontSize: compact ? 20 : 22, fontWeight: 700, margin: "0 0 4px" }}>{member.name}</h3>
               <div
