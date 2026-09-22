@@ -2,6 +2,9 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
+// Web3Forms access key: delivers contact-form messages by email. Public by design (client-side).
+const WEB3FORMS_KEY = "";
+
 const ADG_CYAN = "#00B4D8";
 const ADG_DARK = "#0A0A0A";
 const ADG_SERIF = "'Playfair Display', Georgia, serif";
@@ -401,6 +404,8 @@ export function ADGWebsite() {
   const [taglineIndex, setTaglineIndex] = useState(0);
   const [taglineFading, setTaglineFading] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [botcheck, setBotcheck] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const { isMobile, isTablet } = useBreakpoint();
@@ -522,10 +527,37 @@ export function ADGWebsite() {
     scrollContainerRef.current.scrollLeft = scrollLeft.current - walk;
   }, []);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Contact form submitted:", formData);
-    setFormData({ name: "", email: "", subject: "", message: "" });
+    if (formStatus === "sending") return;
+    if (botcheck) { setFormStatus("sent"); return; } // spam trap: silently drop bot submissions
+    if (!WEB3FORMS_KEY) { setFormStatus("error"); return; }
+    setFormStatus("sending");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          from_name: "alcazardg.com contact form",
+          subject: `Website inquiry: ${formData.subject || formData.name}`,
+          name: formData.name,
+          email: formData.email,
+          replyto: formData.email,
+          topic: formData.subject,
+          message: formData.message,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && (data as { success?: boolean }).success) {
+        setFormStatus("sent");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setFormStatus("error");
+      }
+    } catch {
+      setFormStatus("error");
+    }
   };
 
   const handleSignIn = () => {
@@ -2048,6 +2080,8 @@ export function ADGWebsite() {
                 </label>
                 <input
                   type={field === "email" ? "email" : "text"}
+                  name={field}
+                  required={field !== "subject"}
                   placeholder={`Your ${field}`}
                   value={formData[field]}
                   onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
@@ -2085,6 +2119,8 @@ export function ADGWebsite() {
               <textarea
                 rows={4}
                 placeholder="How can we help?"
+                name="message"
+                required
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 style={{
@@ -2104,9 +2140,13 @@ export function ADGWebsite() {
                 onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.1)")}
               />
             </div>
+            {/* Spam trap: hidden from people, filled in by bots */}
+            <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" checked={botcheck} onChange={(e) => setBotcheck(e.target.checked)} style={{ display: "none" }} aria-hidden="true" />
             <button
               type="submit"
+              disabled={formStatus === "sending"}
               style={{
+                opacity: formStatus === "sending" ? 0.7 : 1,
                 width: "100%",
                 padding: "16px",
                 background: `linear-gradient(135deg, ${ADG_CYAN}, #0077B6)`,
@@ -2131,8 +2171,19 @@ export function ADGWebsite() {
                 (e.target as HTMLElement).style.boxShadow = "0 4px 20px rgba(0,180,216,0.3)";
               }}
             >
-              Send Message
+              {formStatus === "sending" ? "Sending..." : "Send Message"}
             </button>
+            {formStatus === "sent" && (
+              <p role="status" style={{ marginTop: 16, fontSize: 16, lineHeight: 1.6, color: "#fff", opacity: 0.9 }}>
+                Message sent. We will be in touch shortly.
+              </p>
+            )}
+            {formStatus === "error" && (
+              <p role="alert" style={{ marginTop: 16, fontSize: 16, lineHeight: 1.6, color: "#fff", opacity: 0.9 }}>
+                Your message could not be sent. Please email{" "}
+                <a href="mailto:JJ@alcazardg.com" style={{ color: ADG_CYAN }}>JJ@alcazardg.com</a> or call (305) 772-6191.
+              </p>
+            )}
           </form>
         </div>
       </section>
