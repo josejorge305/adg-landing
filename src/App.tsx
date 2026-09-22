@@ -3,7 +3,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 // Web3Forms access key: delivers contact-form messages by email. Public by design (client-side).
-const WEB3FORMS_KEY = "";
+const WEB3FORMS_KEY = "fea77824-b299-49c9-b114-52bb347f7fd6";
 
 const ADG_CYAN = "#00B4D8";
 const ADG_DARK = "#0A0A0A";
