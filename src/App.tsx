@@ -674,10 +674,10 @@ export function ADGWebsite() {
                 cursor: "pointer",
                 fontSize: 24,
                 fontWeight: 600,
-                letterSpacing: 4,
+                letterSpacing: 2.5,
                 textTransform: "uppercase" as const,
                 fontFamily: "'Outfit', sans-serif",
-                opacity: 0.8,
+                opacity: 0.9,
               }}
             >
               {item}
@@ -690,7 +690,7 @@ export function ADGWebsite() {
               border: "none",
               color: "#fff",
               cursor: "pointer",
-              fontSize: 14,
+              fontSize: 16,
               fontWeight: 700,
               letterSpacing: 2,
               textTransform: "uppercase" as const,
@@ -744,7 +744,7 @@ export function ADGWebsite() {
           <div>
             <div
               style={{
-                fontSize: isMobile ? 14 : 22,
+                fontSize: isMobile ? 16 : 22,
                 fontWeight: 700,
                 letterSpacing: isMobile ? 2 : 3,
                 lineHeight: 1,
@@ -756,10 +756,11 @@ export function ADGWebsite() {
             </div>
             <div
               style={{
-                fontSize: isMobile ? 8 : 11,
+                fontSize: isMobile ? 11 : 13,
                 fontWeight: 400,
-                letterSpacing: isMobile ? 3 : 5,
-                opacity: 0.7,
+                letterSpacing: isMobile ? 1 : 3,
+                whiteSpace: "nowrap",
+                opacity: 0.85,
                 lineHeight: 1.4,
                 color: "#FFFFFF",
                 fontFamily: "'Outfit', sans-serif",
@@ -781,13 +782,14 @@ export function ADGWebsite() {
                 border: "none",
                 color: "#fff",
                 cursor: "pointer",
-                fontSize: 9,
+                fontSize: 12,
                 fontWeight: 700,
                 letterSpacing: 1,
                 textTransform: "uppercase" as const,
                 fontFamily: "'Space Mono', monospace",
                 padding: "8px 14px",
                 borderRadius: 4,
+                whiteSpace: "nowrap",
               }}
             >
               Sign In
@@ -822,12 +824,12 @@ export function ADGWebsite() {
                   border: "none",
                   color: "#fff",
                   cursor: "pointer",
-                  fontSize: 13,
+                  fontSize: 15,
                   fontWeight: 500,
                   letterSpacing: 2,
                   textTransform: "uppercase" as const,
                   fontFamily: "'Space Mono', monospace",
-                  opacity: 0.7,
+                  opacity: 0.85,
                   transition: "all 0.3s",
                   padding: "4px 0",
                   borderBottom: "1px solid transparent",
@@ -851,7 +853,7 @@ export function ADGWebsite() {
                 border: "none",
                 color: "#fff",
                 cursor: "pointer",
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: 700,
                 letterSpacing: 2,
                 textTransform: "uppercase" as const,
@@ -880,11 +882,12 @@ export function ADGWebsite() {
       <section
         id="home"
         style={{
-          height: "100vh",
+          height: isMobile ? "auto" : "100vh",
+          padding: isMobile ? "112px 0 56px" : undefined,
           position: "relative",
           overflow: "hidden",
           display: "flex",
-          alignItems: "center",
+          alignItems: isMobile ? "flex-start" : "center",
           justifyContent: "center",
         }}
       >
@@ -952,9 +955,9 @@ export function ADGWebsite() {
             <div
               style={{
                 fontFamily: "'Space Mono', monospace",
-                fontSize: isMobile ? 10 : 13,
+                fontSize: isMobile ? 13 : 15,
                 fontWeight: 400,
-                letterSpacing: isMobile ? 4 : 8,
+                letterSpacing: isMobile ? 2.5 : 4,
                 textTransform: "uppercase" as const,
                 color: ADG_CYAN,
                 transform: heroTextVisible ? "translateY(0)" : "translateY(100%)",
@@ -1074,9 +1077,9 @@ export function ADGWebsite() {
           >
             <p
               style={{
-                fontSize: isMobile ? 15 : 18,
+                fontSize: isMobile ? 16 : 18,
                 fontWeight: 300,
-                opacity: 0.6,
+                opacity: 0.82,
                 maxWidth: 540,
                 margin: "0 auto 40px",
                 lineHeight: 1.6,
@@ -1103,7 +1106,7 @@ export function ADGWebsite() {
                   border: "none",
                   color: "#fff",
                   cursor: "pointer",
-                  fontSize: isMobile ? 12 : 13,
+                  fontSize: isMobile ? 14 : 15,
                   fontWeight: 700,
                   letterSpacing: isMobile ? 1 : 2,
                   textTransform: "uppercase" as const,
@@ -1155,13 +1158,13 @@ export function ADGWebsite() {
       </section>
 
       {/* ===== PORTFOLIO SECTION ===== */}
-      <section id="portfolio" style={{ padding: isMobile ? "80px 0 60px" : "120px 0 80px", position: "relative" }}>
+      <section id="portfolio" style={{ padding: isMobile ? "56px 0 48px" : "104px 0 72px", position: "relative" }}>
         <div style={{ padding: isMobile ? "0 20px" : "0 60px", marginBottom: isMobile ? 32 : 60 }}>
           <div
             style={{
               fontFamily: "'Space Mono', monospace",
-              fontSize: 12,
-              letterSpacing: 6,
+              fontSize: 14,
+              letterSpacing: 3,
               color: ADG_CYAN,
               marginBottom: 16,
               textTransform: "uppercase" as const,
@@ -1293,7 +1296,7 @@ export function ADGWebsite() {
                 <span
                   style={{
                     fontFamily: "'Space Mono', monospace",
-                    fontSize: 10,
+                    fontSize: 13,
                     fontWeight: 700,
                     letterSpacing: 2,
                     color: project.statusColor,
@@ -1310,9 +1313,9 @@ export function ADGWebsite() {
                   top: 20,
                   right: 20,
                   fontFamily: "'Space Mono', monospace",
-                  fontSize: 12,
+                  fontSize: 14,
                   fontWeight: 400,
-                  opacity: 0.4,
+                  opacity: 0.72,
                   letterSpacing: 2,
                 }}
               >
@@ -1324,7 +1327,7 @@ export function ADGWebsite() {
                 <div
                   style={{
                     fontFamily: "'Space Mono', monospace",
-                    fontSize: isMobile ? 10 : 11,
+                    fontSize: isMobile ? 13 : 13,
                     letterSpacing: 3,
                     color: ADG_CYAN,
                     marginBottom: 8,
@@ -1336,7 +1339,7 @@ export function ADGWebsite() {
                 <h3 style={{ fontFamily: ADG_SERIF, fontSize: isMobile ? 22 : 26, fontWeight: 700, margin: "0 0 6px", lineHeight: 1.2 }}>
                   {project.name}
                 </h3>
-                <p style={{ fontSize: 14, fontWeight: 400, opacity: 0.6, margin: 0 }}>
+                <p style={{ fontSize: 16, fontWeight: 400, opacity: 0.82, margin: 0 }}>
                   {project.location}
                 </p>
 
@@ -1363,9 +1366,9 @@ export function ADGWebsite() {
             textAlign: "center",
             marginTop: 16,
             fontFamily: "'Space Mono', monospace",
-            fontSize: 11,
+            fontSize: 13,
             letterSpacing: 3,
-            opacity: 0.3,
+            opacity: 0.72,
             textTransform: "uppercase" as const,
           }}
         >
@@ -1403,9 +1406,9 @@ export function ADGWebsite() {
             <div
               style={{
                 fontFamily: "'Space Mono', monospace",
-                fontSize: isMobile ? 9 : 11,
-                letterSpacing: isMobile ? 3 : 4,
-                opacity: 0.4,
+                fontSize: isMobile ? 12 : 13,
+                letterSpacing: isMobile ? 2 : 2.5,
+                opacity: 0.72,
                 textTransform: "uppercase" as const,
               }}
             >
@@ -1418,14 +1421,14 @@ export function ADGWebsite() {
       {/* ===== LIMITED PARTNER POSITIONS SECTION ===== */}
       <section
         id="lp-positions"
-        style={{ padding: isMobile ? "60px 20px" : "100px 60px", position: "relative" }}
+        style={{ padding: isMobile ? "56px 20px" : "96px 60px", position: "relative" }}
       >
         <div style={{ marginBottom: isMobile ? 32 : 56 }}>
           <div
             style={{
               fontFamily: "'Space Mono', monospace",
-              fontSize: 12,
-              letterSpacing: 6,
+              fontSize: 14,
+              letterSpacing: 3,
               color: ADG_CYAN,
               marginBottom: 16,
               textTransform: "uppercase" as const,
@@ -1433,7 +1436,7 @@ export function ADGWebsite() {
           >
             Investment Portfolio
           </div>
-          <p style={{ fontSize: isMobile ? 14 : 15, opacity: 0.5, maxWidth: 560, margin: 0, lineHeight: 1.6 }}>
+          <p style={{ fontSize: isMobile ? 16 : 16, opacity: 0.82, maxWidth: 560, margin: 0, lineHeight: 1.6 }}>
             Capital positions alongside institutional sponsors.
           </p>
         </div>
@@ -1487,9 +1490,9 @@ export function ADGWebsite() {
                 <div
                   style={{
                     fontFamily: "'Space Mono', monospace",
-                    fontSize: 10,
+                    fontSize: 13,
                     letterSpacing: 2,
-                    opacity: 0.5,
+                    opacity: 0.82,
                     marginBottom: 6,
                     textTransform: "uppercase" as const,
                   }}
@@ -1497,7 +1500,7 @@ export function ADGWebsite() {
                   {lp.type} · {lp.units}
                 </div>
                 <h3 style={{ fontFamily: ADG_SERIF, fontSize: 18, fontWeight: 700, margin: "0 0 4px" }}>{lp.name}</h3>
-                <p style={{ fontSize: 13, opacity: 0.5, margin: 0 }}>{lp.location}</p>
+                <p style={{ fontSize: 15, opacity: 0.82, margin: 0 }}>{lp.location}</p>
               </div>
             </div>
           ))}
@@ -1520,8 +1523,8 @@ export function ADGWebsite() {
             <div
               style={{
                 fontFamily: "'Space Mono', monospace",
-                fontSize: 12,
-                letterSpacing: 6,
+                fontSize: 14,
+                letterSpacing: 3,
                 color: ADG_CYAN,
                 marginBottom: 16,
                 textTransform: "uppercase" as const,
@@ -1559,10 +1562,10 @@ export function ADGWebsite() {
                 <span
                   style={{
                     fontFamily: "'Space Mono', monospace",
-                    fontSize: 11,
+                    fontSize: 13,
                     letterSpacing: 2,
                     textTransform: "uppercase" as const,
-                    opacity: 0.6,
+                    opacity: 0.82,
                   }}
                 >
                   {l.label}
@@ -1579,7 +1582,7 @@ export function ADGWebsite() {
         id="about"
         ref={aboutRef}
         style={{
-          padding: compact ? "80px 20px" : "140px 60px",
+          padding: compact ? "64px 20px" : "112px 60px",
           position: "relative",
           display: "grid",
           gridTemplateColumns: compact ? "1fr" : "1fr 1fr",
@@ -1597,8 +1600,8 @@ export function ADGWebsite() {
           <div
             style={{
               fontFamily: "'Space Mono', monospace",
-              fontSize: 12,
-              letterSpacing: 6,
+              fontSize: 14,
+              letterSpacing: 3,
               color: ADG_CYAN,
               marginBottom: 20,
               textTransform: "uppercase" as const,
@@ -1620,13 +1623,13 @@ export function ADGWebsite() {
               between income and rent.
             </span>
           </h2>
-          <p style={{ fontSize: isMobile ? 15 : 16, lineHeight: 1.8, opacity: 0.6, margin: "0 0 24px" }}>
+          <p style={{ fontSize: isMobile ? 16 : 16, lineHeight: 1.8, opacity: 0.82, margin: "0 0 24px" }}>
             Across Florida, essential workers are being priced out of the communities they serve.
             Teachers commute hours to their schools. Nurses can't afford to live near their
             hospitals. ADG was founded to change that — developing high-quality, attainable housing
             that keeps the workforce close to where it's needed most.
           </p>
-          <p style={{ fontSize: isMobile ? 15 : 16, lineHeight: 1.8, opacity: 0.6, margin: "0 0 32px" }}>
+          <p style={{ fontSize: isMobile ? 16 : 16, lineHeight: 1.8, opacity: 0.82, margin: "0 0 32px" }}>
             Every project is built to institutional standards — the same rigor demanded by tax
             credit investors and agency lenders — because the workforce deserves the same quality of
             construction, amenities, and management as any luxury community. With over 1,100 units
@@ -1647,8 +1650,8 @@ export function ADGWebsite() {
               }}
             />
             <div>
-              <div style={{ fontSize: 13, fontWeight: 600 }}>SFBJ Structures Awards</div>
-              <div style={{ fontSize: 12, opacity: 0.5 }}>Best Affordable Residential 2018</div>
+              <div style={{ fontSize: 15, fontWeight: 600 }}>SFBJ Structures Awards</div>
+              <div style={{ fontSize: 14, opacity: 0.82 }}>Best Affordable Residential 2018</div>
             </div>
           </div>
         </div>
@@ -1742,7 +1745,7 @@ export function ADGWebsite() {
         id="team"
         ref={teamRef}
         style={{
-          padding: compact ? "80px 20px" : "120px 60px",
+          padding: compact ? "64px 20px" : "104px 60px",
           background: `linear-gradient(180deg, transparent, rgba(0,180,216,0.03), transparent)`,
         }}
       >
@@ -1750,8 +1753,8 @@ export function ADGWebsite() {
           <div
             style={{
               fontFamily: "'Space Mono', monospace",
-              fontSize: 12,
-              letterSpacing: 6,
+              fontSize: 14,
+              letterSpacing: 3,
               color: ADG_CYAN,
               marginBottom: 16,
               textTransform: "uppercase" as const,
@@ -1867,7 +1870,7 @@ export function ADGWebsite() {
               <div
                 style={{
                   fontFamily: "'Space Mono', monospace",
-                  fontSize: 11,
+                  fontSize: 13,
                   letterSpacing: 3,
                   color: ADG_CYAN,
                   marginBottom: 16,
@@ -1876,11 +1879,49 @@ export function ADGWebsite() {
               >
                 {member.title}
               </div>
-              <p style={{ fontSize: compact ? 13 : 14, lineHeight: 1.7, opacity: 0.5, margin: 0 }}>
+              <p style={{ fontSize: compact ? 15 : 16, lineHeight: 1.7, opacity: 0.82, margin: 0 }}>
                 {member.bio}
               </p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ===== AFFILIATED COMPANIES ===== */}
+      <section id="affiliates" style={{ padding: compact ? "56px 20px 64px" : "88px 60px 96px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 13, letterSpacing: 3, color: ADG_CYAN, marginBottom: 14, textTransform: "uppercase" as const }}>
+            Affiliated Companies
+          </div>
+          <h2 style={{ fontFamily: ADG_SERIF, fontSize: compact ? "clamp(28px, 7vw, 36px)" : "clamp(32px, 3.4vw, 44px)", fontWeight: 700, lineHeight: 1.15, margin: "0 0 12px" }}>
+            Development, brokerage and private lending.
+          </h2>
+          <p style={{ fontSize: isMobile ? 16 : 17, lineHeight: 1.7, opacity: 0.82, margin: "0 0 32px", maxWidth: 640 }}>
+            ADG operates alongside two affiliated firms under common leadership.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: compact ? "1fr" : "1fr 1fr", gap: 20 }}>
+            {[
+              { href: "https://reliantrealestategroup.com", logo: "/assets/images/website/reliant-logo.png", name: "Reliant Real Estate Group", desc: "Florida commercial real estate brokerage. More than $800 million in transactions since 2009." },
+              { href: "https://www.fhcp-llc.com", logo: "/assets/images/website/fhcp-logo.png", name: "Figueroa-Heller Capital Partners", desc: "Licensed private lender. More than 200 real estate-backed loans originated and serviced since 2012." },
+            ].map((a) => (
+              <a
+                key={a.name}
+                href={a.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: "flex", alignItems: "center", gap: 20, padding: isMobile ? 18 : 22, borderRadius: 12, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.03)", textDecoration: "none", color: "#fff" }}
+              >
+                <div style={{ background: "#fff", borderRadius: 8, width: isMobile ? 84 : 104, height: isMobile ? 84 : 104, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, padding: 10 }}>
+                  <img src={a.logo} alt={a.name} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
+                </div>
+                <div>
+                  <div style={{ fontFamily: ADG_SERIF, fontSize: isMobile ? 19 : 21, fontWeight: 700, marginBottom: 6 }}>{a.name}</div>
+                  <div style={{ fontSize: isMobile ? 15 : 16, lineHeight: 1.55, opacity: 0.82 }}>{a.desc}</div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: ADG_CYAN, marginTop: 10 }}>Visit website</div>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -1889,7 +1930,7 @@ export function ADGWebsite() {
         id="contact"
         ref={contactRef}
         style={{
-          padding: compact ? "80px 20px" : "120px 60px",
+          padding: compact ? "64px 20px" : "104px 60px",
           display: "grid",
           gridTemplateColumns: compact ? "1fr" : "1fr 1fr",
           gap: compact ? 40 : 80,
@@ -1905,8 +1946,8 @@ export function ADGWebsite() {
           <div
             style={{
               fontFamily: "'Space Mono', monospace",
-              fontSize: 12,
-              letterSpacing: 6,
+              fontSize: 14,
+              letterSpacing: 3,
               color: ADG_CYAN,
               marginBottom: 16,
               textTransform: "uppercase" as const,
@@ -1949,8 +1990,8 @@ export function ADGWebsite() {
                 <div
                   style={{
                     fontFamily: "'Space Mono', monospace",
-                    fontSize: 10,
-                    letterSpacing: 4,
+                    fontSize: 13,
+                    letterSpacing: 2.5,
                     color: ADG_CYAN,
                     marginBottom: 8,
                     textTransform: "uppercase" as const,
@@ -1960,8 +2001,8 @@ export function ADGWebsite() {
                 </div>
                 <div
                   style={{
-                    fontSize: isMobile ? 14 : 15,
-                    opacity: 0.7,
+                    fontSize: isMobile ? 16 : 16,
+                    opacity: 0.85,
                     lineHeight: 1.6,
                     whiteSpace: "pre-line",
                   }}
@@ -1995,7 +2036,7 @@ export function ADGWebsite() {
                 <label
                   style={{
                     fontFamily: "'Space Mono', monospace",
-                    fontSize: 10,
+                    fontSize: 13,
                     letterSpacing: 3,
                     color: ADG_CYAN,
                     textTransform: "uppercase" as const,
@@ -2017,7 +2058,7 @@ export function ADGWebsite() {
                     border: "1px solid rgba(255,255,255,0.1)",
                     borderRadius: 8,
                     color: "#fff",
-                    fontSize: isMobile ? 14 : 15,
+                    fontSize: isMobile ? 16 : 16,
                     fontFamily: "'Outfit', sans-serif",
                     outline: "none",
                     transition: "border-color 0.3s",
@@ -2031,7 +2072,7 @@ export function ADGWebsite() {
               <label
                 style={{
                   fontFamily: "'Space Mono', monospace",
-                  fontSize: 10,
+                  fontSize: 13,
                   letterSpacing: 3,
                   color: ADG_CYAN,
                   textTransform: "uppercase" as const,
@@ -2053,7 +2094,7 @@ export function ADGWebsite() {
                   border: "1px solid rgba(255,255,255,0.1)",
                   borderRadius: 8,
                   color: "#fff",
-                  fontSize: isMobile ? 14 : 15,
+                  fontSize: isMobile ? 16 : 16,
                   fontFamily: "'Outfit', sans-serif",
                   outline: "none",
                   resize: "vertical",
@@ -2072,7 +2113,7 @@ export function ADGWebsite() {
                 border: "none",
                 borderRadius: 8,
                 color: "#fff",
-                fontSize: 14,
+                fontSize: 16,
                 fontWeight: 700,
                 fontFamily: "'Space Mono', monospace",
                 letterSpacing: 3,
@@ -2125,8 +2166,8 @@ export function ADGWebsite() {
           />
           <span
             style={{
-              fontSize: isMobile ? 10 : 12,
-              opacity: 0.3,
+              fontSize: isMobile ? 13 : 14,
+              opacity: 0.72,
               fontFamily: "'Space Mono', monospace",
               letterSpacing: 2,
             }}
@@ -2141,7 +2182,7 @@ export function ADGWebsite() {
             border: `1px solid ${ADG_CYAN}33`,
             color: ADG_CYAN,
             cursor: "pointer",
-            fontSize: 11,
+            fontSize: 13,
             fontWeight: 700,
             letterSpacing: 2,
             textTransform: "uppercase" as const,
@@ -2278,7 +2319,7 @@ export function ADGWebsite() {
                       background: `${modalData.badgeColor}18`,
                       border: `1px solid ${modalData.badgeColor}55`,
                       fontFamily: "'Space Mono', monospace",
-                      fontSize: 10,
+                      fontSize: 13,
                       fontWeight: 700,
                       letterSpacing: 1.5,
                       color: modalData.badgeColor,
@@ -2291,9 +2332,9 @@ export function ADGWebsite() {
                 <span
                   style={{
                     fontFamily: "'Space Mono', monospace",
-                    fontSize: 11,
+                    fontSize: 13,
                     letterSpacing: 1.5,
-                    opacity: 0.4,
+                    opacity: 0.72,
                     textTransform: "uppercase" as const,
                   }}
                 >
@@ -2304,7 +2345,7 @@ export function ADGWebsite() {
               <h2 style={{ fontFamily: ADG_SERIF, fontSize: isMobile ? 24 : 32, fontWeight: 700, margin: "0 0 6px", lineHeight: 1.2 }}>
                 {modalData.name}
               </h2>
-              <p style={{ fontSize: 14, opacity: 0.5, margin: "0 0 24px" }}>{modalData.location}</p>
+              <p style={{ fontSize: 16, opacity: 0.82, margin: "0 0 24px" }}>{modalData.location}</p>
 
               {modalData.stats && modalData.stats.length > 0 && (
                 <div
@@ -2320,13 +2361,13 @@ export function ADGWebsite() {
                 >
                   {modalData.stats.map((s, si) => (
                     <div key={si}>
-                      <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 2 }}>{s.value}</div>
+                      <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 2 }}>{s.value}</div>
                       <div
                         style={{
                           fontFamily: "'Space Mono', monospace",
-                          fontSize: 10,
+                          fontSize: 13,
                           letterSpacing: 1,
-                          opacity: 0.45,
+                          opacity: 0.72,
                           textTransform: "uppercase" as const,
                         }}
                       >
@@ -2338,12 +2379,12 @@ export function ADGWebsite() {
               )}
 
               {modalData.description && (
-                <p style={{ fontSize: 15, lineHeight: 1.7, opacity: 0.75, margin: "0 0 16px" }}>
+                <p style={{ fontSize: 16, lineHeight: 1.7, opacity: 0.88, margin: "0 0 16px" }}>
                   {modalData.description}
                 </p>
               )}
               {modalData.detail && (
-                <p style={{ fontSize: 14, lineHeight: 1.7, opacity: 0.55, margin: 0 }}>{modalData.detail}</p>
+                <p style={{ fontSize: 16, lineHeight: 1.7, opacity: 0.82, margin: 0 }}>{modalData.detail}</p>
               )}
 
               {modalData.award && (
@@ -2354,7 +2395,7 @@ export function ADGWebsite() {
                     background: "rgba(0,180,216,0.1)",
                     border: `1px solid ${ADG_CYAN}33`,
                     borderRadius: 6,
-                    fontSize: 12,
+                    fontSize: 14,
                     fontFamily: "'Space Mono', monospace",
                     color: ADG_CYAN,
                     letterSpacing: 1,
@@ -2371,8 +2412,8 @@ export function ADGWebsite() {
                   <div
                     style={{
                       fontFamily: "'Space Mono', monospace",
-                      fontSize: 11,
-                      letterSpacing: 4,
+                      fontSize: 13,
+                      letterSpacing: 2.5,
                       color: ADG_CYAN,
                       textTransform: "uppercase" as const,
                       marginBottom: 12,
@@ -2391,14 +2432,14 @@ export function ADGWebsite() {
                       marginTop: 12,
                     }}
                   >
-                    <span style={{ fontSize: 13, opacity: 0.55 }}>{modalData.address || modalData.location}</span>
+                    <span style={{ fontSize: 15, opacity: 0.82 }}>{modalData.address || modalData.location}</span>
                     <a
                       href={`https://www.google.com/maps/search/?api=1&query=${modalData.coords[0]},${modalData.coords[1]}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
                         fontFamily: "'Space Mono', monospace",
-                        fontSize: 11,
+                        fontSize: 13,
                         fontWeight: 700,
                         letterSpacing: 2,
                         textTransform: "uppercase" as const,
