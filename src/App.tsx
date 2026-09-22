@@ -1214,7 +1214,6 @@ export function ADGWebsite() {
             <div
               key={i}
               onClick={() => {
-                setActiveProject(activeProject === i ? null : i);
                 setModalItem({ kind: "project", index: i });
               }}
               style={{
@@ -1341,37 +1340,6 @@ export function ADGWebsite() {
                   {project.location}
                 </p>
 
-                {/* Expanded description */}
-                <div
-                  style={{
-                    maxHeight: activeProject === i ? 200 : 0,
-                    opacity: activeProject === i ? 1 : 0,
-                    overflow: "hidden",
-                    transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
-                    marginTop: activeProject === i ? 16 : 0,
-                  }}
-                >
-                  <p style={{ fontSize: 13, lineHeight: 1.6, opacity: 0.8, margin: 0 }}>
-                    {project.description}
-                  </p>
-                  {project.award && (
-                    <div
-                      style={{
-                        marginTop: 12,
-                        padding: "8px 12px",
-                        background: "rgba(0,180,216,0.1)",
-                        border: `1px solid ${ADG_CYAN}33`,
-                        borderRadius: 6,
-                        fontSize: 11,
-                        fontFamily: "'Space Mono', monospace",
-                        color: ADG_CYAN,
-                        letterSpacing: 1,
-                      }}
-                    >
-                      ★ {project.award}
-                    </div>
-                  )}
-                </div>
               </div>
 
               {/* Border effect */}
