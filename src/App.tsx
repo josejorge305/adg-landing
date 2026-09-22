@@ -1861,7 +1861,7 @@ export function ADGWebsite() {
               <div
                 style={{
                   margin: compact ? "-28px -28px 24px" : "-40px -40px 28px",
-                  aspectRatio: "720 / 456",
+                  aspectRatio: "720 / 490",
                   background: "#000",
                   borderBottom: "1px solid rgba(255,255,255,0.06)",
                   overflow: "hidden",
