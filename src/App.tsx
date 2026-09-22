@@ -1977,8 +1977,6 @@ export function ADGWebsite() {
                 value: "7520 SW 57th Avenue Suite G\nSouth Miami, FL 33143",
               },
               { label: "Phone", value: "(305) 772-6191" },
-              { label: "Fax", value: "(866) 379-4817" },
-              { label: "Leasing", value: "(305) 398-6536" },
             ].map((item, i) => (
               <div
                 key={i}
