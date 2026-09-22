@@ -1091,7 +1091,8 @@ export function ADGWebsite() {
               — built to institutional standards, designed for real life.
             </p>
 
-            {/* Hero CTAs */}
+            {/* Hero CTA: desktop only (phones reach Contact from the menu) */}
+            {!isMobile && (
             <div
               style={{
                 display: "flex",
@@ -1129,6 +1130,7 @@ export function ADGWebsite() {
                 Get In Touch
               </button>
             </div>
+            )}
           </div>
 
           {/* Scroll indicator — hidden on mobile */}
