@@ -20,7 +20,7 @@ const projects = [
     status: "BREAKING GROUND Q1 2027",
     statusColor: "#00E676",
     description:
-      "A seven-story mid-rise affordable housing development serving households at or below 60% AMI. The community offers a diversified unit mix of one, two, and three-bedroom residences addressing critical workforce housing demand in this submarket.",
+      "An eight-story mid-rise affordable housing development serving households at or below 60% AMI. The community offers a diversified unit mix of one, two, and three-bedroom residences addressing critical workforce housing demand in this submarket.",
     detail: "",
     stats: [
       { label: "Units", value: "220" },
