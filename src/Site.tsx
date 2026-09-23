@@ -126,16 +126,25 @@ function CountUp({ value }: { value: string }) {
   );
 }
 
-/* Silent looping clip; reduced-motion visitors see the still frame */
-function LoopVideo({ src, poster, label }: { src: string; poster: string; label: string }) {
+/* Silent clip. Seamless clips loop; camera-move clips play forward once when they come into view,
+   rest on their final frame, and replay from the start when the card is hovered.
+   Reduced-motion visitors see the still frame. */
+function LoopVideo({ src, poster, label, once = false }: { src: string; poster: string; label: string; once?: boolean }) {
   const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const v = ref.current;
     if (!v || reducedMotion()) return;
     v.muted = true;
-    v.play().catch(() => {});
-  }, [src]);
-  return <video ref={ref} src={src} poster={poster} muted loop playsInline preload="metadata" aria-label={label} />;
+    if (!once) { v.play().catch(() => {}); return; }
+    const play = () => { v.currentTime = 0; v.play().catch(() => {}); };
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { play(); io.disconnect(); } }, { threshold: 0.5 });
+    io.observe(v);
+    const card = v.closest(".pcard");
+    const onEnter = () => { if (v.ended || v.paused) play(); };
+    card?.addEventListener("mouseenter", onEnter);
+    return () => { io.disconnect(); card?.removeEventListener("mouseenter", onEnter); };
+  }, [src, once]);
+  return <video ref={ref} src={src} poster={poster} muted loop={!once} playsInline preload="metadata" aria-label={label} />;
 }
 
 /* ---------------- Portfolio card ---------------- */
@@ -164,7 +173,7 @@ function Card({ item, layout, index = 0, onOpen }: { item: Item; layout?: "wide"
     >
       <div className="pcard-img">
         {item.video
-          ? <LoopVideo src={item.video} poster={item.poster ?? item.image} label={`${item.name}, animated view`} />
+          ? <LoopVideo src={item.video} poster={item.poster ?? item.image} label={`${item.name}, animated view`} once={!!item.poster} />
           : <img src={item.image} alt={`${item.name}, ${item.location}`} loading="lazy" />}
       </div>
       <div className="pcard-body">
@@ -249,7 +258,7 @@ function DetailModal({ it, list, origin, onClosed, onStep }: {
         </button>
         <div ref={media} className="dm-media">
           {gallery[gi].endsWith(".mp4")
-            ? <LoopVideo key={gallery[gi]} src={gallery[gi]} poster={it.poster ?? it.image} label={`${it.name}, animated view`} />
+            ? <LoopVideo key={gallery[gi]} src={gallery[gi]} poster={it.poster ?? it.image} label={`${it.name}, animated view`} once={!!it.poster} />
             : <img key={gallery[gi]} src={gallery[gi]} alt={`${it.name}, image ${gi + 1} of ${gallery.length}`} />}
           {gallery.length > 1 && (
             <div className="dm-gal">
