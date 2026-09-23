@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { projects, limitedPartnerPositions, teamMembers, stats, taglines } from "./data";
 import { Footprint } from "./Footprint";
+import { hq } from "./hq";
 
 const WEB3FORMS_KEY = "fea77824-b299-49c9-b114-52bb347f7fd6";
 const EASE = "cubic-bezier(0.2, 0.8, 0.2, 1)";
@@ -18,9 +19,9 @@ type Item = {
 const ORDER = ["Aura Living", "Alcazar Millenium", "Alcazar Apartment Villas", "Aura at Silver Lakes", "Spring Gardens"];
 const LAYOUT: Record<string, "wide" | "full" | undefined> = { "Aura Living": "wide", "Aura at Silver Lakes": "wide", "Spring Gardens": "full" };
 const PROJECTS: Item[] = projects
-  .map((p) => ({ ...p, kind: "project" as const, gallery: p.gallery as string[], video: (p as { video?: string }).video }))
+  .map((p) => ({ ...p, kind: "project" as const, image: hq(p.image), gallery: (p.gallery as string[]).map(hq), video: (p as { video?: string }).video }))
   .sort((a, b) => ORDER.indexOf(a.name) - ORDER.indexOf(b.name));
-const LPS: Item[] = limitedPartnerPositions.map((p) => ({ ...p, kind: "lp" as const, gallery: p.gallery as string[] }));
+const LPS: Item[] = limitedPartnerPositions.map((p) => ({ ...p, kind: "lp" as const, image: hq(p.image), gallery: (p.gallery as string[]).map(hq) }));
 const ALL: Item[] = [...PROJECTS, ...LPS];
 const ALL_ORDERED = ALL.map((x) => ({ name: x.name, location: x.location, units: x.units, coords: x.coords, kind: x.kind }));
 
@@ -45,18 +46,21 @@ function Hero({ onContact }: { onContact: () => void }) {
     if (phase === "reveal") { const t = window.setTimeout(() => setPhase("done"), 1500); return () => window.clearTimeout(t); }
   }, [phase]);
   const t = taglines[0];
+  const [night] = useState(() => { const h = new Date().getHours(); return h >= 19 || h < 6; });
+  const base = night ? "/assets/site/hero-dusk" : "/assets/site/hero";
   return (
-    <section className={`hero hero-${phase}`} id="home">
+    <section className={`hero hero-${phase}${night ? " hero-night" : " hero-day"}`} id="home">
       <picture>
-        <source srcSet="/assets/site/hero.webp" type="image/webp" />
-        <img className="hero-img" src="/assets/site/hero.jpg" alt="" aria-hidden="true" fetchPriority="high" />
+        <source srcSet={`${base}.webp`} type="image/webp" />
+        <img className="hero-img" src={`${base}.jpg`} alt="" aria-hidden="true" fetchPriority="high" />
       </picture>
       <div className="hero-lines" aria-hidden="true">
         <picture>
-          <source srcSet="/assets/site/hero-lines.webp" type="image/webp" />
-          <img src="/assets/site/hero-lines.png" alt="" />
+          <source srcSet={`${base}-lines.webp`} type="image/webp" />
+          <img src={`${base}-lines.png`} alt="" />
         </picture>
       </div>
+      <div className="hero-sweep" aria-hidden="true" />
       <div className="hero-shade" />
       <div className="wrap hero-content">
         <p className="eyebrow light">Workforce Housing Developer — South Florida</p>
@@ -135,8 +139,13 @@ function LoopVideo({ src, poster, label }: { src: string; poster: string; label:
 }
 
 /* ---------------- Portfolio card ---------------- */
+function firstSentence(t: string) {
+  const m = t.match(/^.*?[.!?](\s|$)/);
+  return (m ? m[0] : t).trim();
+}
 function Card({ item, layout, index = 0, onOpen }: { item: Item; layout?: "wide" | "full"; index?: number; onOpen: (el: Element | null) => void }) {
   const badge = item.kind === "lp" ? item.role! : sentence(item.status || "");
+  const excerpt = item.description ? firstSentence(item.description) : item.address;
   return (
     <article
       className={`pcard${layout ? " " + layout : ""}`}
@@ -147,6 +156,11 @@ function Card({ item, layout, index = 0, onOpen }: { item: Item; layout?: "wide"
       aria-label={`${item.name}: view details`}
       onClick={(e) => onOpen(e.currentTarget.querySelector(".pcard-img"))}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(e.currentTarget.querySelector(".pcard-img")); } }}
+      onMouseMove={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
+      }}
     >
       <div className="pcard-img">
         {item.video
@@ -157,6 +171,7 @@ function Card({ item, layout, index = 0, onOpen }: { item: Item; layout?: "wide"
         <p className={`pill ${item.kind === "lp" ? "lp" : statusTone(item.status)}`}>{badge}</p>
         <h3>{item.name}</h3>
         <p className="pcard-loc">{item.location}</p>
+        {excerpt && <p className="pcard-desc">{excerpt}</p>}
         <div className="pcard-facts"><span>{item.type}</span><strong>{item.units}</strong></div>
         <span className="pcard-more">View details</span>
       </div>
@@ -278,6 +293,22 @@ function DetailModal({ it, list, origin, onClosed, onStep }: {
   );
 }
 
+/* ---------------- Leadership card ---------------- */
+function Member({ m }: { m: { name: string; title: string; bio: string; image: string } }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <article className="member">
+      <div className="member-photo"><img src={m.image.replace("/assets/images/website/", "/assets/site/").replace(".jpg", "-light.jpg")} alt={m.name} loading="lazy" /></div>
+      <div className="member-body">
+        <h3>{m.name}</h3>
+        <p className="member-title">{m.title}</p>
+        <p className={`member-bio${open ? " open" : ""}`}>{m.bio}</p>
+        <button className="member-more" onClick={() => setOpen(!open)} aria-expanded={open}>{open ? "Show less" : "Read full bio"}</button>
+      </div>
+    </article>
+  );
+}
+
 /* ---------------- Page ---------------- */
 export function Site() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -365,7 +396,8 @@ export function Site() {
       <header className={`nav${nav.scrolled ? " is-scrolled" : ""}${nav.hidden && !menuOpen ? " is-hidden" : ""}`}>
         <div className="wrap nav-inner">
           <a href="#home" className="nav-logo" aria-label="Alcazar Development Group, home" onClick={(e) => { e.preventDefault(); go("home"); }}>
-            <img src="/assets/site/adg-logo-color.png" alt="Alcazar Development Group" />
+            <img src="/assets/site/adg-mark.png" alt="" aria-hidden="true" />
+            <span className="nav-name">Alcazar Development Group</span>
           </a>
           <nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Main">
             {links.map(([id, label]) => <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); go(id); }}>{label}</a>)}
@@ -426,7 +458,7 @@ export function Site() {
               </div>
             </div>
             <div className="about-media reveal">
-              <img src={IMG + "closing-the-gap.jpg"} alt="ADG Groundbreaking Ceremony" loading="lazy" />
+              <img src={hq(IMG + "closing-the-gap.jpg")} alt="ADG Groundbreaking Ceremony" loading="lazy" />
               {/* Sun reflection: a specular streak that slides across the shovel's polished surface as the page scrolls */}
               <div
                 className="glint"
@@ -458,16 +490,7 @@ export function Site() {
               <h2>The people behind <em>the mission.</em></h2>
             </div>
             <div className="team stagger">
-              {teamMembers.map((m) => (
-                <article key={m.name} className="member">
-                  <div className="member-photo"><img src={m.image.replace("/assets/images/website/", "/assets/site/").replace(".jpg", "-light.jpg")} alt={m.name} loading="lazy" /></div>
-                  <div className="member-body">
-                    <h3>{m.name}</h3>
-                    <p className="member-title">{m.title}</p>
-                    <p className="member-bio">{m.bio}</p>
-                  </div>
-                </article>
-              ))}
+              {teamMembers.map((m) => <Member key={m.name} m={m} />)}
             </div>
           </div>
         </section>
@@ -533,10 +556,27 @@ export function Site() {
       </main>
 
       <footer className="site-footer">
-        <div className="wrap footer">
-          <img src={IMG + "adg-logo.png"} alt="" aria-hidden="true" />
+        <div className="wrap footer-grid">
+          <div className="footer-brand">
+            <img src={IMG + "adg-logo.png"} alt="Alcazar Development Group" />
+            <p>Workforce Housing Developer — South Florida</p>
+          </div>
+          <div>
+            <p className="footer-h">Office</p>
+            <p>7520 SW 57th Avenue Suite G<br />South Miami, FL 33143</p>
+            <p><a href="tel:3057726191">(305) 772-6191</a></p>
+          </div>
+          <nav aria-label="Footer">
+            <p className="footer-h">Explore</p>
+            {links.map(([id, label]) => <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); go(id); }}>{label}</a>)}
+          </nav>
+          <div>
+            <p className="footer-h">Platform</p>
+            <a href="https://adg-os.com">ADG-OS Platform →</a>
+          </div>
+        </div>
+        <div className="wrap footer-base">
           <p>© {new Date().getFullYear()} Alcazar Development Group, LLC</p>
-          <a href="https://adg-os.com">ADG-OS Platform →</a>
         </div>
       </footer>
 
