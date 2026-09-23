@@ -91,7 +91,7 @@ const projects = [
       { label: "Phase I", value: "216 units, 2018" },
       { label: "Phase II", value: "72 units, 2019" },
       { label: "Financing", value: "HUD 221(d)(4)" },
-      { label: "Exit", value: "Sold Q1 2021" },
+      { label: "Exit", value: "Sold Q4 2021" },
     ],
     award: "SFBJ Structures Awards — Best Affordable Residential",
     image: "/assets/images/website/alcazar-villas-photo-2.jpg",
