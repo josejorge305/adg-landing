@@ -66,6 +66,16 @@ function Hero({ onContact }: { onContact: () => void }) {
         </p>
         <button className="text-link light" onClick={onContact}>Get In Touch</button>
       </div>
+      <div className="hero-stats" aria-label="Firm figures">
+        <div className="wrap hero-stats-inner">
+          {stats.map((s) => (
+            <div key={s.label} className="hero-stat">
+              <p className="hero-stat-num"><CountUp value={s.number} /></p>
+              <p className="hero-stat-label">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
@@ -96,7 +106,14 @@ function CountUp({ value }: { value: string }) {
     return () => { io.disconnect(); cancelAnimationFrame(raf); };
   }, [target]);
   if (!m) return <span>{value}</span>;
-  return <span ref={ref}>{m[1]}{n.toLocaleString()}{m[3]}</span>;
+  const suffix = m[3];
+  const plus = suffix.endsWith("+");
+  return (
+    <span ref={ref}>
+      {m[1]}{n.toLocaleString()}{plus ? suffix.slice(0, -1) : suffix}
+      {plus && <span className="stat-plus">+</span>}
+    </span>
+  );
 }
 
 /* ---------------- Portfolio card ---------------- */
@@ -412,15 +429,6 @@ export function Site() {
 
       <main>
         <Hero onContact={() => go("contact")} />
-
-        <section className="wrap stats reveal" aria-label="Firm figures">
-          {stats.map((s) => (
-            <div key={s.label} className="stat">
-              <p className="stat-num"><CountUp value={s.number} /></p>
-              <p className="stat-label">{s.label}</p>
-            </div>
-          ))}
-        </section>
 
         <section id="portfolio" className="band tone">
           <div className="wrap">
