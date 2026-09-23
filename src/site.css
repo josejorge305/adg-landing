@@ -526,3 +526,17 @@ h1 em, h2 em { background: linear-gradient(currentColor, currentColor) 0 94% / 0
 .fpz-city.below { margin: 14px 0 0 12px; }
 .fpz-city.below::before { left: -12px; top: -8px; }
 @media (max-width: 760px) { .fpz-city.north { display: none; } }
+/* Hero legibility: deeper shade where the text sits, soft text shadow, lighter accents */
+.hero-shade, .hero-night .hero-shade {
+  background:
+    linear-gradient(90deg, rgba(7, 16, 24, 0.82) 0%, rgba(7, 16, 24, 0.66) 34%, rgba(7, 16, 24, 0.28) 58%, rgba(7, 16, 24, 0) 76%),
+    linear-gradient(180deg, rgba(7, 16, 24, 0.25) 0%, rgba(7, 16, 24, 0) 30%, rgba(7, 16, 24, 0.35) 75%, rgba(7, 16, 24, 0.7) 100%);
+}
+.hero-content .eyebrow.light { color: rgba(255, 255, 255, 0.88); }
+.hero h1 { text-shadow: 0 2px 24px rgba(4, 10, 16, 0.45), 0 1px 3px rgba(4, 10, 16, 0.35); }
+.hero h1 em { color: #cfe6f5; }
+.hero-lede, .hero-content .eyebrow, .hero-content .text-link { text-shadow: 0 1px 12px rgba(4, 10, 16, 0.55); }
+.hero-lede { color: rgba(255, 255, 255, 0.94); }
+@media (max-width: 760px) {
+  .hero-shade, .hero-night .hero-shade { background: linear-gradient(180deg, rgba(7, 16, 24, 0.55) 0%, rgba(7, 16, 24, 0.6) 55%, rgba(7, 16, 24, 0.8) 100%); }
+}
