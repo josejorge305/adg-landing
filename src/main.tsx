@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ADGWebsite } from './App';
+import { Site } from './Site';
+import './site.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ADGWebsite />
+    <Site />
   </React.StrictMode>
 );
