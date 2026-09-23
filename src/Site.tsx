@@ -12,9 +12,14 @@ type Item = {
   kind: "project" | "lp";
   name: string; location: string; address: string; coords: [number, number];
   units: string; type: string; status?: string; role?: string; description: string;
-  stats: Stat[]; award: string | null; image: string; gallery: string[];
+  stats: Stat[]; award: string | null; image: string; gallery: string[]; video?: string;
 };
-const PROJECTS: Item[] = projects.map((p) => ({ ...p, kind: "project" as const, gallery: p.gallery as string[] }));
+/* Portfolio collage order: long, short / short, long / full width */
+const ORDER = ["Aura Living", "Alcazar Millenium", "Alcazar Apartment Villas", "Aura at Silver Lakes", "Spring Gardens"];
+const LAYOUT: Record<string, "wide" | "full" | undefined> = { "Aura Living": "wide", "Aura at Silver Lakes": "wide", "Spring Gardens": "full" };
+const PROJECTS: Item[] = projects
+  .map((p) => ({ ...p, kind: "project" as const, gallery: p.gallery as string[], video: (p as { video?: string }).video }))
+  .sort((a, b) => ORDER.indexOf(a.name) - ORDER.indexOf(b.name));
 const LPS: Item[] = limitedPartnerPositions.map((p) => ({ ...p, kind: "lp" as const, gallery: p.gallery as string[] }));
 const ALL: Item[] = [...PROJECTS, ...LPS];
 
@@ -116,12 +121,24 @@ function CountUp({ value }: { value: string }) {
   );
 }
 
+/* Silent looping clip; reduced-motion visitors see the still frame */
+function LoopVideo({ src, poster, label }: { src: string; poster: string; label: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v || reducedMotion()) return;
+    v.muted = true;
+    v.play().catch(() => {});
+  }, [src]);
+  return <video ref={ref} src={src} poster={poster} muted loop playsInline preload="metadata" aria-label={label} />;
+}
+
 /* ---------------- Portfolio card ---------------- */
-function Card({ item, featured, onOpen }: { item: Item; featured?: boolean; onOpen: (el: Element | null) => void }) {
+function Card({ item, layout, onOpen }: { item: Item; layout?: "wide" | "full"; onOpen: (el: Element | null) => void }) {
   const badge = item.kind === "lp" ? item.role! : sentence(item.status || "");
   return (
     <article
-      className={`pcard${featured ? " featured" : ""}`}
+      className={`pcard${layout ? " " + layout : ""}`}
       data-name={item.name}
       role="button"
       tabIndex={0}
@@ -129,7 +146,11 @@ function Card({ item, featured, onOpen }: { item: Item; featured?: boolean; onOp
       onClick={(e) => onOpen(e.currentTarget.querySelector(".pcard-img"))}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(e.currentTarget.querySelector(".pcard-img")); } }}
     >
-      <div className="pcard-img"><img src={item.image} alt={`${item.name}, ${item.location}`} loading="lazy" /></div>
+      <div className="pcard-img">
+        {item.video
+          ? <LoopVideo src={item.video} poster={item.image} label={`${item.name}, aerial animation`} />
+          : <img src={item.image} alt={`${item.name}, ${item.location}`} loading="lazy" />}
+      </div>
       <div className="pcard-body">
         <p className={`pill ${item.kind === "lp" ? "lp" : statusTone(item.status)}`}>{badge}</p>
         <h3>{item.name}</h3>
@@ -220,7 +241,7 @@ function FootprintMap({ onSelect }: { onSelect: (name: string) => void }) {
 function DetailModal({ it, list, origin, onClosed, onStep }: {
   it: Item; list: Item[]; origin: DOMRect | null; onClosed: () => void; onStep: (dir: 1 | -1) => void;
 }) {
-  const gallery = it.gallery.length ? it.gallery : [it.image];
+  const gallery = [...(it.video ? [it.video] : []), ...(it.gallery.length ? it.gallery : it.video ? [] : [it.image])];
   const [gi, setGi] = useState(0);
   useEffect(() => { setGi(0); }, [it.name]);
   const i = list.findIndex((x) => x.name === it.name);
@@ -285,7 +306,9 @@ function DetailModal({ it, list, origin, onClosed, onStep }: {
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
         </button>
         <div ref={media} className="dm-media">
-          <img key={gallery[gi]} src={gallery[gi]} alt={`${it.name}, image ${gi + 1} of ${gallery.length}`} />
+          {gallery[gi].endsWith(".mp4")
+            ? <LoopVideo key={gallery[gi]} src={gallery[gi]} poster={it.image} label={`${it.name}, aerial animation`} />
+            : <img key={gallery[gi]} src={gallery[gi]} alt={`${it.name}, image ${gi + 1} of ${gallery.length}`} />}
           {gallery.length > 1 && (
             <div className="dm-gal">
               <button onClick={() => setGi((gi - 1 + gallery.length) % gallery.length)} aria-label="Previous image">
@@ -436,8 +459,8 @@ export function Site() {
               <p className="eyebrow">Our Portfolio</p>
               <h2>Homes where <em>Florida's workforce</em> lives.</h2>
             </div>
-            <div className="pgrid stagger">
-              {PROJECTS.map((p, i) => <Card key={p.name} item={p} featured={i === 0} onOpen={(el) => openItem(p.name, el)} />)}
+            <div className="pgrid dev stagger">
+              {PROJECTS.map((p) => <Card key={p.name} item={p} layout={LAYOUT[p.name]} onOpen={(el) => openItem(p.name, el)} />)}
             </div>
           </div>
         </section>

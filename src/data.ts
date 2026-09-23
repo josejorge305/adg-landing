@@ -46,7 +46,8 @@ export const projects = [
       { label: "Market", value: "Lake County MSA" },
     ],
     award: null,
-    image: "/assets/images/website/aura-at-silver-lakes-site.jpg",
+    image: "/assets/site/slv-aerial-poster.jpg",
+    video: "/assets/site/slv-aerial.mp4",
     gallery: [],
   },
   {
@@ -84,8 +85,9 @@ export const projects = [
       { label: "Exit", value: "Sold Q4 2021" },
     ],
     award: "SFBJ Structures Awards — Best Affordable Residential",
-    image: "/assets/images/website/alcazar-villas-photo-2.jpg",
+    image: "/assets/images/website/alcazar-villas-aerial.jpg",
     gallery: [
+      "/assets/images/website/alcazar-villas-aerial.jpg",
       "/assets/images/website/alcazar-villas-photo-2.jpg",
       "/assets/images/website/alcazar-villas-photo-1.jpg",
       "/assets/images/website/alcazar-villas-photo-3.jpg",
