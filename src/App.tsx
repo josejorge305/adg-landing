@@ -1909,8 +1909,8 @@ export function ADGWebsite() {
           </p>
           <div style={{ display: "grid", gridTemplateColumns: compact ? "1fr" : "1fr 1fr", gap: 20 }}>
             {[
-              { href: "https://reliantrealestategroup.com", logo: "/assets/images/website/reliant-logo.png", name: "Reliant Real Estate Group", desc: "Florida commercial real estate brokerage. More than $800 million in transactions since 2009." },
-              { href: "https://www.fhcp-llc.com", logo: "/assets/images/website/fhcp-logo.png", name: "Figueroa-Heller Capital Partners", desc: "Licensed private lender. More than 200 real estate-backed loans originated and serviced since 2012." },
+              { href: "https://reliantrealestategroup.com", logo: "/assets/images/website/reliant-logo.png", name: "Reliant Real Estate Group", desc: "Commercial real estate brokerage in Florida, covering acquisitions and dispositions, loan and note sales, and bank-owned property." },
+              { href: "https://www.fhcp-llc.com", logo: "/assets/images/website/fhcp-logo.png", name: "Figueroa-Heller Capital Partners", desc: "Licensed private lender providing first-lien, asset-based loans on commercial and residential real estate in Florida." },
             ].map((a) => (
               <a
                 key={a.name}
