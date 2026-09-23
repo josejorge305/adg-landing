@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { projects, limitedPartnerPositions, teamMembers, stats, taglines } from "./data";
-import { Footprint } from "./Footprint";
+import { ZoomMap } from "./ZoomMap";
 import { hq } from "./hq";
 
 const WEB3FORMS_KEY = "fea77824-b299-49c9-b114-52bb347f7fd6";
@@ -23,7 +23,7 @@ const PROJECTS: Item[] = projects
   .sort((a, b) => ORDER.indexOf(a.name) - ORDER.indexOf(b.name));
 const LPS: Item[] = limitedPartnerPositions.map((p) => ({ ...p, kind: "lp" as const, image: hq(p.image), gallery: (p.gallery as string[]).map(hq) }));
 const ALL: Item[] = [...PROJECTS, ...LPS];
-const ALL_ORDERED = ALL.map((x) => ({ name: x.name, location: x.location, units: x.units, coords: x.coords, kind: x.kind }));
+const MAP_ITEMS = ALL.map((x) => ({ name: x.name, location: x.location, units: x.units, coords: x.coords, kind: x.kind, image: x.image }));
 
 /* "BREAKING GROUND Q1 2027" -> "Breaking ground Q1 2027" (display only; the data is unchanged) */
 function sentence(s: string) {
@@ -473,14 +473,8 @@ export function Site() {
           </div>
         </section>
 
-        <section id="footprint" className="band navy">
-          <div className="wrap">
-            <div className="section-head reveal">
-              <p className="eyebrow light">Our Footprint</p>
-              <h2>Across <em>Florida.</em></h2>
-            </div>
-            <Footprint items={ALL_ORDERED} onSelect={(n) => openItem(n, null)} />
-          </div>
+        <section id="footprint" className="fpz" aria-label="Our footprint across Florida">
+          <ZoomMap items={MAP_ITEMS} onSelect={(n) => openItem(n, null)} />
         </section>
 
         <section id="team" className="band tone">
