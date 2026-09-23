@@ -32,7 +32,25 @@ export function ZoomMap({ items, onSelect }: { items: ZItem[]; onSelect: (name: 
   const cityRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const clusterRef = useRef<HTMLButtonElement>(null);
   const officeRef = useRef<HTMLDivElement>(null);
-  const hintRef = useRef<HTMLParagraphElement>(null);
+  const zoom = useRef(0);            // 0 = statewide, 1 = South Florida (eased)
+  const anim = useRef(0);
+  const [target, setTarget] = useState<0 | 1>(0);
+  const redraw = useRef<() => void>(() => {});
+  const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const flyTo = (to: 0 | 1) => {
+    setTarget(to);
+    cancelAnimationFrame(anim.current);
+    const from = zoom.current;
+    if (reduced) { zoom.current = to; redraw.current(); return; }
+    const t0 = performance.now(), dur = 1700 * Math.max(0.35, Math.abs(to - from));
+    const step = (now: number) => {
+      const k = clamp((now - t0) / dur);
+      zoom.current = from + (to - from) * ease(k);
+      redraw.current();
+      if (k < 1) anim.current = requestAnimationFrame(step);
+    };
+    anim.current = requestAnimationFrame(step);
+  };
   const [card, setCard] = useState<{ it: ZItem; x: number; y: number } | null>(null);
   const cardFor = useRef<string | null>(null);
   const lastPointer = useRef<string>("mouse");
@@ -46,9 +64,7 @@ export function ZoomMap({ items, onSelect }: { items: ZItem[]; onSelect: (name: 
       const t = track.current, v = view.current, w = world.current;
       if (!t || !v || !w) return;
       const vw = v.clientWidth, vh = v.clientHeight;
-      const r = t.getBoundingClientRect();
-      const p = clamp(-r.top / Math.max(1, r.height - vh));
-      const e = ease(clamp((p - 0.12) / 0.66));
+      const e = zoom.current;
       // statewide framing (land only, room for the heading) and the South Florida framing
       const narrow = vw < 760;
       // phones frame the peninsula (every project is there); wider screens show the whole state
@@ -104,13 +120,18 @@ export function ZoomMap({ items, onSelect }: { items: ZItem[]; onSelect: (name: 
         el.style.transform = `translate(${q[0]}px, ${q[1]}px)`;
         el.style.opacity = String(c.zoomed ? clamp((e - 0.6) / 0.3) * 0.85 : clamp(1 - e / 0.35) * 0.8);
       });
-      if (hintRef.current) hintRef.current.style.opacity = String(clamp(1 - p / 0.15));
     };
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    redraw.current = update;
+    const onResize = () => { if (!raf) raf = requestAnimationFrame(update); };
     update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); cancelAnimationFrame(raf); };
+    window.addEventListener("resize", onResize);
+    // the fly-in plays by itself the first time the map comes into view; scrolling is never held
+    let played = false;
+    const io = new IntersectionObserver(([en]) => {
+      if (en.isIntersecting && !played) { played = true; window.setTimeout(() => { if (zoom.current === 0) flyTo(1); }, 900); }
+    }, { threshold: 0.55 });
+    if (track.current && !reduced) io.observe(track.current);
+    return () => { window.removeEventListener("resize", onResize); cancelAnimationFrame(raf); cancelAnimationFrame(anim.current); io.disconnect(); };
   }, [items]);
 
   const showCard = (it: ZItem) => {
@@ -132,7 +153,7 @@ export function ZoomMap({ items, onSelect }: { items: ZItem[]; onSelect: (name: 
           {CITIES.map((c, i) => <span key={c.name + i} ref={(el) => { cityRefs.current[i] = el; }} className={`fpz-city${c.zoomed ? " below" : ""}${c.c[0] > 30 ? " north" : ""}`}>{c.name}</span>)}
           <div ref={officeRef} className="fpz-office" aria-hidden="true"><i />ADG office</div>
           <button ref={clusterRef} className="fpz-cluster" aria-label={`${southItems.length} projects in South Florida`}
-            onClick={() => { const t = track.current; if (t) window.scrollTo({ top: window.scrollY + t.getBoundingClientRect().top + (t.offsetHeight - window.innerHeight) * 0.85, behavior: "smooth" }); }}>
+            onClick={() => flyTo(1)}>
             {southItems.length}
           </button>
           {items.map((it) => (
@@ -173,7 +194,10 @@ export function ZoomMap({ items, onSelect }: { items: ZItem[]; onSelect: (name: 
             <li><i className="project" />Developments</li>
             <li><i className="lp" />Investments</li>
           </ul>
-          <p ref={hintRef} className="fpz-hint">Scroll to explore South Florida</p>
+        </div>
+        <div className="fpz-controls" role="group" aria-label="Map view">
+          <button aria-pressed={target === 0} className={target === 0 ? "on" : ""} onClick={() => flyTo(0)}>Florida</button>
+          <button aria-pressed={target === 1} className={target === 1 ? "on" : ""} onClick={() => flyTo(1)}>South Florida</button>
         </div>
         <p className="fpz-credit">Imagery: Sentinel-2 cloudless 2016 by EOX IT Services GmbH (s2maps.eu), contains modified Copernicus Sentinel data.</p>
       </div>
