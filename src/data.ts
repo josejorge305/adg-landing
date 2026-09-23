@@ -20,6 +20,8 @@ export const projects = [
     ],
     award: null,
     image: "/assets/images/website/aura-living-render-4.jpg",
+    video: "/assets/site/aura-living-loop.mp4",
+    poster: "/assets/site/aura-living-poster.jpg",
     gallery: [
       "/assets/images/website/aura-living-render-4.jpg",
       "/assets/images/website/aura-living-render-2.jpg",
@@ -64,6 +66,8 @@ export const projects = [
     stats: [],
     award: null,
     image: "/assets/images/website/alcazar-millenium.jpg",
+    video: "/assets/site/alcazar-millenium-loop.mp4",
+    poster: "/assets/site/alcazar-millenium-poster.jpg",
     gallery: [],
   },
   {
@@ -86,6 +90,8 @@ export const projects = [
     ],
     award: "SFBJ Structures Awards — Best Affordable Residential",
     image: "/assets/images/website/alcazar-villas-aerial.jpg",
+    video: "/assets/site/alcazar-villas-loop.mp4",
+    poster: "/assets/site/alcazar-villas-poster.jpg",
     gallery: [
       "/assets/images/website/alcazar-villas-aerial.jpg",
       "/assets/images/website/alcazar-villas-photo-2.jpg",

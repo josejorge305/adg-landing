@@ -13,13 +13,13 @@ type Item = {
   kind: "project" | "lp";
   name: string; location: string; address: string; coords: [number, number];
   units: string; type: string; status?: string; role?: string; description: string;
-  stats: Stat[]; award: string | null; image: string; gallery: string[]; video?: string;
+  stats: Stat[]; award: string | null; image: string; gallery: string[]; video?: string; poster?: string;
 };
 /* Portfolio collage order: long, short / short, long / full width */
 const ORDER = ["Aura Living", "Alcazar Millenium", "Alcazar Apartment Villas", "Aura at Silver Lakes", "Spring Gardens"];
 const LAYOUT: Record<string, "wide" | "full" | undefined> = { "Aura Living": "wide", "Aura at Silver Lakes": "wide", "Spring Gardens": "full" };
 const PROJECTS: Item[] = projects
-  .map((p) => ({ ...p, kind: "project" as const, image: hq(p.image), gallery: (p.gallery as string[]).map(hq), video: (p as { video?: string }).video }))
+  .map((p) => ({ ...p, kind: "project" as const, image: hq(p.image), gallery: (p.gallery as string[]).map(hq), video: (p as { video?: string }).video, poster: (p as { poster?: string }).poster }))
   .sort((a, b) => ORDER.indexOf(a.name) - ORDER.indexOf(b.name));
 const LPS: Item[] = limitedPartnerPositions.map((p) => ({ ...p, kind: "lp" as const, image: hq(p.image), gallery: (p.gallery as string[]).map(hq) }));
 const ALL: Item[] = [...PROJECTS, ...LPS];
@@ -164,7 +164,7 @@ function Card({ item, layout, index = 0, onOpen }: { item: Item; layout?: "wide"
     >
       <div className="pcard-img">
         {item.video
-          ? <LoopVideo src={item.video} poster={item.image} label={`${item.name}, aerial animation`} />
+          ? <LoopVideo src={item.video} poster={item.poster ?? item.image} label={`${item.name}, animated view`} />
           : <img src={item.image} alt={`${item.name}, ${item.location}`} loading="lazy" />}
       </div>
       <div className="pcard-body">
@@ -249,7 +249,7 @@ function DetailModal({ it, list, origin, onClosed, onStep }: {
         </button>
         <div ref={media} className="dm-media">
           {gallery[gi].endsWith(".mp4")
-            ? <LoopVideo key={gallery[gi]} src={gallery[gi]} poster={it.image} label={`${it.name}, aerial animation`} />
+            ? <LoopVideo key={gallery[gi]} src={gallery[gi]} poster={it.poster ?? it.image} label={`${it.name}, animated view`} />
             : <img key={gallery[gi]} src={gallery[gi]} alt={`${it.name}, image ${gi + 1} of ${gallery.length}`} />}
           {gallery.length > 1 && (
             <div className="dm-gal">
