@@ -508,7 +508,7 @@ export function Site() {
                 mission-driven development and strong returns aren't mutually exclusive.
               </p>
               <div className="award">
-                <img src={IMG + "sfbj-structures-award-2026.png"} alt="SFBJ Structures Awards" />
+                <img src="/assets/site/sfbj-award-dark.png" alt="SFBJ Structures Awards" />
                 <div><strong>SFBJ Structures Awards</strong><span>Best Affordable Residential 2018</span></div>
               </div>
             </div>
