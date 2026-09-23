@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { projects, limitedPartnerPositions, teamMembers, stats, taglines } from "./data";
-import { FL_PATH, FL_VIEWBOX, project as proj } from "./florida";
+import { Footprint } from "./Footprint";
 
 const WEB3FORMS_KEY = "fea77824-b299-49c9-b114-52bb347f7fd6";
 const EASE = "cubic-bezier(0.2, 0.8, 0.2, 1)";
@@ -22,6 +22,7 @@ const PROJECTS: Item[] = projects
   .sort((a, b) => ORDER.indexOf(a.name) - ORDER.indexOf(b.name));
 const LPS: Item[] = limitedPartnerPositions.map((p) => ({ ...p, kind: "lp" as const, gallery: p.gallery as string[] }));
 const ALL: Item[] = [...PROJECTS, ...LPS];
+const ALL_ORDERED = ALL.map((x) => ({ name: x.name, location: x.location, units: x.units, coords: x.coords, kind: x.kind }));
 
 /* "BREAKING GROUND Q1 2027" -> "Breaking ground Q1 2027" (display only; the data is unchanged) */
 function sentence(s: string) {
@@ -134,12 +135,13 @@ function LoopVideo({ src, poster, label }: { src: string; poster: string; label:
 }
 
 /* ---------------- Portfolio card ---------------- */
-function Card({ item, layout, onOpen }: { item: Item; layout?: "wide" | "full"; onOpen: (el: Element | null) => void }) {
+function Card({ item, layout, index = 0, onOpen }: { item: Item; layout?: "wide" | "full"; index?: number; onOpen: (el: Element | null) => void }) {
   const badge = item.kind === "lp" ? item.role! : sentence(item.status || "");
   return (
     <article
       className={`pcard${layout ? " " + layout : ""}`}
       data-name={item.name}
+      style={{ ["--i" as string]: index } as React.CSSProperties}
       role="button"
       tabIndex={0}
       aria-label={`${item.name}: view details`}
@@ -159,81 +161,6 @@ function Card({ item, layout, onOpen }: { item: Item; layout?: "wide" | "full"; 
         <span className="pcard-more">View details</span>
       </div>
     </article>
-  );
-}
-
-/* ---------------- Footprint map (vector, navy) ---------------- */
-const MIAMI = { latMin: 25.4, latMax: 26.1, lonMin: -80.72, lonMax: -80.08 };
-const inMiami = (c: [number, number]) => c[0] > MIAMI.latMin && c[0] < MIAMI.latMax && c[1] > MIAMI.lonMin && c[1] < MIAMI.lonMax;
-
-function FootprintMap({ onSelect }: { onSelect: (name: string) => void }) {
-  const wrap = useRef<HTMLDivElement>(null);
-  const [tip, setTip] = useState<{ it: Item; x: number; y: number } | null>(null);
-  const show = (it: Item, el: Element) => {
-    const w = wrap.current?.getBoundingClientRect(), r = el.getBoundingClientRect();
-    if (w) setTip({ it, x: r.left + r.width / 2 - w.left, y: r.top - w.top });
-  };
-  const spread = (list: Item[], gap: number) => {
-    const pts = list.map((c) => proj(c.coords[0], c.coords[1]));
-    for (let pass = 0; pass < 8; pass++)
-      for (let i = 0; i < pts.length; i++)
-        for (let j = i + 1; j < pts.length; j++) {
-          let dx = pts[j][0] - pts[i][0], dy = pts[j][1] - pts[i][1];
-          let d = Math.hypot(dx, dy);
-          if (d >= gap) continue;
-          if (d < 1e-6) { dx = 1; dy = 0; d = 1; }
-          const push = (gap - d) / 2;
-          pts[i] = [pts[i][0] - (dx / d) * push, pts[i][1] - (dy / d) * push];
-          pts[j] = [pts[j][0] + (dx / d) * push, pts[j][1] + (dy / d) * push];
-        }
-    return new Map(list.map((c, k) => [c.name, pts[k]]));
-  };
-  const pins = (list: Item[], r: number, interactive: boolean) => {
-    const placed = spread(list, r * 2.6);
-    return list.map((it) => {
-      const [x, y] = placed.get(it.name)!;
-      const dot = <circle cx={x} cy={y} r={r} className={`fp-dot ${it.kind}`} vectorEffect="non-scaling-stroke" />;
-      if (!interactive) return <g key={it.name} className="fp-pin static" aria-hidden="true">{dot}</g>;
-      return (
-        <g key={it.name} className="fp-pin" tabIndex={0} role="button" aria-label={`${it.name}, ${it.location}`}
-          onMouseEnter={(e) => show(it, e.currentTarget)} onMouseLeave={() => setTip(null)}
-          onFocus={(e) => show(it, e.currentTarget)} onBlur={() => setTip(null)}
-          onClick={() => { setTip(null); onSelect(it.name); }}
-          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(it.name); } }}>
-          <circle cx={x} cy={y} r={r * 1.4} fill="transparent" />
-          {dot}
-        </g>
-      );
-    });
-  };
-  const miami = ALL.filter((c) => inMiami(c.coords));
-  const others = ALL.filter((c) => !inMiami(c.coords));
-  const [bx1, by1] = proj(MIAMI.latMax, MIAMI.lonMin);
-  const [bx2, by2] = proj(MIAMI.latMin, MIAMI.lonMax);
-  return (
-    <div className="fp" ref={wrap}>
-      <figure className="fp-main">
-        <svg viewBox={FL_VIEWBOX} preserveAspectRatio="xMinYMid meet" role="img" aria-label="Map of ADG projects and investments across Florida">
-          <path d={FL_PATH} className="fp-land" vectorEffect="non-scaling-stroke" />
-          <rect x={bx1} y={by1} width={bx2 - bx1} height={by2 - by1} className="fp-mark" vectorEffect="non-scaling-stroke" />
-          {pins(others, 10, true)}
-          {pins(miami, 6, false)}
-        </svg>
-      </figure>
-      <figure className="fp-inset">
-        <svg viewBox={`${bx1} ${by1} ${bx2 - bx1} ${by2 - by1}`} role="img" aria-label="Detail of South Florida">
-          <path d={FL_PATH} className="fp-land" vectorEffect="non-scaling-stroke" />
-          {pins(miami, 1.5, true)}
-        </svg>
-        <figcaption>South Florida detail</figcaption>
-      </figure>
-      {tip && (
-        <div className="fp-tip" style={{ left: tip.x, top: tip.y }} role="status">
-          <strong>{tip.it.name}</strong>
-          <span>{tip.it.location}</span>
-        </div>
-      )}
-    </div>
   );
 }
 
@@ -460,34 +387,20 @@ export function Site() {
               <h2>Homes where <em>Florida's workforce</em> lives.</h2>
             </div>
             <div className="pgrid dev stagger">
-              {PROJECTS.map((p) => <Card key={p.name} item={p} layout={LAYOUT[p.name]} onOpen={(el) => openItem(p.name, el)} />)}
+              {PROJECTS.map((p, i) => <Card key={p.name} item={p} index={i} layout={LAYOUT[p.name]} onOpen={(el) => openItem(p.name, el)} />)}
             </div>
           </div>
         </section>
 
-        <section id="investments" className="band">
+        <section id="investments" className="band navy">
           <div className="wrap">
             <div className="section-head reveal">
-              <p className="eyebrow">Investment Portfolio</p>
+              <p className="eyebrow light">Investment Portfolio</p>
               <h2>Capital positions alongside institutional sponsors.</h2>
             </div>
             <div className="pgrid lp stagger">
-              {LPS.map((p) => <Card key={p.name} item={p} onOpen={(el) => openItem(p.name, el)} />)}
+              {LPS.map((p, i) => <Card key={p.name} item={p} index={i} onOpen={(el) => openItem(p.name, el)} />)}
             </div>
-          </div>
-        </section>
-
-        <section id="footprint" className="band navy">
-          <div className="wrap">
-            <div className="section-head reveal">
-              <p className="eyebrow light">Our Footprint</p>
-              <h2>Across <em>Florida.</em></h2>
-              <ul className="fp-legend">
-                <li><span className="fp-key project" />Developments</li>
-                <li><span className="fp-key lp" />Investments</li>
-              </ul>
-            </div>
-            <FootprintMap onSelect={(n) => openItem(n, null)} />
           </div>
         </section>
 
@@ -525,6 +438,16 @@ export function Site() {
                 }}
               />
             </div>
+          </div>
+        </section>
+
+        <section id="footprint" className="band navy">
+          <div className="wrap">
+            <div className="section-head reveal">
+              <p className="eyebrow light">Our Footprint</p>
+              <h2>Across <em>Florida.</em></h2>
+            </div>
+            <Footprint items={ALL_ORDERED} onSelect={(n) => openItem(n, null)} />
           </div>
         </section>
 
@@ -593,7 +516,12 @@ export function Site() {
               </label>
               <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" checked={trap} onChange={(e) => setTrap(e.target.checked)} style={{ display: "none" }} aria-hidden="true" />
               <button type="submit" disabled={status === "sending"}>{status === "sending" ? "Sending..." : "Send Message"}</button>
-              {status === "sent" && <p className="cform-status" role="status">Message sent. We will be in touch shortly.</p>}
+              {status === "sent" && (
+                <p className="cform-status sent" role="status">
+                  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5" pathLength={1} /></svg>
+                  Message sent. We will be in touch shortly.
+                </p>
+              )}
               {status === "error" && (
                 <p className="cform-status" role="alert">
                   Your message could not be sent. Please email <a href="mailto:JJ@alcazardg.com">JJ@alcazardg.com</a> or call (305) 772-6191.
