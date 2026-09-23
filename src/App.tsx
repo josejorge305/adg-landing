@@ -20,7 +20,7 @@ const projects = [
     status: "BREAKING GROUND Q1 2027",
     statusColor: "#00E676",
     description:
-      "An eight-story mid-rise affordable housing development serving households at or below 60% AMI.  One-, two- and three-bedroom residences.",
+      "An eight-story mid-rise affordable housing development serving households at or below 60% AMI. The community offers a diversified unit mix of one, two, and three-bedroom residences addressing critical workforce housing demand in this submarket.",
     detail: "",
     stats: [
       { label: "Units", value: "220" },
@@ -47,7 +47,7 @@ const projects = [
     status: "BREAKING GROUND Q4 2026",
     statusColor: "#00E676",
     description:
-      "A 256-unit affordable community of garden-style apartments with two-, three- and four-bedroom residences, serving households at or below 60% AMI in the Lake County MSA.",
+      "A 256-unit affordable housing community featuring garden-style apartments with two, three, and four-bedroom residences serving households at or below 60% AMI, addressing critical workforce housing demand in the Lake County MSA.",
     detail: "",
     stats: [
       { label: "Unit mix", value: "2, 3 & 4-bedroom" },
@@ -203,19 +203,19 @@ const teamMembers = [
   {
     name: "JJ Figueroa",
     title: "Managing Director",
-    bio: "Co-owner and Managing Director of Alcazar Development Group, where he leads acquisitions, financial modeling, capital structuring and development strategy for the firm's Florida multifamily portfolio. He is co-founder of Figueroa-Heller Capital Partners, a licensed private lender, and founder of Reliant Real Estate Group, a Florida commercial brokerage. He began his career in 2000 at Caribe Homes Corporation, working on seventeen single-family communities in South Florida totaling more than 2,200 homes.",
+    bio: "Real estate developer, broker, and financier with over two decades of experience. Co-owner and Managing Director of Alcazar Development Group (ADG), where he leads acquisitions, financial modeling, capital structuring, and overall development strategy for the firm's multifamily portfolio throughout Florida. He is also co-founder of Figueroa-Heller Capital Partners, a private mortgage lending platform. Earlier in his career, he worked with Caribe Homes Corporation, contributing to the development and sales of 17 single-family communities across South Florida totaling more than 2,200 homes.",
     image: "/assets/images/website/jj-figueroa.jpg",
   },
   {
     name: "Justo L. Fernandez",
     title: "Managing Director",
-    bio: "Co-owner and Managing Director of Alcazar Development Group, where he oversees pre-construction planning, project execution and construction across the firm's development pipeline. He previously spent 30 years at Mercantil Commercebank as Executive Vice President, leading the Commercial Real Estate Division and a loan portfolio of more than $1.6 billion.",
+    bio: "Real estate development executive with more than four decades of industry experience. As Managing Director and co-owner at Alcazar Development Group, he oversees pre-construction planning, project execution, and construction oversight across ADG's multifamily development pipeline. Prior to entering development, he spent 30 years in the financial industry at Mercantil Commercebank, serving as Executive Vice President and leading the Commercial Real Estate Division while managing a loan portfolio exceeding $1.6 billion.",
     image: "/assets/images/website/justo-fernandez.jpg",
   },
   {
     name: "Guillermo Villar",
     title: "Principal",
-    bio: "Principal and strategic advisor to Alcazar Development Group. He previously held senior banking roles with Chase and Mercantil and served as President and CEO of Commercebank in Miami, with responsibility spanning corporate lending, financial management and international banking.",
+    bio: "Principal and strategic advisor at Alcazar Development Group, bringing more than four decades of financial and real estate expertise to the firm's multifamily development initiatives. Prior to joining ADG, he built a distinguished international banking career with Chase and Mercantil, ultimately serving as President and CEO of Commercebank in Miami. His background includes leadership roles in corporate lending, financial management, and global banking operations.",
     image: "/assets/images/website/guillermo-villar.jpg",
   },
 ];
@@ -229,7 +229,8 @@ const stats = [
 
 const taglines = [
   { top: "Housing the", accent: "Workforce.", bottom: "Strengthening Communities." },
-  
+  { top: "Where Florida's", accent: "Workforce", bottom: "Comes Home." },
+  { top: "Developing", accent: "What", bottom: "Matters." },
   { top: "Attainable", accent: "Living.", bottom: "Institutional Quality." },
 ];
 
@@ -429,7 +430,7 @@ export function ADGWebsite() {
     const interval = setInterval(() => {
       setTaglineFading(true);
       setTimeout(() => {
-        setTaglineIndex((prev) => (prev + 1) % taglines.length);
+        setTaglineIndex((prev) => (prev + 1) % 4);
         setTaglineFading(false);
       }, 600);
     }, 4500);
@@ -1117,7 +1118,9 @@ export function ADGWebsite() {
                 padding: isMobile ? "0 4px" : undefined,
               }}
             >
-              Alcazar Development Group develops and invests in workforce and affordable multifamily housing in Florida, including tax-credit and HUD-financed communities.
+              Florida's teachers, nurses, and first responders deserve quality housing they can
+              afford. ADG develops workforce communities that close the gap between income and rent
+              — built to institutional standards, designed for real life.
             </p>
 
             {/* Hero CTA: desktop only (phones reach Contact from the menu) */}
@@ -1213,7 +1216,16 @@ export function ADGWebsite() {
               maxWidth: 650,
             }}
           >
-            Portfolio
+            Homes where{" "}
+            <span
+              style={{
+                fontStyle: "italic",
+                color: ADG_CYAN,
+              }}
+            >
+              Florida's workforce
+            </span>{" "}
+            lives.
           </h2>
         </div>
 
@@ -1640,13 +1652,23 @@ export function ADGWebsite() {
               margin: "0 0 24px",
             }}
           >
-            A Florida multifamily developer.
+            Closing the gap{" "}
+            <span style={{ fontWeight: 500, fontStyle: "italic", color: ADG_CYAN }}>
+              between income and rent.
+            </span>
           </h2>
           <p style={{ fontSize: isMobile ? 16 : 16, lineHeight: 1.8, opacity: 0.82, margin: "0 0 24px" }}>
-            Alcazar Development Group develops, builds and invests in multifamily communities for Florida's workforce, with a focus on households earning up to 60% of area median income.
+            Across Florida, essential workers are being priced out of the communities they serve.
+            Teachers commute hours to their schools. Nurses can't afford to live near their
+            hospitals. ADG was founded to change that — developing high-quality, attainable housing
+            that keeps the workforce close to where it's needed most.
           </p>
           <p style={{ fontSize: isMobile ? 16 : 16, lineHeight: 1.8, opacity: 0.82, margin: "0 0 32px" }}>
-            Projects are underwritten and built to the standards of tax-credit investors and agency lenders. The firm has developed or has in its pipeline more than 1,100 units.
+            Every project is built to institutional standards — the same rigor demanded by tax
+            credit investors and agency lenders — because the workforce deserves the same quality of
+            construction, amenities, and management as any luxury community. With over 1,100 units
+            developed or in our pipeline, we're proving that mission-driven development and strong
+            returns aren't mutually exclusive.
           </p>
           <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
             <img
@@ -1788,7 +1810,15 @@ export function ADGWebsite() {
               transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1)",
             }}
           >
-            Leadership
+            The people behind{" "}
+            <span
+              style={{
+                fontStyle: "italic",
+                color: ADG_CYAN,
+              }}
+            >
+              the mission.
+            </span>
           </h2>
         </div>
 
@@ -1942,7 +1972,8 @@ export function ADGWebsite() {
               margin: "0 0 32px",
             }}
           >
-            Contact
+            Let's house{" "}
+            <span style={{ fontWeight: 500, fontStyle: "italic", color: ADG_CYAN }}>Florida's workforce.</span>
           </h2>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
