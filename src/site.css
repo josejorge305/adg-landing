@@ -647,3 +647,6 @@ h1 em, h2 em { background: linear-gradient(currentColor, currentColor) 0 94% / 0
   .lp-thumb { width: 72px; height: 50px; }
   .lp-loc { padding-left: 90px; }
 }
+/* Investment band: tighter top and bottom */
+#investments { padding: clamp(48px, 5vw, 72px) 0; }
+#investments .section-head { margin-bottom: 26px; }
