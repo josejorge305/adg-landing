@@ -195,12 +195,13 @@ export const limitedPartnerPositions = [
     gallery: ["/assets/images/website/gran-vista-at-doral.jpg"],
   },
   {
-    name: "Cinnamon Cove",
+    name: "Cinnamon Cove Apartments",
     location: "Tampa, Florida",
     address: "12401 N 15th St, Tampa, FL 33612",
     coords: [28.060726, -82.442751] as [number, number],
     units: "309 Units",
     type: "Garden Multifamily, Value-Add",
+    sponsor: "Cinnamon Cove, LLC",
     role: "Limited Partner",
     description:
       "309-unit Garden-style value-add community acquired in 2025.",
