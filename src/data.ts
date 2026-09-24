@@ -293,7 +293,7 @@ export const teamMembers = [
     ],
     "bio": [
       "Jose Jorge “JJ” Figueroa is a co-owner and Managing Director of Alcazar Development Group, where he leads acquisitions, financial modeling, capital structuring and overall development strategy for the firm’s multifamily portfolio throughout Florida. A real estate developer, broker and financier, he brings more than two decades of industry experience.",
-      "He is a joint-venture General Partner of Soleste Spring Gardens, a 240-unit luxury apartment community in Miami’s Health District, and co-founder of Figueroa-Heller Capital Partners (FHCP, LLC), a private mortgage lending and servicing platform operating since 2011. As Chief Executive Officer of Reliant Real Estate Group, he created the RRG Network, a proprietary platform developed in the aftermath of the 2008 financial crisis that uses algorithms to match distressed assets with qualified investors.",
+      "He is a joint-venture General Partner of Soleste Spring Gardens, a 240-unit luxury apartment community in Miami’s Health District, and co-founder of FH Capital Partners (FHCP, LLC), a private mortgage lending and servicing platform operating since 2011. As Chief Executive Officer of Reliant Real Estate Group, he created the RRG Network, a proprietary platform developed in the aftermath of the 2008 financial crisis that uses algorithms to match distressed assets with qualified investors.",
       "Mr. Figueroa began his real estate career in 2001 at Caribe Homes Corporation, where over eight years he helped refine operational processes and supported the sale of 17 single-family communities across South Florida totaling more than 2,257 homes. He is a licensed Real Estate Broker and Mortgage Broker, and lives in South Miami with his wife and three children."
     ],
     "timeline": [
@@ -309,8 +309,8 @@ export const teamMembers = [
       },
       {
         "year": "2011",
-        "title": "Figueroa-Heller Capital Partners",
-        "detail": "Co-founded FHCP, LLC, a private mortgage lending and servicing platform"
+        "title": "FH Capital Partners",
+        "detail": "Co-founded FH Capital Partners, a private mortgage lending and servicing platform"
       },
       {
         "year": "",
@@ -442,13 +442,13 @@ export const leaders: Leader[] = [
     glance: ["20+ years in real estate", "JV General Partner, Soleste Spring Gardens", "Licensed Real Estate & Mortgage Broker"],
     bio: [
       "Jose Jorge “JJ” Figueroa is a co-owner and Managing Director of Alcazar Development Group, where he leads acquisitions, financial modeling, capital structuring and overall development strategy for the firm’s multifamily portfolio throughout Florida. A real estate developer, broker and financier with more than two decades of experience, he also serves as a joint-venture General Partner of Soleste Spring Gardens, a 240-unit luxury apartment community in Miami’s Health District.",
-      "Mr. Figueroa is co-founder of Figueroa-Heller Capital Partners (FHCP, LLC), a private mortgage lending and servicing platform operating since 2011. As CEO of Reliant Real Estate Group, he developed the RRG Network in the aftermath of the 2008 financial crisis: a proprietary, algorithm-driven platform that matches distressed assets with qualified investors.",
+      "Mr. Figueroa is co-founder of FH Capital Partners (FHCP, LLC), a private mortgage lending and servicing platform operating since 2011. As CEO of Reliant Real Estate Group, he developed the RRG Network in the aftermath of the 2008 financial crisis: a proprietary, algorithm-driven platform that matches distressed assets with qualified investors.",
       "He began his real estate career in 2001 at Caribe Homes Corporation, where over eight years he helped refine operational processes and supported the sales of 17 single-family communities across South Florida totaling more than 2,257 homes. Mr. Figueroa is a licensed Real Estate Broker and Mortgage Broker, and lives in South Miami with his wife and three children.",
     ],
     timeline: [
       { when: "2001", what: "Joins Caribe Homes Corporation; over eight years supports the sale of 17 South Florida communities, 2,257+ homes" },
       { when: "After 2008", what: "Develops the RRG Network at Reliant Real Estate Group, matching distressed assets with investors" },
-      { when: "2011", what: "Co-founds FHCP, LLC, a private mortgage lending and servicing platform" },
+      { when: "2011", what: "Co-founds FH Capital Partners, a private mortgage lending and servicing platform" },
       { when: "Joint venture", what: "General Partner, Soleste Spring Gardens, 240 units in Miami’s Health District" },
       { when: "Today", what: "Co-owner and Managing Director, Alcazar Development Group" },
     ],
