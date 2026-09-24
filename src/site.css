@@ -1023,3 +1023,6 @@ h1 em, h2 em { background: none !important; padding-bottom: 0; }
 .dm-close:focus { outline: none; }
 .dm-close:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 .dm-side .dm-facts dd { font-variant-numeric: lining-nums tabular-nums; }
+/* Portfolio cards: no wipe-in and no hover sheen (the videos carry the motion) */
+.pgrid .pcard-img { clip-path: none !important; transition: none; }
+.pcard-img::after { display: none; }
