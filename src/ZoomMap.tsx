@@ -76,7 +76,8 @@ export function ZoomMap({ items, onSelect }: { items: ZItem[]; onSelect: (name: 
       const k = (s - sA) / (sB - sA || 1);
       const cx = cA[0] + (cB[0] - cA[0]) * k, cy = cA[1] + (cB[1] - cA[1]) * k;
       const tx = vw / 2 - cx * s, ty = vh / 2 - cy * s + (narrow ? 90 : 30);
-      w.style.transform = `translate(${tx}px, ${ty}px) scale(${s})`;
+      w.style.width = `${STATE.w * s}px`; w.style.height = `${STATE.h * s}px`;
+      w.style.transform = `translate(${tx}px, ${ty}px)`;
       const scr = (b: [number, number]): [number, number] => [tx + b[0] * s, ty + b[1] * s];
       // pins in screen space; South Florida pins fan apart when they would overlap
       const zoomedIn = e > 0.42;
@@ -147,8 +148,8 @@ export function ZoomMap({ items, onSelect }: { items: ZItem[]; onSelect: (name: 
       <div className="fpz-sticky">
         <div ref={view} className="fpz-view" onMouseLeave={hideCard} onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest(".fpz-pin, .fpz-card, .fpz-cluster, .fpz-controls")) hideCard(); }}>
           <div ref={world} className="fpz-world" style={{ width: STATE.w, height: STATE.h }}>
-            <img className="fpz-state" src="/assets/map/fl-state.webp" alt="" loading="lazy" width={STATE.w} height={STATE.h} />
-            <img className="fpz-south" src="/assets/map/fl-south.webp" alt="" loading="lazy" style={{ left: SOUTH.x, top: SOUTH.y, width: SOUTH.w, height: SOUTH.h }} />
+            <img className="fpz-state" src="/assets/map/fl-state.webp" alt="" loading="lazy" style={{ left: 0, top: 0, width: "100%", height: "100%" }} />
+            <img className="fpz-south" src="/assets/map/fl-south.webp" alt="" loading="lazy" style={{ left: `${(SOUTH.x / STATE.w) * 100}%`, top: `${(SOUTH.y / STATE.h) * 100}%`, width: `${(SOUTH.w / STATE.w) * 100}%`, height: `${(SOUTH.h / STATE.h) * 100}%` }} />
           </div>
           {CITIES.map((c, i) => <span key={c.name + i} ref={(el) => { cityRefs.current[i] = el; }} className={`fpz-city${c.zoomed ? " below" : ""}${c.c[0] > 30 ? " north" : ""}`}>{c.name}</span>)}
           <div ref={officeRef} className="fpz-office" aria-hidden="true"><i /><span>ADG office</span></div>
