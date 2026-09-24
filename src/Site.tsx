@@ -337,10 +337,8 @@ function DetailModal({ it, list, origin, onClosed, onStep }: {
 /* ---------------- Investment positions table ---------------- */
 function LpTable({ items, onOpen }: { items: Item[]; onOpen: (name: string, el: Element | null) => void }) {
   const wrap = useRef<HTMLDivElement>(null);
-  const preview = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<string | null>(null);
   const [drawn, setDrawn] = useState(false);
-  const target = useRef({ x: 0, y: 0 }), pos = useRef({ x: 0, y: 0 }), raf = useRef(0);
   // rows draw in when the table enters view
   useEffect(() => {
     const el = wrap.current;
@@ -350,28 +348,8 @@ function LpTable({ items, onOpen }: { items: Item[]; onOpen: (name: string, el: 
     io.observe(el);
     return () => io.disconnect();
   }, []);
-  // floating photo follows the cursor with a soft lag
-  const tick = () => {
-    const p = pos.current, t = target.current;
-    p.x += (t.x - p.x) * 0.16; p.y += (t.y - p.y) * 0.16;
-    if (preview.current) preview.current.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
-    raf.current = Math.abs(t.x - p.x) + Math.abs(t.y - p.y) > 0.3 ? requestAnimationFrame(tick) : 0;
-  };
-  const move = (e: React.MouseEvent) => {
-    const w = wrap.current, pv = preview.current;
-    if (!w || !pv) return;
-    const r = w.getBoundingClientRect();
-    const pw = pv.offsetWidth, ph = pv.offsetHeight;
-    // float above the cursor, clear of the hovered row; drop below it when there is no room above
-    let x = e.clientX - r.left + 24, y = e.clientY - r.top - ph - 36;
-    if (y < -40) y = e.clientY - r.top + 36;
-    if (x + pw > r.width) x = e.clientX - r.left - pw - 24;
-    target.current = { x, y };
-    if (!raf.current) raf.current = requestAnimationFrame(tick);
-  };
-  useEffect(() => () => cancelAnimationFrame(raf.current), []);
   return (
-    <div ref={wrap} className={`lp-table${drawn ? " is-drawn" : ""}`} role="table" aria-label="Investment positions" onMouseMove={move} onMouseLeave={() => setActive(null)}>
+    <div ref={wrap} className={`lp-table${drawn ? " is-drawn" : ""}`} role="table" aria-label="Investment positions" onMouseLeave={() => setActive(null)}>
       <div className="lp-head" role="row">
         <span role="columnheader">Property</span>
         <span role="columnheader">Location</span>
@@ -383,7 +361,7 @@ function LpTable({ items, onOpen }: { items: Item[]; onOpen: (name: string, el: 
       {items.map((p, i) => (
         <button key={p.name} className={`lp-row${active === p.name ? " is-active" : ""}`} role="row" data-name={p.name}
           style={{ ["--i" as string]: i } as React.CSSProperties} aria-label={`${p.name}: view details`}
-          onMouseEnter={(e) => { setActive(p.name); move(e); if (preview.current && !raf.current) { const t = target.current; pos.current = { ...t }; preview.current.style.transform = `translate3d(${t.x}px, ${t.y}px, 0)`; } }}
+          onMouseEnter={() => setActive(p.name)}
           onFocus={() => setActive(p.name)} onBlur={() => setActive(null)}
           onClick={(e) => onOpen(p.name, e.currentTarget.querySelector(".lp-thumb"))}>
           <span className="lp-prop" role="cell">
@@ -397,9 +375,6 @@ function LpTable({ items, onOpen }: { items: Item[]; onOpen: (name: string, el: 
           <span className="lp-go" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
         </button>
       ))}
-      <div ref={preview} className={`lp-preview${active ? " on" : ""}`} aria-hidden="true">
-        {items.map((p) => <img key={p.name} src={p.image} alt="" className={active === p.name ? "on" : ""} />)}
-      </div>
     </div>
   );
 }
