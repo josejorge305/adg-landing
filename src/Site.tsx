@@ -13,7 +13,7 @@ type Item = {
   kind: "project" | "lp";
   name: string; location: string; address: string; coords: [number, number];
   units: string; type: string; status?: string; role?: string; description: string;
-  stats: Stat[]; award: string | null; image: string; gallery: string[]; video?: string; poster?: string;
+  stats: Stat[]; award: string | null; image: string; gallery: string[]; video?: string; poster?: string; sponsor?: string;
 };
 /* Portfolio collage order: long, short / short, long / full width */
 const ORDER = ["Aura Living", "Alcazar Millenium", "Alcazar Apartment Villas", "Aura at Silver Lakes", "Spring Gardens"];
@@ -21,7 +21,7 @@ const LAYOUT: Record<string, "wide" | "full" | undefined> = { "Aura Living": "wi
 const PROJECTS: Item[] = projects
   .map((p) => ({ ...p, kind: "project" as const, image: hq(p.image), gallery: (p.gallery as string[]).map(hq), video: (p as { video?: string }).video, poster: (p as { poster?: string }).poster }))
   .sort((a, b) => ORDER.indexOf(a.name) - ORDER.indexOf(b.name));
-const LPS: Item[] = limitedPartnerPositions.map((p) => ({ ...p, kind: "lp" as const, image: hq(p.image), gallery: (p.gallery as string[]).map(hq) }));
+const LPS: Item[] = limitedPartnerPositions.map((p) => ({ ...p, kind: "lp" as const, image: hq(p.image), gallery: (p.gallery as string[]).map(hq), sponsor: (p as { sponsor?: string }).sponsor }));
 const ALL: Item[] = [...PROJECTS, ...LPS];
 const MAP_ITEMS = ALL.map((x) => ({ name: x.name, location: x.location, units: x.units, coords: x.coords, kind: x.kind, image: x.image }));
 
@@ -310,8 +310,8 @@ function DetailModal({ it, list, origin, onClosed, onStep }: {
             <p className="dm-sub">{it.address || it.location}</p>
             <ul className="dm-tomb">{tomb.filter(Boolean).map((x, k) => <li key={k}>{x}</li>)}</ul>
             {it.description && <p className="dm-desc">{it.description}</p>}
-            {it.stats.length > 0 && (
-              <dl className="dm-facts">{it.stats.map((s) => <div key={s.label}><dt>{s.label}</dt><dd>{s.value}</dd></div>)}</dl>
+            {(it.stats.length > 0 || it.sponsor) && (
+              <dl className="dm-facts">{[...(it.sponsor ? [{ label: "Sponsor", value: it.sponsor }] : []), ...it.stats].map((s) => <div key={s.label}><dt>{s.label}</dt><dd>{s.value}</dd></div>)}</dl>
             )}
             {it.award && <p className="dm-award">{it.award}</p>}
             <p className="dm-loc"><a href={maps} target="_blank" rel="noopener noreferrer">Open in Google Maps</a></p>
@@ -329,6 +329,76 @@ function DetailModal({ it, list, origin, onClosed, onStep }: {
             </div>
           )}
         </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------------- Investment positions table ---------------- */
+function LpTable({ items, onOpen }: { items: Item[]; onOpen: (name: string, el: Element | null) => void }) {
+  const wrap = useRef<HTMLDivElement>(null);
+  const preview = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState<string | null>(null);
+  const [drawn, setDrawn] = useState(false);
+  const target = useRef({ x: 0, y: 0 }), pos = useRef({ x: 0, y: 0 }), raf = useRef(0);
+  // rows draw in when the table enters view
+  useEffect(() => {
+    const el = wrap.current;
+    if (!el) return;
+    if (reducedMotion() || !("IntersectionObserver" in window)) { setDrawn(true); return; }
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setDrawn(true); io.disconnect(); } }, { threshold: 0.2 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  // floating photo follows the cursor with a soft lag
+  const tick = () => {
+    const p = pos.current, t = target.current;
+    p.x += (t.x - p.x) * 0.16; p.y += (t.y - p.y) * 0.16;
+    if (preview.current) preview.current.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
+    raf.current = Math.abs(t.x - p.x) + Math.abs(t.y - p.y) > 0.3 ? requestAnimationFrame(tick) : 0;
+  };
+  const move = (e: React.MouseEvent) => {
+    const w = wrap.current, pv = preview.current;
+    if (!w || !pv) return;
+    const r = w.getBoundingClientRect();
+    const pw = pv.offsetWidth, ph = pv.offsetHeight;
+    // float above the cursor, clear of the hovered row; drop below it when there is no room above
+    let x = e.clientX - r.left + 24, y = e.clientY - r.top - ph - 36;
+    if (y < -40) y = e.clientY - r.top + 36;
+    if (x + pw > r.width) x = e.clientX - r.left - pw - 24;
+    target.current = { x, y };
+    if (!raf.current) raf.current = requestAnimationFrame(tick);
+  };
+  useEffect(() => () => cancelAnimationFrame(raf.current), []);
+  return (
+    <div ref={wrap} className={`lp-table${drawn ? " is-drawn" : ""}`} role="table" aria-label="Investment positions" onMouseMove={move} onMouseLeave={() => setActive(null)}>
+      <div className="lp-head" role="row">
+        <span role="columnheader">Property</span>
+        <span role="columnheader">Location</span>
+        <span role="columnheader">Sponsor</span>
+        <span role="columnheader">Asset type</span>
+        <span role="columnheader" className="num">Units</span>
+        <span aria-hidden="true" />
+      </div>
+      {items.map((p, i) => (
+        <button key={p.name} className={`lp-row${active === p.name ? " is-active" : ""}`} role="row" data-name={p.name}
+          style={{ ["--i" as string]: i } as React.CSSProperties} aria-label={`${p.name}: view details`}
+          onMouseEnter={(e) => { setActive(p.name); move(e); if (preview.current && !raf.current) { const t = target.current; pos.current = { ...t }; preview.current.style.transform = `translate3d(${t.x}px, ${t.y}px, 0)`; } }}
+          onFocus={() => setActive(p.name)} onBlur={() => setActive(null)}
+          onClick={(e) => onOpen(p.name, e.currentTarget.querySelector(".lp-thumb"))}>
+          <span className="lp-prop" role="cell">
+            <span className="lp-thumb"><img src={p.image} alt="" loading="lazy" /></span>
+            <span className="lp-name"><strong>{p.name}</strong><em>{p.role}</em></span>
+          </span>
+          <span className="lp-loc" role="cell">{p.location}</span>
+          <span className={`lp-sponsor${p.sponsor ? "" : " none"}`} role="cell">{p.sponsor ?? "—"}</span>
+          <span className="lp-type" role="cell">{p.type}</span>
+          <span className="lp-units num" role="cell">{p.units.replace(/\s*Units?$/i, "")}</span>
+          <span className="lp-go" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
+        </button>
+      ))}
+      <div ref={preview} className={`lp-preview${active ? " on" : ""}`} aria-hidden="true">
+        {items.map((p) => <img key={p.name} src={p.image} alt="" className={active === p.name ? "on" : ""} />)}
       </div>
     </div>
   );
@@ -471,30 +541,7 @@ export function Site() {
               <p className="eyebrow light">Investment Portfolio</p>
               <h2>Capital positions alongside institutional sponsors.</h2>
             </div>
-            <div className="lp-table" role="table" aria-label="Investment positions">
-              <div className="lp-head" role="row">
-                <span role="columnheader">Property</span>
-                <span role="columnheader">Location</span>
-                <span role="columnheader">Asset type</span>
-                <span role="columnheader" className="num">Units</span>
-                <span role="columnheader">Role</span>
-              </div>
-              <div className="lp-rows stagger">
-                {LPS.map((p) => (
-                  <button key={p.name} className="lp-row" role="row" data-name={p.name} aria-label={`${p.name}: view details`}
-                    onClick={(e) => openItem(p.name, e.currentTarget.querySelector(".lp-thumb"))}>
-                    <span className="lp-prop" role="cell">
-                      <span className="lp-thumb"><img src={p.image} alt="" loading="lazy" /></span>
-                      <strong>{p.name}</strong>
-                    </span>
-                    <span className="lp-loc" role="cell">{p.location}</span>
-                    <span className="lp-type" role="cell">{p.type}</span>
-                    <span className="lp-units num" role="cell">{p.units.replace(/\s*Units?$/i, "")}</span>
-                    <span className="lp-role" role="cell">{p.role}<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
-                  </button>
-                ))}
-              </div>
-            </div>
+            <LpTable items={LPS} onOpen={openItem} />
           </div>
         </section>
 

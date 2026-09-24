@@ -157,6 +157,7 @@ export const limitedPartnerPositions = [
     coords: [26.009647, -80.147081] as [number, number],
     units: "503 Units",
     type: "Class A, Two Towers — QOZ",
+    sponsor: "Estate Investment Group",
     role: "Limited Partner",
     description:
       "A 503-unit, two-tower Class A community adjacent to Young Circle in downtown Hollywood, structured as a Qualified Opportunity Zone investment. GP: The Estate Companies.",
@@ -181,6 +182,7 @@ export const limitedPartnerPositions = [
     coords: [25.814465, -80.326682] as [number, number],
     units: "148 Units",
     type: "Mid-Rise Multifamily",
+    sponsor: "Fortune Capital Partners",
     role: "Limited Partner",
     description:
       "148-unit multifamily mid-rise located in Doral, FL.",
