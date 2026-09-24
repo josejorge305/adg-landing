@@ -6,11 +6,11 @@ export const projects = [
     address: "",
     coords: [25.506306, -80.43595] as [number, number],
     units: "220 Units",
-    type: "Affordable Housing",
+    type: "Affordable Multifamily",
     status: "BREAKING GROUND Q1 2027",
     statusColor: "#00E676",
     description:
-      "An eight-story mid-rise affordable housing development serving households at or below 60% AMI. The community offers a diversified unit mix of one, two, and three-bedroom residences addressing critical workforce housing demand in this submarket.",
+      "220-unit affordable multifamily community in Naranja: an eight-story mid-rise of one-, two- and three-bedroom residences for households at or below 60% AMI.",
     detail: "",
     stats: [
       { label: "Units", value: "220" },
@@ -35,11 +35,11 @@ export const projects = [
     address: "",
     coords: [28.838044, -81.811317] as [number, number],
     units: "256 Units",
-    type: "Affordable Housing",
+    type: "Affordable Multifamily",
     status: "BREAKING GROUND Q4 2026",
     statusColor: "#00E676",
     description:
-      "A 256-unit affordable housing community featuring garden-style apartments with two, three, and four-bedroom residences serving households at or below 60% AMI, addressing critical workforce housing demand in the Lake County MSA.",
+      "256-unit affordable multifamily community in Leesburg, Lake County: garden-style two-, three- and four-bedroom residences for households at or below 60% AMI.",
     detail: "",
     stats: [
       { label: "Unit mix", value: "2, 3 & 4-bedroom" },
@@ -53,15 +53,16 @@ export const projects = [
     gallery: [],
   },
   {
-    name: "Alcazar Millenium",
+    name: "Alcazar Millennium",
     location: "Naranja, Florida",
     address: "SW 150th Ave & SW 280th St, Naranja, FL",
     coords: [25.506342, -80.437331] as [number, number],
     units: "192 Units",
-    type: "Affordable Housing",
-    status: "IN DEVELOPMENT",
+    type: "Affordable Multifamily",
+    status: "PRE-DEVELOPMENT",
     statusColor: "#FFD60A",
-    description: "Alcazar Millenium is the fourth phase of Alcazar Development Group's Naranja community, extending the neighborhood established by Alcazar Apartment Villas and Aura Living. The project is currently in pre-development.",
+    description:
+      "192-unit affordable multifamily community in Naranja, and the fourth phase of ADG’s Naranja neighborhood alongside Alcazar Apartment Villas and Aura Living. Currently in pre-development.",
     detail: "",
     stats: [],
     award: null,
@@ -76,11 +77,11 @@ export const projects = [
     address: "14981 SW 283rd St, Homestead, FL 33033",
     coords: [25.5044, -80.434] as [number, number],
     units: "288 Units",
-    type: "Market Rate Apartments",
+    type: "Market-Rate Multifamily",
     status: "SOLD Q4 2021",
     statusColor: "#FF6B35",
     description:
-      "Award-winning 288-unit market rent apartment community comprised of twelve buildings with 1, 2 and 3 bedroom units and a resort-style clubhouse.",
+      "288-unit market-rate multifamily community in Naranja: an award-winning campus of twelve buildings with one-, two- and three-bedroom residences and a resort-style clubhouse.",
     detail: "",
     stats: [
       { label: "Phase I", value: "216 units, 2018" },
@@ -110,11 +111,11 @@ export const projects = [
     address: "1005 Spring Garden Rd, Miami, FL 33136",
     coords: [25.785618, -80.211316] as [number, number],
     units: "240 Units",
-    type: "Multifamily Development",
+    type: "Class A Multifamily",
     status: "STABILIZED",
     statusColor: "#00E676",
     description:
-      "A 240-unit multifamily development located in the Downtown Miami Health District. A joint venture with Estates Investment Group.",
+      "240-unit Class A multifamily community in the Miami Health District, developed as a joint venture with The Estate Companies.",
     detail: "",
     stats: [
       { label: "Stories", value: "8" },
@@ -153,11 +154,11 @@ export const projects = [
     address: "Downtown South Miami, FL",
     coords: [25.7045, -80.2905] as [number, number],
     units: "3 Residences",
-    type: "Luxury Single-Family",
+    type: "Single-Family",
     status: "DELIVERED 2015",
     statusColor: "#8A97A0",
     description:
-      "Three custom luxury residences in the heart of downtown South Miami, taken from site acquisition and land evaluation through feasibility, construction financing, vertical construction oversight and disposition.",
+      "Three custom single-family residences in downtown South Miami, taken from site acquisition and feasibility through construction financing, vertical construction and disposition.",
     detail: "",
     stats: [
       { label: "Residences", value: "Three custom homes" },
@@ -189,11 +190,11 @@ export const limitedPartnerPositions = [
     address: "2001 Van Buren St, Hollywood, FL 33020",
     coords: [26.009647, -80.147081] as [number, number],
     units: "503 Units",
-    type: "Class A, Two Towers — QOZ",
-    sponsor: "Estate Investment Group",
+    type: "Class A Multifamily (QOZ)",
+    sponsor: "The Estate Companies",
     role: "Limited Partner",
     description:
-      "A 503-unit, two-tower Class A community adjacent to Young Circle in downtown Hollywood, structured as a Qualified Opportunity Zone investment. GP: The Estate Companies.",
+      "503-unit Class A multifamily community of two towers adjacent to Young Circle in downtown Hollywood, structured as a Qualified Opportunity Zone investment. Sponsor: The Estate Companies.",
     stats: [
       { label: "Towers", value: "8 & 12 stories" },
       { label: "Construction loan", value: "$70.8M, Nationwide Mutual" },
@@ -229,11 +230,11 @@ export const limitedPartnerPositions = [
     address: "4400 NW 79th Ave, Doral, FL 33166",
     coords: [25.814465, -80.326682] as [number, number],
     units: "148 Units",
-    type: "Mid-Rise Multifamily",
+    type: "Class A Multifamily",
     sponsor: "Fortune Capital Partners",
     role: "Limited Partner",
     description:
-      "148-unit multifamily mid-rise located in Doral, FL.",
+      "148-unit Class A multifamily community in Doral, completed in 2015, with a resort-style pool, clubhouse and fitness center.",
     stats: [
       { label: "Held since", value: "2011" },
       { label: "Years held", value: "15+" },
@@ -256,12 +257,12 @@ export const limitedPartnerPositions = [
     location: "Tampa, Florida",
     address: "12401 N 15th St, Tampa, FL 33612",
     coords: [28.060726, -82.442751] as [number, number],
-    units: "309 Units",
-    type: "Garden Multifamily, Value-Add",
+    units: "314 Units",
+    type: "Value-Add Multifamily",
     sponsor: "Cinnamon Cove, LLC",
     role: "Limited Partner",
     description:
-      "309-unit Garden-style value-add community acquired in 2025.",
+      "314-unit garden-style multifamily community in Tampa, acquired in 2025 as a value-add renovation.",
     stats: [
       { label: "Acquired", value: "2025" },
       { label: "Strategy", value: "Value-add" },
@@ -418,7 +419,7 @@ export const teamMembers = [
 export const stats = [
   { number: "1,100+", label: "Units Developed" },
   { number: "3", label: "Active Projects" },
-  { number: "10+", label: "Years in Development" },
+  { number: "10+", label: "Years Developing in Florida" },
   { number: "668", label: "Units in Development Pipeline" },
 ];
 

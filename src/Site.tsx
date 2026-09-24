@@ -16,7 +16,7 @@ type Item = {
   stats: Stat[]; award: string | null; image: string; gallery: string[]; video?: string; poster?: string; sponsor?: string;
 };
 /* Portfolio collage order: long, short / short, long / full width */
-const ORDER = ["Aura Living", "Alcazar Millenium", "Alcazar Apartment Villas", "Aura at Silver Lakes", "Spring Gardens", "SOMI Homes"];
+const ORDER = ["Aura Living", "Alcazar Millennium", "Alcazar Apartment Villas", "Aura at Silver Lakes", "Spring Gardens", "SOMI Homes"];
 const LAYOUT: Record<string, "wide" | "full" | "pano" | undefined> = { "Aura Living": "wide", "Aura at Silver Lakes": "wide", "Spring Gardens": "full", "SOMI Homes": "pano" };
 const PROJECTS: Item[] = projects
   .map((p) => ({ ...p, kind: "project" as const, image: hq(p.image), gallery: (p.gallery as string[]).map(hq), video: (p as { video?: string }).video, poster: (p as { poster?: string }).poster }))
@@ -101,7 +101,7 @@ function Hero({ onContact }: { onContact: () => void }) {
       <div className="hero-sweep" aria-hidden="true" />
       <div className="hero-shade" />
       <div className="wrap hero-content">
-        <p className="eyebrow light">Workforce Housing Developer — South Florida</p>
+        <p className="eyebrow light">Workforce Housing Developer — Florida</p>
         <h1>
           {t.top} <em>{t.accent}</em>
           <br />
@@ -112,7 +112,7 @@ function Hero({ onContact }: { onContact: () => void }) {
           workforce communities that close the gap between income and rent — built to institutional standards,
           designed for real life.
         </p>
-        <button className="text-link light" onClick={onContact}>Get In Touch</button>
+        <button className="text-link light" onClick={onContact}>Get in touch</button>
       </div>
       <div className="hero-stats" aria-label="Firm figures">
         <div className="wrap hero-stats-inner">
@@ -662,14 +662,13 @@ export function Site() {
               <h2>Closing the gap <em>between income and rent.</em></h2>
               <p>
                 Across Florida, essential workers are being priced out of the communities they serve. Teachers commute
-                hours to their schools. Nurses can't afford to live near their hospitals. ADG was founded to change
-                that — developing high-quality, attainable housing that keeps the workforce close to where it's needed most.
+                hours to their schools. Nurses cannot afford to live near their hospitals. ADG was founded to change
+                that — developing high-quality, attainable housing that keeps the workforce close to where it is needed most.
               </p>
               <p>
                 Every project is built to institutional standards — the same rigor demanded by tax credit investors and
                 agency lenders — because the workforce deserves the same quality of construction, amenities, and management
-                as any luxury community. With over 1,100 units developed or in our pipeline, we're proving that
-                mission-driven development and strong returns aren't mutually exclusive.
+                as any luxury community. ADG has developed more than 1,100 units.
               </p>
               <div className="award">
                 <img src="/assets/site/sfbj-award-dark.png" alt="SFBJ Structures Awards" />
@@ -733,7 +732,7 @@ export function Site() {
           <div className="wrap contact-grid">
             <div className="reveal">
               <p className="eyebrow light">Get in Touch</p>
-              <h2>Let's house <em>Florida's workforce.</em></h2>
+              <h2>Partner with ADG <em>on Florida&rsquo;s next community.</em></h2>
               <dl className="contact-list">
                 <div><dt>Phone</dt><dd><a href="tel:3057726191">(305) 772-6191</a></dd></div>
                 <div><dt>Office</dt><dd>7520 SW 57th Avenue Suite G{"\n"}South Miami, FL 33143</dd></div>
@@ -780,7 +779,7 @@ export function Site() {
         <div className="wrap footer-grid">
           <div className="footer-brand">
             <img src={IMG + "adg-logo.png"} alt="Alcazar Development Group" />
-            <p>Workforce Housing Developer — South Florida</p>
+            <p>Workforce Housing Developer — Florida</p>
           </div>
           <div>
             <p className="footer-h">Office</p>

@@ -886,3 +886,18 @@ h1 em, h2 em { background: linear-gradient(currentColor, currentColor) 0 94% / 0
 .office-map:hover .office-cta svg { transform: translateX(4px); }
 @media (max-width: 760px) { .cf-row { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .office-pin i { animation: none; } }
+
+/* ===================== Institutional type system ===================== */
+:root { --sans: "Inter", "Helvetica Neue", Arial, sans-serif; }
+body { font-feature-settings: "cv11", "ss01"; }
+/* eyebrows: small uppercase, wide tracking */
+.eyebrow, .footer-h { font-size: 12.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+/* lining, tabular figures everywhere numbers carry meaning */
+.hero-stat-num, .stat-num, .lp-units, .pcard-facts strong, .dm-facts dd, .fpz-cluster, .lm-glance { font-variant-numeric: lining-nums tabular-nums; }
+h1, h2, h3 { font-variant-numeric: lining-nums; }
+/* consolidated scale */
+.pcard.full h3 { font-size: 28px; }
+.pcard-desc { font-size: 16px; }
+.aff-card strong { font-weight: 600; }
+.fpz-credit { font-size: 12px; }
+@media (max-width: 760px) { .fpz-credit { font-size: 11px; } }
