@@ -848,3 +848,8 @@ h1 em, h2 em { background: linear-gradient(currentColor, currentColor) 0 94% / 0
   .lead-photo img { filter: grayscale(1) contrast(1.04); transform: scale(1.01); transition: filter 0.8s ease, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
   .lead-card.in-focus .lead-photo img { filter: grayscale(0) contrast(1); transform: scale(1.04); }
 }
+/* Hero framing on large screens: taller (up to the screen below the nav) and trimmed from the sky first */
+@media (min-width: 761px) {
+  .hero { min-height: max(560px, min(calc(100svh - 76px), 56.25vw)); }
+  .hero-img, .hero-lines img, .hero-video { object-position: center var(--hero-pos-y, 40%); }
+}

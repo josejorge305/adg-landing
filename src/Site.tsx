@@ -49,6 +49,23 @@ function Hero({ onContact }: { onContact: () => void }) {
   const [night] = useState(() => { const h = new Date().getHours(); return h >= 19 || h < 6; });
   const base = night ? "/assets/site/hero-dusk" : "/assets/site/hero";
   const heroVideo = useRef<HTMLVideoElement>(null);
+  // Framing on wide screens: trim the open sky above the roofline first (never past it), then the bottom,
+  // so both the roof and the street stay in view.
+  const heroEl = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const h = heroEl.current;
+    if (!h) return;
+    const SKY = 0.1;
+    const set = () => {
+      const W = h.clientWidth, H = h.clientHeight;
+      const shown = 9 * Math.max(W / 16, H / 9), crop = shown - H;
+      const pos = crop > 1 ? (Math.min(crop, shown * SKY) / crop) * 100 : 50;
+      h.style.setProperty("--hero-pos-y", `${pos.toFixed(1)}%`);
+    };
+    set();
+    const ro = new ResizeObserver(set); ro.observe(h);
+    return () => ro.disconnect();
+  }, []);
   const [motion] = useState(() => typeof window !== "undefined" && !reducedMotion() && window.innerWidth > 760);
   // the scene starts moving as the render dissolves in under the line drawing (reveal), not after it
   const motionGo = phase !== "intro";
@@ -67,13 +84,13 @@ function Hero({ onContact }: { onContact: () => void }) {
     return () => { v.removeEventListener("ended", onEnded); window.clearTimeout(timer); };
   }, [motionGo]);
   return (
-    <section className={`hero hero-${phase}${night ? " hero-night" : " hero-day"}`} id="home">
+    <section ref={heroEl} className={`hero hero-${phase}${night ? " hero-night" : " hero-day"}`} id="home">
       <picture>
         <source srcSet={`${base}.webp`} type="image/webp" />
         <img className="hero-img" src={`${base}.jpg`} alt="" aria-hidden="true" fetchPriority="high" />
       </picture>
       {motion && (
-        <video ref={heroVideo} className="hero-video" src={night ? "/assets/site/hero-dusk-v3.mp4" : "/assets/site/hero-day-v4.mp4"} poster={`${base}.jpg`} muted playsInline preload="auto" aria-hidden="true" />
+        <video ref={heroVideo} className="hero-video" src={night ? "/assets/site/hero-dusk-v3.mp4" : "/assets/site/hero-day-v2.mp4"} poster={`${base}.jpg`} muted playsInline preload="auto" aria-hidden="true" />
       )}
       <div className="hero-lines" aria-hidden="true">
         <picture>
