@@ -183,6 +183,8 @@ function CountUp({ value }: { value: string }) {
    rests, then plays again. The rest frame is the video's own first frame, so the restart is invisible.
    Reduced-motion visitors see the still frame only. */
 const SETTLE_MS = 1600, REST_MS = 3500;
+/* card clips start just after the generator's extra-sharp first frame; the still is that exact frame */
+const LOOP_START = 0;
 function LoopVideo({ src, poster, label }: { src: string; poster: string; label: string }) {
   const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
@@ -190,11 +192,11 @@ function LoopVideo({ src, poster, label }: { src: string; poster: string; label:
     if (!v || reducedMotion()) return;
     v.muted = true;
     let timer = 0, visible = false, resting = false;
-    const play = () => { if (!visible) return; resting = false; v.classList.remove("settling"); v.currentTime = 0; v.play().catch(() => {}); };
+    const play = () => { if (!visible) return; resting = false; v.classList.remove("settling"); v.currentTime = LOOP_START; v.play().catch(() => {}); };
     const onEnded = () => {
       resting = true;
       v.classList.add("settling");                                   // fade the video out over the still
-      timer = window.setTimeout(() => { v.currentTime = 0; timer = window.setTimeout(play, REST_MS); }, SETTLE_MS);
+      timer = window.setTimeout(() => { v.currentTime = LOOP_START; timer = window.setTimeout(play, REST_MS); }, SETTLE_MS);
     };
     v.addEventListener("ended", onEnded);
     const io = new IntersectionObserver(([e]) => {
