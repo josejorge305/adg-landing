@@ -613,3 +613,37 @@ h1 em, h2 em { background: linear-gradient(currentColor, currentColor) 0 94% / 0
   .pcard.wide { align-self: stretch; }
 }
 .hero-video.settling { transition: opacity 1.6s ease; }
+
+/* ===== Investment positions: a compact track-record table ===== */
+#investments { padding: clamp(64px, 7vw, 96px) 0; }
+#investments .section-head { margin-bottom: 32px; }
+.lp-table { border-top: 1px solid rgba(255, 255, 255, 0.22); }
+.lp-head, .lp-row { display: grid; grid-template-columns: minmax(0, 2.4fr) minmax(0, 1.2fr) minmax(0, 1.5fr) 90px minmax(0, 1.1fr); gap: 24px; align-items: center; }
+.lp-head { padding: 12px; font-size: 13px; font-weight: 600; letter-spacing: 0.02em; color: rgba(255, 255, 255, 0.55); border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+.lp-head .num, .lp-row .num { text-align: right; }
+.lp-row { width: 100%; padding: 14px 12px; font: inherit; text-align: left; color: #fff; background: transparent; border: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.12); cursor: pointer; transition: background-color 0.25s ease; }
+.lp-row:hover, .lp-row:focus-visible { background: rgba(255, 255, 255, 0.05); }
+.lp-prop { display: flex; align-items: center; gap: 18px; min-width: 0; }
+.lp-thumb { flex-shrink: 0; width: 96px; height: 64px; overflow: hidden; background: #0a1824; }
+.lp-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.lp-row:hover .lp-thumb img { transform: scale(1.06); }
+.lp-prop strong { font-family: var(--serif); font-size: 24px; font-weight: 600; line-height: 1.15; }
+.lp-loc, .lp-type { font-size: 15px; color: rgba(255, 255, 255, 0.72); }
+.lp-units { font-family: var(--serif); font-size: 24px; font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
+.lp-role { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 14px; font-weight: 600; color: var(--blue-light); }
+.lp-role svg { opacity: 0.5; transition: transform 0.25s ease, opacity 0.25s ease; }
+.lp-row:hover .lp-role svg { opacity: 1; transform: translateX(3px); }
+@media (max-width: 900px) {
+  .lp-head { display: none; }
+  .lp-row { grid-template-columns: 1fr auto; grid-template-areas: "prop units" "meta role"; gap: 6px 16px; padding: 16px 4px; }
+  .lp-prop { grid-area: prop; }
+  .lp-units { grid-area: units; font-size: 20px; }
+  .lp-loc { grid-area: meta; padding-left: 114px; font-size: 14px; }
+  .lp-type { display: none; }
+  .lp-role { grid-area: role; font-size: 13px; }
+  .lp-prop strong { font-size: 20px; }
+}
+@media (max-width: 480px) {
+  .lp-thumb { width: 72px; height: 50px; }
+  .lp-loc { padding-left: 90px; }
+}

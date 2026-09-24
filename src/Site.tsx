@@ -250,7 +250,7 @@ function DetailModal({ it, list, origin, onClosed, onStep }: {
     const p = panel.current, m = media.current, b = body.current;
     if (reducedMotion() || !p || !m || !b) { onClosed(); return; }
     back.current?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 360, fill: "forwards" });
-    const el = document.querySelector(`.pcard[data-name="${CSS.escape(name.current)}"] .pcard-img`);
+    const el = document.querySelector(`.pcard[data-name="${CSS.escape(name.current)}"] .pcard-img, .lp-row[data-name="${CSS.escape(name.current)}"] .lp-thumb`);
     const r = el?.getBoundingClientRect();
     if (r && r.bottom > 0 && r.top < window.innerHeight) {
       const f = m.getBoundingClientRect();
@@ -471,8 +471,29 @@ export function Site() {
               <p className="eyebrow light">Investment Portfolio</p>
               <h2>Capital positions alongside institutional sponsors.</h2>
             </div>
-            <div className="pgrid lp stagger">
-              {LPS.map((p, i) => <Card key={p.name} item={p} index={i} onOpen={(el) => openItem(p.name, el)} />)}
+            <div className="lp-table" role="table" aria-label="Investment positions">
+              <div className="lp-head" role="row">
+                <span role="columnheader">Property</span>
+                <span role="columnheader">Location</span>
+                <span role="columnheader">Asset type</span>
+                <span role="columnheader" className="num">Units</span>
+                <span role="columnheader">Role</span>
+              </div>
+              <div className="lp-rows stagger">
+                {LPS.map((p) => (
+                  <button key={p.name} className="lp-row" role="row" data-name={p.name} aria-label={`${p.name}: view details`}
+                    onClick={(e) => openItem(p.name, e.currentTarget.querySelector(".lp-thumb"))}>
+                    <span className="lp-prop" role="cell">
+                      <span className="lp-thumb"><img src={p.image} alt="" loading="lazy" /></span>
+                      <strong>{p.name}</strong>
+                    </span>
+                    <span className="lp-loc" role="cell">{p.location}</span>
+                    <span className="lp-type" role="cell">{p.type}</span>
+                    <span className="lp-units num" role="cell">{p.units.replace(/\s*Units?$/i, "")}</span>
+                    <span className="lp-role" role="cell">{p.role}<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </section>
