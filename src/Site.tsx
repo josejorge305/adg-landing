@@ -684,8 +684,8 @@ export function Site() {
           <div className="wrap">
             <div className="section-head reveal">
               <p className="eyebrow light">Investment Portfolio</p>
-              <h2>Capital positions alongside institutional sponsors.</h2>
-              <p className="section-sub">Limited partner positions in Class A and value-add multifamily communities with established sponsors.</p>
+              <h2>Capital positions <em>alongside established sponsors.</em></h2>
+              <p className="section-sub">Limited partner positions in Class A and value‑add multifamily communities across Florida.</p>
             </div>
             <LpTable items={LPS} onOpen={openItem} />
           </div>

@@ -997,3 +997,6 @@ h1 em, h2 em { background: none !important; padding-bottom: 0; }
 @media (max-width: 760px) { .pgrid.dev > .pcard.full .pcard-body { padding: 18px 0 4px; } }
 /* cards in a row share a text height, so images and status lines align */
 @media (min-width: 761px) { .pgrid.dev > .pcard:not(.full):not(.pano) .pcard-body { min-height: 196px; } }
+/* Investments table: column labels in the site's label style */
+.lp-head, .lp-head span, .lp-head div { font-size: 12px !important; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+#investments .section-head .section-sub { max-width: 48em; }
