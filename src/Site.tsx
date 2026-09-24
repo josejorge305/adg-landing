@@ -71,7 +71,7 @@ function Hero({ onContact }: { onContact: () => void }) {
         <img className="hero-img" src={`${base}.jpg`} alt="" aria-hidden="true" fetchPriority="high" />
       </picture>
       {motion && (
-        <video ref={heroVideo} className="hero-video" src={night ? "/assets/site/hero-dusk-v2.mp4" : "/assets/site/hero-day-v2.mp4"} muted playsInline preload="auto" aria-hidden="true" />
+        <video ref={heroVideo} className="hero-video" src={night ? "/assets/site/hero-dusk-v3.mp4" : "/assets/site/hero-day-v3.mp4"} muted playsInline preload="auto" aria-hidden="true" />
       )}
       <div className="hero-lines" aria-hidden="true">
         <picture>
