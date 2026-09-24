@@ -756,3 +756,19 @@ h1 em, h2 em { background: linear-gradient(currentColor, currentColor) 0 94% / 0
   -webkit-backdrop-filter: blur(14px) saturate(1.3) brightness(0.8);
   backdrop-filter: blur(14px) saturate(1.3) brightness(0.8);
 }
+/* Figures bar: clear glass (no blur), so the moving street, cars and people stay visible behind it */
+.hero-stats {
+  background: linear-gradient(180deg, rgba(8, 19, 29, 0) 0%, rgba(8, 19, 29, 0.22) 100%);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+.hero-stat + .hero-stat { border-left-color: rgba(255, 255, 255, 0.2); }
+.hero-stat-num { text-shadow: 0 1px 2px rgba(4, 10, 16, 0.55), 0 0 18px rgba(4, 10, 16, 0.55), 0 2px 30px rgba(4, 10, 16, 0.45); }
+.hero-stat-label { text-shadow: 0 1px 2px rgba(4, 10, 16, 0.7), 0 0 12px rgba(4, 10, 16, 0.65); }
+/* Keep the upper bar clear (moving cars); soften only the strip behind the small labels */
+.hero-stats { background: linear-gradient(180deg, rgba(8, 19, 29, 0) 0%, rgba(8, 19, 29, 0) 42%, rgba(8, 19, 29, 0.46) 100%); }
+/* Subtitle-style halos hug the characters; the rest of the bar stays clear */
+.hero-stat-num { text-shadow: 0 0 1px rgba(4, 10, 16, 0.7), 0 0 6px rgba(4, 10, 16, 0.6), 0 0 16px rgba(4, 10, 16, 0.5), 0 0 34px rgba(4, 10, 16, 0.35); }
+.hero-stat-label { text-shadow: 0 0 1px rgba(4, 10, 16, 0.85), 0 0 5px rgba(4, 10, 16, 0.75), 0 0 12px rgba(4, 10, 16, 0.6); font-weight: 500; }
+.hero-stats { background: linear-gradient(180deg, rgba(8, 19, 29, 0) 0%, rgba(8, 19, 29, 0.05) 40%, rgba(8, 19, 29, 0.55) 100%); }
