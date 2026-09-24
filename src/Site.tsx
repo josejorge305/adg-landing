@@ -468,15 +468,6 @@ function LeaderModal({ l, list, origin, onClosed, onStep }: { l: Leader; list: L
             <p className="lm-title">{l.title}, Alcazar Development Group</p>
             <ul className="lm-glance">{l.glance.map((g) => <li key={g}>{g}</li>)}</ul>
             <div className="lm-bio">{l.bio.map((p, k) => <p key={k}>{p}</p>)}</div>
-            <h3 className="lm-h">Career</h3>
-            <ol className={`lm-timeline${drawn ? " is-drawn" : ""}`}>
-              {l.timeline.map((m, k) => (
-                <li key={k} style={{ ["--i" as string]: k } as React.CSSProperties}>
-                  <span className="lm-when">{m.when}</span>
-                  <span className="lm-what">{m.what}</span>
-                </li>
-              ))}
-            </ol>
           </div>
           <div className="dm-nav">
             <button className="dm-step" onClick={() => onStep(-1)} aria-label={`Previous: ${prev.name}`}>
