@@ -609,20 +609,40 @@ export function Site() {
     } catch { setStatus("error"); }
   };
 
-  const links: [string, string][] = [["portfolio", "Portfolio"], ["about", "About"], ["team", "Team"], ["contact", "Contact"]];
+  const links: [string, string][] = [["portfolio", "Portfolio"], ["investments", "Investments"], ["about", "About"], ["team", "Leadership"]];
+  // which section the reader is in (drives the sliding underline)
+  const [active, setActive] = useState("");
+  useEffect(() => {
+    const ids = ["portfolio", "investments", "about", "footprint", "team", "affiliates", "contact"];
+    const map: Record<string, string> = { footprint: "about", affiliates: "team" };
+    const onScroll = () => {
+      const y = window.innerHeight * 0.35;
+      let cur = "";
+      for (const id of ids) { const el = document.getElementById(id); if (el && el.getBoundingClientRect().top <= y) cur = map[id] ?? id; }
+      setActive((a) => (a === cur ? a : cur));
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div className="page">
       <div ref={progress} className="scroll-progress" aria-hidden="true" />
-      <header className={`nav${nav.scrolled ? " is-scrolled" : ""}${nav.hidden && !menuOpen ? " is-hidden" : ""}`}>
+      <header className={`nav${nav.scrolled ? " is-scrolled" : menuOpen ? "" : " on-hero"}${menuOpen ? " menu-open" : ""}${nav.hidden && !menuOpen ? " is-hidden" : ""}`}>
         <div className="wrap nav-inner">
           <a href="#home" className="nav-logo" aria-label="Alcazar Development Group, home" onClick={(e) => { e.preventDefault(); go("home"); }}>
-            <img src="/assets/site/adg-mark.png" alt="" aria-hidden="true" />
+            <img className="mark-dark" src="/assets/site/adg-mark.png" alt="" aria-hidden="true" />
+            <img className="mark-light" src="/assets/site/adg-mark-light.png" alt="" aria-hidden="true" />
             <span className="nav-name">Alcazar Development Group</span>
           </a>
           <nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Main">
-            {links.map(([id, label]) => <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); go(id); }}>{label}</a>)}
-            <a className="nav-signin" href="https://adg-os.com">ADG-OS Sign In</a>
+            {links.map(([id, label]) => <a key={id} href={`#${id}`} className={`nav-item${active === id ? " is-active" : ""}`} aria-current={active === id ? "true" : undefined} onClick={(e) => { e.preventDefault(); go(id); }}>{label}</a>)}
+            <a className="nav-signin" href="https://adg-os.com" aria-label="Sign in to ADG-OS">
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" strokeWidth="1.8" /><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" strokeWidth="1.8" /></svg>
+              Sign in
+            </a>
+            <a href="#contact" className={`nav-cta${active === "contact" ? " is-active" : ""}`} onClick={(e) => { e.preventDefault(); go("contact"); }}>Contact</a>
           </nav>
           <button className={menuOpen ? "nav-toggle is-open" : "nav-toggle"} aria-expanded={menuOpen} aria-label={menuOpen ? "Close menu" : "Open menu"} onClick={() => setMenuOpen(!menuOpen)}>
             <span /><span /><span />
