@@ -237,8 +237,8 @@ export const limitedPartnerPositions = [
     description:
       "148-unit Class A multifamily community in Doral, completed in 2015, with a resort-style pool, clubhouse and fitness center.",
     stats: [
-      { label: "Held since", value: "2011" },
-      { label: "Years held", value: "15+" },
+      { label: "Held since", value: "2015" },
+      { label: "Years held", value: "10+" },
     ],
     award: null,
     image: "/assets/hq/lp-granvista-01.webp",
