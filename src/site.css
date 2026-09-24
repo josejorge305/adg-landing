@@ -815,3 +815,30 @@ h1 em, h2 em { background: linear-gradient(currentColor, currentColor) 0 94% / 0
   .lp-prop strong { font-size: 18px; }
   .lp-sponsor { padding-left: 110px; }
 }
+/* Map: photo card always above the view toggle */
+.fpz-card { z-index: 8; }
+/* ADG office marker sits beneath project pins; its label reads to the left of the diamond */
+.fpz-office { z-index: 2; display: block; width: 0; height: 0; margin: 0; }
+.fpz-office i { position: absolute; left: -6px; top: -6px; }
+.fpz-office span { position: absolute; right: 12px; top: -9px; white-space: nowrap; }
+/* Phones: the photo card is a bottom sheet, never under the toggle or off screen */
+@media (max-width: 760px) {
+  .fpz-card { left: 14px !important; right: 14px; top: auto !important; bottom: 58px; width: auto; margin: 0; transform: none !important; translate: none !important; display: flex; align-items: stretch; animation: cardUp 0.25s ease; }
+  .fpz-card img { width: 128px; height: auto; min-height: 104px; flex-shrink: 0; }
+  .fpz-card-body { padding: 12px 14px; }
+  .fpz-card strong { font-size: 19px; }
+  @keyframes cardUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+}
+/* Phones: the card sits on the side of the map opposite the tapped pin, so it never covers the pins you are exploring */
+@media (max-width: 760px) {
+  .fpz-card.at-bottom { top: auto !important; bottom: 58px; }
+  .fpz-card.at-top { top: 262px !important; bottom: auto; }
+}
+@media (max-width: 760px) {
+  .fpz-card.at-top { top: 280px !important; }
+  .fpz-pin { z-index: 9; }          /* pins stay tappable even when a card is showing */
+}
+@media (max-width: 760px) {
+  .fpz-view:has(.fpz-card) .fpz-pin:not(.is-active) { opacity: 0.4 !important; }
+  .fpz-view:has(.fpz-card) .fpz-pin:not(.is-active) span::after { animation: none; opacity: 0; }
+}

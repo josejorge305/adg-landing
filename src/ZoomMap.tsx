@@ -145,13 +145,13 @@ export function ZoomMap({ items, onSelect }: { items: ZItem[]; onSelect: (name: 
   return (
     <div ref={track} className="fpz-track">
       <div className="fpz-sticky">
-        <div ref={view} className="fpz-view" onMouseLeave={hideCard}>
+        <div ref={view} className="fpz-view" onMouseLeave={hideCard} onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest(".fpz-pin, .fpz-card, .fpz-cluster, .fpz-controls")) hideCard(); }}>
           <div ref={world} className="fpz-world" style={{ width: STATE.w, height: STATE.h }}>
             <img className="fpz-state" src="/assets/map/fl-state.webp" alt="" loading="lazy" width={STATE.w} height={STATE.h} />
             <img className="fpz-south" src="/assets/map/fl-south.webp" alt="" loading="lazy" style={{ left: SOUTH.x, top: SOUTH.y, width: SOUTH.w, height: SOUTH.h }} />
           </div>
           {CITIES.map((c, i) => <span key={c.name + i} ref={(el) => { cityRefs.current[i] = el; }} className={`fpz-city${c.zoomed ? " below" : ""}${c.c[0] > 30 ? " north" : ""}`}>{c.name}</span>)}
-          <div ref={officeRef} className="fpz-office" aria-hidden="true"><i />ADG office</div>
+          <div ref={officeRef} className="fpz-office" aria-hidden="true"><i /><span>ADG office</span></div>
           <button ref={clusterRef} className="fpz-cluster" aria-label={`${southItems.length} projects in South Florida`}
             onClick={() => flyTo(1)}>
             {southItems.length}
@@ -176,7 +176,7 @@ export function ZoomMap({ items, onSelect }: { items: ZItem[]; onSelect: (name: 
             </button>
           ))}
           {card && (
-            <button className="fpz-card" style={{ transform: `translate(${card.x}px, ${card.y}px)` }} onClick={() => onSelect(card.it.name)} aria-label={`${card.it.name}: view details`}>
+            <button className={`fpz-card ${card.y > (view.current?.clientHeight ?? 800) * 0.5 ? "at-top" : "at-bottom"}`} style={{ transform: `translate(${card.x}px, ${card.y}px)` }} onClick={() => onSelect(card.it.name)} aria-label={`${card.it.name}: view details`}>
               <img src={card.it.image} alt="" />
               <span className="fpz-card-body">
                 <small className={card.it.kind}>{card.it.kind === "lp" ? "Investment" : "Development"}</small>
