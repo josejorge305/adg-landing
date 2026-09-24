@@ -68,7 +68,7 @@ const projects = [
     type: "Affordable Housing",
     status: "IN DEVELOPMENT",
     statusColor: "#FFD60A",
-    description: "",
+    description: "Alcazar Millenium is the fourth phase of Alcazar Development Group's Naranja community, extending the neighborhood established by Alcazar Apartment Villas and Aura Living. The project is currently in pre-development.",
     detail: "",
     stats: [],
     award: null,
