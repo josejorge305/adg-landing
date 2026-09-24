@@ -15,6 +15,18 @@ type Item = {
   units: string; type: string; status?: string; role?: string; description: string;
   stats: Stat[]; award: string | null; image: string; gallery: string[]; video?: string; poster?: string; sponsor?: string;
 };
+/* Detail-view descriptions: what is distinctive (type, units and place are shown in the term strip) */
+const DETAIL_TEXT: Record<string, string> = {
+  "Aura Living": "An eight-story mid-rise of one-, two- and three-bedroom residences for households at or below 60% AMI, and the third phase of ADG\u2019s Naranja neighborhood.",
+  "Aura at Silver Lakes": "Garden-style two-, three- and four-bedroom residences for households at or below 60% AMI, serving the Lake County workforce.",
+  "Alcazar Millennium": "The fourth phase of ADG\u2019s Naranja neighborhood, extending the community established by Alcazar Apartment Villas and Aura Living.",
+  "Alcazar Apartment Villas": "An award-winning campus of twelve buildings with one-, two- and three-bedroom residences and a resort-style clubhouse, delivered in two phases.",
+  "Spring Gardens": "An eight-story rental community in the Miami Health District, developed in joint venture with The Estate Companies, with ADG as general partner.",
+  "SOMI Homes": "Three custom single-family residences, taken from site acquisition and land evaluation through feasibility, construction financing, vertical construction oversight and disposition.",
+  "The Holly by Soleste": "Two towers of eight and twelve stories adjacent to Young Circle in downtown Hollywood, structured as a Qualified Opportunity Zone investment.",
+  "Gran Vista at Doral": "A gated community completed in 2015, with a resort-style pool, clubhouse and fitness center.",
+  "Cinnamon Cove Apartments": "A garden-style community acquired in 2025 for a value-add renovation.",
+};
 /* One distinctive line per card (the full description lives in the detail view) */
 const TAGLINES: Record<string, string> = {
   "Aura Living": "An eight-story mid-rise of one- to three-bedroom residences for households at or below 60% AMI.",
@@ -320,7 +332,9 @@ function DetailModal({ it, list, origin, onClosed, onStep }: {
     const ov = document.body.style.overflow; document.body.style.overflow = "hidden";
     return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = ov; prevFocus?.focus(); };
   }, []);
-  const tomb = [it.type, it.units, it.location, it.kind === "lp" ? it.role! : sentence(it.status || "")];
+  const tomb: [string, string][] = [["Type", it.type], ["Units", it.units], [it.kind === "lp" ? "Role" : "Status", it.kind === "lp" ? it.role! : sentence(it.status || "")]];
+  const place = it.location.split(",")[0];
+  const locLine = !it.address ? it.location : it.address.includes(place) ? it.address : `${it.location} \u00b7 ${it.address}`;
   const maps = `https://www.google.com/maps/search/?api=1&query=${it.coords[0]},${it.coords[1]}`;
   return (
     <div className="dm" role="dialog" aria-modal="true" aria-labelledby="dm-title">
@@ -348,14 +362,20 @@ function DetailModal({ it, list, origin, onClosed, onStep }: {
         <div ref={body} className="dm-body">
           <div className="dm-swap" key={it.name}>
             <h2 id="dm-title">{it.name}</h2>
-            <p className="dm-sub">{it.address || it.location}</p>
-            <ul className="dm-tomb">{tomb.filter(Boolean).map((x, k) => <li key={k}>{x}</li>)}</ul>
-            {it.description && <p className="dm-desc">{it.description}</p>}
-            {(it.stats.length > 0 || it.sponsor) && (
-              <dl className="dm-facts">{[...(it.sponsor ? [{ label: "Sponsor", value: it.sponsor }] : []), ...it.stats].map((s) => <div key={s.label}><dt>{s.label}</dt><dd>{s.value}</dd></div>)}</dl>
-            )}
+            <p className="dm-sub">{locLine}</p>
+            <dl className="dm-tomb">{tomb.filter(([, v]) => v).map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+            <div className="dm-cols">
+            <div className="dm-main">
+            <p className="dm-desc">{DETAIL_TEXT[it.name] ?? it.description}</p>
             {it.award && <p className="dm-award">{it.award}</p>}
             <p className="dm-loc"><a href={maps} target="_blank" rel="noopener noreferrer">Open in Google Maps</a></p>
+            </div>
+            <aside className="dm-side">
+            {(it.stats.length > 0 || it.sponsor) && (
+              <dl className="dm-facts">{[...(it.sponsor ? [{ label: "Sponsor", value: it.sponsor }] : []), ...it.stats].filter((x) => !tomb.some(([k, v]) => v && (x.label === k || x.value.toLowerCase() === v.toLowerCase() || x.value === v.split(" ")[0]))).map((s) => <div key={s.label}><dt>{s.label}</dt><dd>{s.value}</dd></div>)}</dl>
+            )}
+            </aside>
+            </div>
           </div>
           {list.length > 1 && (
             <div className="dm-nav">

@@ -1000,3 +1000,26 @@ h1 em, h2 em { background: none !important; padding-bottom: 0; }
 /* Investments table: column labels in the site's label style */
 .lp-head, .lp-head span, .lp-head div { font-size: 12px !important; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
 #investments .section-head .section-sub { max-width: 48em; }
+
+/* ===================== Detail view: term strip, two columns, quiet controls ===================== */
+.dm-sub { font-size: 16px; margin-bottom: 20px; }
+.dm-tomb { display: flex; flex-wrap: wrap; gap: 14px 44px; margin: 0 0 26px; padding: 16px 0 18px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.dm-tomb div { display: flex; flex-direction: column; gap: 4px; }
+.dm-tomb dt { font: 600 11.5px var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate); }
+.dm-tomb dd { margin: 0; font: 600 17px var(--sans); color: var(--ink); font-variant-numeric: lining-nums; }
+.dm-cols { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: start; }
+.dm-desc { max-width: 38em; margin-bottom: 20px; }
+.dm-side .dm-facts { grid-template-columns: 1fr; margin: 0; border-top: 1px solid var(--rule); }
+.dm-side .dm-facts > div { padding: 12px 0 13px; }
+.dm-side .dm-facts dt { font: 600 11.5px var(--sans); letter-spacing: 0.14em; text-transform: uppercase; }
+.dm-side .dm-facts dd { font: 600 20px/1.25 var(--serif); }
+@media (max-width: 760px) { .dm-cols { grid-template-columns: 1fr; } }
+/* gallery: small counter and thin arrows, bottom-right */
+.dm-gal { left: auto; right: 14px; bottom: 14px; transform: none; gap: 2px; padding: 3px; border-radius: 999px; background: rgba(7, 15, 22, 0.45); font-size: 13px; }
+.dm-gal button { width: 30px; height: 30px; }
+.dm-gal span { padding: 0 4px; font-variant-numeric: tabular-nums; }
+/* close: plain white circle; focus ring only for keyboard users */
+.dm-close { background: #fff; box-shadow: 0 4px 14px rgba(4, 10, 16, 0.22); }
+.dm-close:focus { outline: none; }
+.dm-close:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.dm-side .dm-facts dd { font-variant-numeric: lining-nums tabular-nums; }
