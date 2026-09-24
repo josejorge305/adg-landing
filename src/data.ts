@@ -125,6 +125,7 @@ export const projects = [
     award: null,
     image: "/assets/images/website/spring-gardens.jpg",
     video: "/assets/site/spring-gardens-loop.mp4",
+    poster: "/assets/site/spring-gardens-poster.jpg",
     gallery: [
       "/assets/images/website/spring-gardens-aerial.jpg",
       "/assets/images/website/spring-gardens-pool.jpg",

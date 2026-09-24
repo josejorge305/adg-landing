@@ -48,12 +48,55 @@ function Hero({ onContact }: { onContact: () => void }) {
   const t = taglines[0];
   const [night] = useState(() => { const h = new Date().getHours(); return h >= 19 || h < 6; });
   const base = night ? "/assets/site/hero-dusk" : "/assets/site/hero";
+  const heroVideo = useRef<HTMLVideoElement>(null);
+  const [motion] = useState(() => typeof window !== "undefined" && !reducedMotion() && window.innerWidth > 760);
+  useEffect(() => {
+    const v = heroVideo.current;
+    if (!v || phase !== "done") return;
+    v.muted = true;
+    let timer = 0;
+    const play = () => { v.classList.remove("settling"); v.classList.add("on"); v.currentTime = 0; v.play().catch(() => {}); };
+    const onEnded = () => {
+      v.classList.add("settling");
+      timer = window.setTimeout(() => { v.classList.remove("on"); v.currentTime = 0; timer = window.setTimeout(play, 7000); }, 2200);
+    };
+    v.addEventListener("ended", onEnded);
+    timer = window.setTimeout(play, 600);
+    return () => { v.removeEventListener("ended", onEnded); window.clearTimeout(timer); };
+  }, [phase]);
+  // Living hero: after the intro, the scene plays (clouds, people, cars), settles back into the still, rests, and repeats.
+  // The still is the video's exact first frame, so the restart is invisible. Desktop only; off for reduced motion.
+  const vref = useRef<HTMLVideoElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const [vidOn, setVidOn] = useState(false);
+  useEffect(() => {
+    if (phase !== "done" || reducedMotion() || window.innerWidth < 761) return;
+    const v = vref.current;
+    if (!v) return;
+    let timer = 0;
+    const inView = () => { const r = heroRef.current?.getBoundingClientRect(); return !!r && r.bottom > 0 && document.visibilityState === "visible"; };
+    const start = () => {
+      if (!inView()) { timer = window.setTimeout(start, 2000); return; }
+      v.currentTime = 0;
+      v.play().catch(() => {});
+    };
+    const onPlaying = () => setVidOn(true);
+    const onEnded = () => { setVidOn(false); timer = window.setTimeout(start, 9800); };
+    v.addEventListener("playing", onPlaying);
+    v.addEventListener("ended", onEnded);
+    timer = window.setTimeout(start, 1400);
+    return () => { v.removeEventListener("playing", onPlaying); v.removeEventListener("ended", onEnded); window.clearTimeout(timer); v.pause(); };
+  }, [phase]);
   return (
-    <section className={`hero hero-${phase}${night ? " hero-night" : " hero-day"}`} id="home">
+    <section ref={heroRef} className={`hero hero-${phase}${night ? " hero-night" : " hero-day"}`} id="home">
       <picture>
         <source srcSet={`${base}.webp`} type="image/webp" />
         <img className="hero-img" src={`${base}.jpg`} alt="" aria-hidden="true" fetchPriority="high" />
       </picture>
+      <video ref={vref} className={`hero-video${vidOn ? " on" : ""}`} src={night ? "/assets/site/hero-dusk.mp4" : "/assets/site/hero-day.mp4"} muted playsInline preload="none" aria-hidden="true" />
+      {motion && (
+        <video ref={heroVideo} className="hero-video" src={night ? "/assets/site/hero-dusk.mp4" : "/assets/site/hero-day.mp4"} muted playsInline preload="auto" aria-hidden="true" />
+      )}
       <div className="hero-lines" aria-hidden="true">
         <picture>
           <source srcSet={`${base}-lines.webp`} type="image/webp" />
@@ -126,25 +169,38 @@ function CountUp({ value }: { value: string }) {
   );
 }
 
-/* Silent clip. Seamless clips loop; camera-move clips play forward once when they come into view,
-   rest on their final frame, and replay from the start when the card is hovered.
-   Reduced-motion visitors see the still frame. */
-function LoopVideo({ src, poster, label, once = false }: { src: string; poster: string; label: string; once?: boolean }) {
+/* Every portfolio video "breathes": it plays when in view, dissolves softly into its first frame,
+   rests, then plays again. The rest frame is the video's own first frame, so the restart is invisible.
+   Reduced-motion visitors see the still frame only. */
+const SETTLE_MS = 1600, REST_MS = 3500;
+function LoopVideo({ src, poster, label }: { src: string; poster: string; label: string }) {
   const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const v = ref.current;
     if (!v || reducedMotion()) return;
     v.muted = true;
-    if (!once) { v.play().catch(() => {}); return; }
-    const play = () => { v.currentTime = 0; v.play().catch(() => {}); };
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { play(); io.disconnect(); } }, { threshold: 0.5 });
+    let timer = 0, visible = false, resting = false;
+    const play = () => { if (!visible) return; resting = false; v.classList.remove("settling"); v.currentTime = 0; v.play().catch(() => {}); };
+    const onEnded = () => {
+      resting = true;
+      v.classList.add("settling");                                   // fade the video out over the still
+      timer = window.setTimeout(() => { v.currentTime = 0; timer = window.setTimeout(play, REST_MS); }, SETTLE_MS);
+    };
+    v.addEventListener("ended", onEnded);
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible && !resting && v.paused) play();
+      if (!visible) { v.pause(); }
+    }, { threshold: 0.35 });
     io.observe(v);
-    const card = v.closest(".pcard");
-    const onEnter = () => { if (v.ended || v.paused) play(); };
-    card?.addEventListener("mouseenter", onEnter);
-    return () => { io.disconnect(); card?.removeEventListener("mouseenter", onEnter); };
-  }, [src, once]);
-  return <video ref={ref} src={src} poster={poster} muted loop={!once} playsInline preload="metadata" aria-label={label} />;
+    return () => { io.disconnect(); v.removeEventListener("ended", onEnded); window.clearTimeout(timer); };
+  }, [src]);
+  return (
+    <>
+      <img className="lv-still" src={poster} alt="" aria-hidden="true" />
+      <video ref={ref} className="lv-video" src={src} poster={poster} muted playsInline preload="metadata" aria-label={label} />
+    </>
+  );
 }
 
 /* ---------------- Portfolio card ---------------- */
@@ -173,7 +229,7 @@ function Card({ item, layout, index = 0, onOpen }: { item: Item; layout?: "wide"
     >
       <div className="pcard-img">
         {item.video
-          ? <LoopVideo src={item.video} poster={item.poster ?? item.image} label={`${item.name}, animated view`} once={!!item.poster} />
+          ? <LoopVideo src={item.video} poster={item.poster ?? item.image} label={`${item.name}, animated view`} />
           : <img src={item.image} alt={`${item.name}, ${item.location}`} loading="lazy" />}
       </div>
       <div className="pcard-body">
@@ -258,7 +314,7 @@ function DetailModal({ it, list, origin, onClosed, onStep }: {
         </button>
         <div ref={media} className="dm-media">
           {gallery[gi].endsWith(".mp4")
-            ? <LoopVideo key={gallery[gi]} src={gallery[gi]} poster={it.poster ?? it.image} label={`${it.name}, animated view`} once={!!it.poster} />
+            ? <LoopVideo key={gallery[gi]} src={gallery[gi]} poster={it.poster ?? it.image} label={`${it.name}, animated view`} />
             : <img key={gallery[gi]} src={gallery[gi]} alt={`${it.name}, image ${gi + 1} of ${gallery.length}`} />}
           {gallery.length > 1 && (
             <div className="dm-gal">

@@ -559,3 +559,46 @@ h1 em, h2 em { background: linear-gradient(currentColor, currentColor) 0 94% / 0
   .fpz-controls button { font-size: 13.5px; padding: 8px 14px; min-height: 38px; }
 }
 @media (max-width: 760px) { .fpz-controls { top: 214px; } }
+
+/* Living hero video: fades in from the identical still, settles back out slowly */
+.hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; z-index: 1; opacity: 0; transition: opacity 1.8s ease; pointer-events: none; }
+.hero-video.on { opacity: 1; transition: opacity 0.8s ease; }
+@media (max-width: 760px) { .hero-video { display: none; } }
+@media (prefers-reduced-motion: reduce) { .hero-video { display: none; } }
+
+/* ===== Breathing videos (portfolio and detail views) ===== */
+.pcard-img, .dm-media { position: relative; }
+.lv-still, .lv-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.lv-video { transition: opacity 1.6s ease; }
+.lv-video.settling { opacity: 0; }
+.dm-media .lv-still, .dm-media .lv-video { position: absolute; }
+
+/* ===== Hero motion: same framing as the still; fades in and settles out ===== */
+.hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; z-index: 0; opacity: 0; pointer-events: none; }
+.hero-video.on { opacity: 1; }
+.hero-video.settling { opacity: 0; transition: opacity 2.2s ease; }
+.hero-img { z-index: 0; }
+.hero-video ~ .hero-lines { z-index: 1; }
+
+/* ===== Figures bar: true glass over the moving hero ===== */
+.hero-stats {
+  background: linear-gradient(180deg, rgba(10, 24, 36, 0.34) 0%, rgba(8, 19, 29, 0.5) 100%);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  backdrop-filter: blur(20px) saturate(1.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.hero-stat + .hero-stat { border-left-color: rgba(255, 255, 255, 0.16); }
+.hero-stat-num { text-shadow: 0 1px 14px rgba(4, 10, 16, 0.45); }
+.hero-stat-label { color: rgba(255, 255, 255, 0.88); text-shadow: 0 1px 8px rgba(4, 10, 16, 0.5); }
+@media (prefers-reduced-motion: reduce) { .hero-video { display: none; } }
+/* Let the glass show the scene: lighter bottom shade behind the figures bar, more transparent tint */
+.hero-shade, .hero-night .hero-shade {
+  background:
+    linear-gradient(90deg, rgba(7, 16, 24, 0.82) 0%, rgba(7, 16, 24, 0.66) 34%, rgba(7, 16, 24, 0.28) 58%, rgba(7, 16, 24, 0) 76%),
+    linear-gradient(180deg, rgba(7, 16, 24, 0.25) 0%, rgba(7, 16, 24, 0) 30%, rgba(7, 16, 24, 0.12) 80%, rgba(7, 16, 24, 0.2) 100%);
+}
+.hero-stats { background: linear-gradient(180deg, rgba(12, 28, 42, 0.2) 0%, rgba(8, 19, 29, 0.36) 100%); -webkit-backdrop-filter: blur(22px) saturate(1.6) brightness(0.92); backdrop-filter: blur(22px) saturate(1.6) brightness(0.92); }
+@media (max-width: 760px) {
+  .hero-shade, .hero-night .hero-shade { background: linear-gradient(180deg, rgba(7, 16, 24, 0.55) 0%, rgba(7, 16, 24, 0.6) 55%, rgba(7, 16, 24, 0.35) 100%); }
+}
