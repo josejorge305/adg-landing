@@ -14,9 +14,7 @@ export const projects = [
     detail: "",
     stats: [
       { label: "Units", value: "220" },
-      { label: "Stories", value: "8-story mid-rise" },
-      { label: "AMI", value: "At or below 60%" },
-      { label: "Role", value: "Developer, Guarantor" },
+      { label: "Role", value: "Developer" },
     ],
     award: null,
     image: "/assets/images/website/aura-living-render-4.jpg",
@@ -42,8 +40,6 @@ export const projects = [
       "256-unit affordable multifamily community in Leesburg, Lake County: garden-style two-, three- and four-bedroom residences for households at or below 60% AMI.",
     detail: "",
     stats: [
-      { label: "Unit mix", value: "2, 3 & 4-bedroom" },
-      { label: "AMI", value: "At or below 60%" },
       { label: "Status", value: "Pre-development" },
       { label: "Market", value: "Lake County MSA" },
     ],
@@ -119,7 +115,6 @@ export const projects = [
       "240-unit Class A multifamily community in the Miami Health District, developed as a joint venture with The Estate Companies.",
     detail: "",
     stats: [
-      { label: "Stories", value: "8" },
       { label: "Role", value: "General Partner" },
       { label: "Status", value: "Owned & operated" },
     ],
@@ -162,11 +157,9 @@ export const projects = [
       "Three custom single-family residences in downtown South Miami, taken from site acquisition and feasibility through construction financing, vertical construction and disposition.",
     detail: "",
     stats: [
-      { label: "Residences", value: "Three custom homes" },
       { label: "Total area", value: "18,349 SF" },
       { label: "Two-story residences", value: "5,646 SF each" },
       { label: "One-story residence", value: "7,057 SF, with detached cabana" },
-      { label: "Delivered", value: "2015" },
       { label: "Role", value: "Developer" },
     ],
     award: null,
@@ -197,10 +190,6 @@ export const limitedPartnerPositions = [
     description:
       "503-unit Class A multifamily community of two towers adjacent to Young Circle in downtown Hollywood, structured as a Qualified Opportunity Zone investment. Sponsor: The Estate Companies.",
     stats: [
-      { label: "Towers", value: "8 & 12 stories" },
-      { label: "Construction loan", value: "$70.8M, Nationwide Mutual" },
-      { label: "Leased", value: "81% north tower (Q2 2026)" },
-      { label: "Structure", value: "Qualified Opportunity Zone" },
     ],
     award: null,
     image: "/assets/images/website/the-holly-by-soleste-aerial.jpg",
@@ -238,7 +227,6 @@ export const limitedPartnerPositions = [
       "148-unit Class A multifamily community in Doral, completed in 2015, with a resort-style pool, clubhouse and fitness center.",
     stats: [
       { label: "Held since", value: "2015" },
-      { label: "Years held", value: "10+" },
     ],
     award: null,
     image: "/assets/hq/lp-granvista-01.webp",
@@ -260,13 +248,11 @@ export const limitedPartnerPositions = [
     coords: [28.060726, -82.442751] as [number, number],
     units: "314 Units",
     type: "Value-Add Multifamily",
-    sponsor: "Cinnamon Cove, LLC",
     role: "Limited Partner",
     description:
       "314-unit garden-style multifamily community in Tampa, acquired in 2025 as a value-add renovation.",
     stats: [
       { label: "Acquired", value: "2025" },
-      { label: "Strategy", value: "Value-add" },
     ],
     award: null,
     image: "/assets/hq/lp-cinnamon-02.webp",
