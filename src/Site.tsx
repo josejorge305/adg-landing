@@ -108,7 +108,7 @@ function Hero({ onContact }: { onContact: () => void }) {
           {t.bottom}
         </h1>
         <p className="hero-lede">
-          Florida's teachers, nurses, and first responders deserve quality housing they can afford. ADG develops
+          ADG develops
           workforce communities that close the gap between income and rent — built to institutional standards,
           designed for real life.
         </p>
