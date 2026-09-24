@@ -251,7 +251,7 @@ export const teamMembers = [
     "title": "Managing Director",
     "credential": "Developer, broker and lender",
     "image": "/assets/images/website/jj-figueroa.jpg",
-    "portrait": "/assets/site/team/jj-portrait",
+    "portrait": "/assets/site/team/jj-portrait-v2",
     "facts": [
       "20+ years in real estate",
       "JV General Partner, Soleste Spring Gardens",
@@ -404,7 +404,7 @@ export const leaders: Leader[] = [
   {
     name: "Jose Jorge “JJ” Figueroa",
     title: "Managing Director",
-    portrait: "/assets/site/team/jj-portrait.jpg",
+    portrait: "/assets/site/team/jj-portrait-v2.jpg",
     glance: ["20+ years in real estate", "JV General Partner, Soleste Spring Gardens", "Licensed Real Estate & Mortgage Broker"],
     bio: [
       "Jose Jorge “JJ” Figueroa is a co-owner and Managing Director of Alcazar Development Group, where he leads acquisitions, financial modeling, capital structuring and overall development strategy for the firm’s multifamily portfolio throughout Florida. A real estate developer, broker and financier with more than two decades of experience, he also serves as a joint-venture General Partner of Soleste Spring Gardens, a 240-unit luxury apartment community in Miami’s Health District.",
