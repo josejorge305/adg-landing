@@ -602,3 +602,13 @@ h1 em, h2 em { background: linear-gradient(currentColor, currentColor) 0 94% / 0
 @media (max-width: 760px) {
   .hero-shade, .hero-night .hero-shade { background: linear-gradient(180deg, rgba(7, 16, 24, 0.55) 0%, rgba(7, 16, 24, 0.6) 55%, rgba(7, 16, 24, 0.35) 100%); }
 }
+/* Wide cards: a true 16:9 image area so the full animated scene (street, cars, people) shows */
+.pcard.wide .pcard-img { aspect-ratio: 16 / 9; flex: none; min-height: 0; }
+.pcard.wide { align-self: start; }
+/* Narrow cards beside a wide one: the image grows to fill the row, text stays compact */
+@media (min-width: 761px) {
+  .pgrid.dev > .pcard:not(.wide):not(.full) .pcard-img { aspect-ratio: auto; flex: 1 1 auto; min-height: 250px; }
+  .pgrid.dev > .pcard:not(.wide):not(.full) .pcard-body { flex: 0 0 auto; }
+  .pgrid.dev > .pcard:not(.wide):not(.full) .pcard-facts { margin-top: 18px; }
+  .pcard.wide { align-self: stretch; }
+}
