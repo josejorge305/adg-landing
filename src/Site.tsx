@@ -446,9 +446,8 @@ function LeaderCard({ l, onOpen }: { l: Leader; onOpen: (el: Element | null) => 
     <button className="lead-card" data-name={l.name} onClick={(e) => onOpen(e.currentTarget.querySelector(".lead-photo"))} aria-label={`${l.name}, ${l.title}: view profile`}>
       <span className="lead-photo"><img src={l.portrait} alt="" loading="lazy" /></span>
       <span className="lead-meta">
-        <strong>{l.name}</strong>
+        <strong><span>{l.name}</span><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg></strong>
         <em>{l.title}</em>
-        <span className="lead-more">View profile<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
       </span>
     </button>
   );

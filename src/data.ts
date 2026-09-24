@@ -439,7 +439,7 @@ export const leaders: Leader[] = [
   {
     name: "Jose Jorge “JJ” Figueroa",
     title: "Managing Director",
-    portrait: "/assets/site/team/jj-portrait-v2.jpg",
+    portrait: "/assets/site/team/jj-portrait-v2-h.jpg",
     glance: ["20+ years in real estate", "Co-founder, FH Capital Partners", "Licensed Real Estate & Mortgage Broker"],
     bio: [
       "Jose Jorge “JJ” Figueroa is a co-owner and Managing Director of Alcazar Development Group, where he leads acquisitions, financial modeling, capital structuring and overall development strategy for the firm’s multifamily portfolio throughout Florida. He is a real estate developer, broker and financier with more than two decades of experience.",
@@ -456,7 +456,7 @@ export const leaders: Leader[] = [
   {
     name: "Justo L. Fernandez",
     title: "Managing Director",
-    portrait: "/assets/site/team/justo-portrait.jpg",
+    portrait: "/assets/site/team/justo-portrait-h.jpg",
     glance: ["30+ years in real estate and banking", "$1.6B+ loan portfolio managed", "Latin Builders Association, 20 years"],
     bio: [
       "Justo L. Fernandez is a co-owner and Managing Director of Alcazar Development Group, where he oversees pre-construction planning, project execution and construction across the firm’s multifamily development pipeline. He brings more than 30 years of experience in real estate and commercial banking, with expertise spanning financing, negotiation, deal structuring, acquisitions and dispositions, valuation, development, financial modeling and market research across all property types.",
@@ -474,7 +474,7 @@ export const leaders: Leader[] = [
   {
     name: "Guillermo Villar",
     title: "Principal",
-    portrait: "/assets/site/team/guillermo-portrait.jpg",
+    portrait: "/assets/site/team/guillermo-portrait-h.jpg",
     glance: ["40+ years in banking", "Former President and CEO, Commercebank", "MA Economics, Vanderbilt University"],
     bio: [
       "Guillermo Villar is a Principal and owner of Alcazar Development Group, bringing more than four decades of experience in commercial and real estate banking to the firm.",
