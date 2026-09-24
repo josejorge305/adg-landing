@@ -901,3 +901,7 @@ h1, h2, h3 { font-variant-numeric: lining-nums; }
 .aff-card strong { font-weight: 600; }
 .fpz-credit { font-size: 12px; }
 @media (max-width: 760px) { .fpz-credit { font-size: 11px; } }
+/* Leadership: portraits about 20% smaller so the section fits one screen */
+@media (min-width: 901px) {
+  .lead-grid { grid-template-columns: repeat(3, minmax(0, 300px)); gap: 36px; justify-content: space-between; }
+}
