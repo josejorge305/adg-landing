@@ -738,20 +738,28 @@ export function Site() {
                 <div><dt>Office</dt><dd>7520 SW 57th Avenue Suite G{"\n"}South Miami, FL 33143</dd></div>
                 <div><dt>Phone</dt><dd><a href="tel:3057726191">(305) 772-6191</a></dd></div>
               </dl>
+              <a className="office-map" href="https://www.google.com/maps/search/?api=1&query=7520+SW+57th+Avenue+Suite+G+South+Miami+FL+33143" target="_blank" rel="noopener noreferrer" aria-label="Get directions to the ADG office in Google Maps">
+                <img src="/assets/map/office-snippet.webp" alt="" loading="lazy" />
+                <span className="office-pin" style={{ left: "50.4%", top: "49.5%" }}><i /><b>ADG office</b></span>
+                <span className="office-cta">Get directions<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
+              </a>
             </div>
             <form className="cform reveal" onSubmit={submit}>
-              {(["name", "email", "subject"] as const).map((f) => (
-                <label key={f}>
-                  {f.charAt(0).toUpperCase() + f.slice(1)}
-                  <input type={f === "email" ? "email" : "text"} name={f} required={f !== "subject"} placeholder={`Your ${f}`} value={form[f]} onChange={(e) => setForm({ ...form, [f]: e.target.value })} />
-                </label>
-              ))}
-              <label>
-                Message
-                <textarea name="message" required rows={4} placeholder="Your message" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
-              </label>
+              <fieldset className="cf-topics">
+                <legend>What can we help with?</legend>
+                <div>
+                  {["Development partnership", "Land & site acquisition", "Capital & investment", "Residents & community", "Press"].map((t) => (
+                    <button key={t} type="button" aria-pressed={form.subject === t} className={form.subject === t ? "on" : ""} onClick={() => setForm({ ...form, subject: form.subject === t ? "" : t })}>{t}</button>
+                  ))}
+                </div>
+              </fieldset>
+              <div className="cf-row">
+                <label className="ff"><input name="name" required placeholder=" " autoComplete="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /><span>Name</span></label>
+                <label className="ff"><input type="email" name="email" required placeholder=" " autoComplete="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /><span>Email</span></label>
+              </div>
+              <label className="ff"><textarea name="message" required rows={4} placeholder=" " value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} /><span>Message</span></label>
               <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" checked={trap} onChange={(e) => setTrap(e.target.checked)} style={{ display: "none" }} aria-hidden="true" />
-              <button type="submit" disabled={status === "sending"}>{status === "sending" ? "Sending..." : "Send Message"}</button>
+              <button type="submit" className="cf-send" disabled={status === "sending"}><span>{status === "sending" ? "Sending..." : "Send message"}</span><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg></button>
               {status === "sent" && (
                 <p className="cform-status sent" role="status">
                   <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5" pathLength={1} /></svg>
