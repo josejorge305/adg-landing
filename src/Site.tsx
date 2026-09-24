@@ -16,8 +16,8 @@ type Item = {
   stats: Stat[]; award: string | null; image: string; gallery: string[]; video?: string; poster?: string; sponsor?: string;
 };
 /* Portfolio collage order: long, short / short, long / full width */
-const ORDER = ["Aura Living", "Alcazar Millenium", "Alcazar Apartment Villas", "Aura at Silver Lakes", "Spring Gardens"];
-const LAYOUT: Record<string, "wide" | "full" | undefined> = { "Aura Living": "wide", "Aura at Silver Lakes": "wide", "Spring Gardens": "full" };
+const ORDER = ["Aura Living", "Alcazar Millenium", "Alcazar Apartment Villas", "Aura at Silver Lakes", "Spring Gardens", "SOMI Homes"];
+const LAYOUT: Record<string, "wide" | "full" | "pano" | undefined> = { "Aura Living": "wide", "Aura at Silver Lakes": "wide", "Spring Gardens": "full", "SOMI Homes": "pano" };
 const PROJECTS: Item[] = projects
   .map((p) => ({ ...p, kind: "project" as const, image: hq(p.image), gallery: (p.gallery as string[]).map(hq), video: (p as { video?: string }).video, poster: (p as { poster?: string }).poster }))
   .sort((a, b) => ORDER.indexOf(a.name) - ORDER.indexOf(b.name));
@@ -30,7 +30,7 @@ function sentence(s: string) {
   return s.split(" ").map((w, i) => (/^Q\d$/.test(w) ? w : i === 0 ? w.charAt(0) + w.slice(1).toLowerCase() : w.toLowerCase())).join(" ");
 }
 function statusTone(s = "") {
-  if (/SOLD/.test(s)) return "sold";
+  if (/SOLD|DELIVERED/.test(s)) return "sold";
   if (/STABILIZED/.test(s)) return "stable";
   return "active";
 }
@@ -190,7 +190,7 @@ function LoopVideo({ src, poster, label }: { src: string; poster: string; label:
 }
 
 /* ---------------- Portfolio card ---------------- */
-function Card({ item, layout, index = 0, onOpen }: { item: Item; layout?: "wide" | "full"; index?: number; onOpen: (el: Element | null) => void }) {
+function Card({ item, layout, index = 0, onOpen }: { item: Item; layout?: "wide" | "full" | "pano"; index?: number; onOpen: (el: Element | null) => void }) {
   const badge = item.kind === "lp" ? item.role! : sentence(item.status || "");
   const excerpt = item.description || item.address;
   return (

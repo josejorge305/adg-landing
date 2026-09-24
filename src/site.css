@@ -782,3 +782,19 @@ h1 em, h2 em { background: linear-gradient(currentColor, currentColor) 0 94% / 0
 .lp-prop { gap: 22px; }
 @media (max-width: 900px) { .lp-thumb { width: 136px; height: 90px; } .lp-sponsor { padding-left: 156px; } }
 @media (max-width: 480px) { .lp-thumb { width: 108px; height: 72px; } .lp-sponsor { padding-left: 126px; } }
+
+/* ===== Panoramic card (SOMI Homes): full-width cinematic image on top, details beneath ===== */
+.pgrid.dev > .pcard.pano { grid-column: span 12; display: flex; flex-direction: column; }
+.pgrid.dev > .pcard.pano .pcard-img { aspect-ratio: 2.96 / 1; flex: none; min-height: 0; }
+.pcard.pano .pcard-body { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); column-gap: 48px; align-items: start; padding: 26px 32px 28px; }
+.pcard.pano .pcard-body > .pill, .pcard.pano .pcard-body > h3, .pcard.pano .pcard-body > .pcard-loc { grid-column: 1; }
+.pcard.pano .pcard-desc { grid-column: 2; grid-row: 1 / span 3; margin: 0; -webkit-line-clamp: 4; }
+.pcard.pano .pcard-facts, .pcard.pano .pcard-more { grid-column: 1 / -1; }
+@media (max-width: 760px) {
+  .pgrid.dev > .pcard.pano .pcard-img { aspect-ratio: 2.2 / 1; }
+  .pcard.pano .pcard-body { display: flex; flex-direction: column; padding: 20px; }
+  .pcard.pano .pcard-desc { margin: -8px 0 18px; }
+}
+/* the panoramic card keeps its cinematic 2.96:1 frame (not the narrow-card stretch rule) */
+.pgrid.dev > .pcard.pano .pcard-img { aspect-ratio: 2.96 / 1 !important; flex: none !important; min-height: 0 !important; }
+@media (max-width: 760px) { .pgrid.dev > .pcard.pano .pcard-img { aspect-ratio: 2.2 / 1 !important; } }

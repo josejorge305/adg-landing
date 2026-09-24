@@ -147,6 +147,39 @@ export const projects = [
       "/assets/hq/spring-gardens-g08.webp",
     ],
   },
+  {
+    name: "SOMI Homes",
+    location: "Downtown South Miami",
+    address: "Downtown South Miami, FL",
+    coords: [25.7045, -80.2905] as [number, number],
+    units: "3 Residences",
+    type: "Luxury Single-Family",
+    status: "DELIVERED 2015",
+    statusColor: "#8A97A0",
+    description:
+      "Three custom luxury residences in the heart of downtown South Miami, taken from site acquisition and land evaluation through feasibility, construction financing, vertical construction oversight and disposition. Ground-up execution in a third residential asset class, alongside the firm’s garden, mid-rise and multifamily communities.",
+    detail: "",
+    stats: [
+      { label: "Residences", value: "Three custom homes" },
+      { label: "Total area", value: "18,349 SF" },
+      { label: "Two-story residences", value: "5,646 SF each" },
+      { label: "One-story residence", value: "7,057 SF, with detached cabana" },
+      { label: "Delivered", value: "2015" },
+      { label: "Role", value: "Developer" },
+    ],
+    award: null,
+    image: "/assets/hq/somi-01.webp",
+    video: "/assets/site/somi-loop.mp4",
+    poster: "/assets/site/somi-poster.jpg",
+    gallery: [
+      "/assets/hq/somi-01.webp",
+      "/assets/hq/somi-02.webp",
+      "/assets/hq/somi-03.webp",
+      "/assets/hq/somi-04.webp",
+      "/assets/hq/somi-05.webp",
+      "/assets/hq/somi-06.webp",
+    ],
+  },
 ];
 
 export const limitedPartnerPositions = [
