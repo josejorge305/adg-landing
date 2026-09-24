@@ -507,8 +507,8 @@ export function Site() {
             </div>
             <div className="aff stagger">
               {[
-                { href: "https://reliantrealestategroup.com", logo: IMG + "reliant-logo.png", name: "Reliant Real Estate Group", desc: "Commercial real estate brokerage in Florida, covering acquisitions and dispositions, loan and note sales, and bank-owned property." },
-                { href: "https://www.fhcp-llc.com", logo: IMG + "fhcp-logo.png", name: "Figueroa-Heller Capital Partners", desc: "Licensed private lender providing first-lien, asset-based loans on commercial and residential real estate in Florida." },
+                { href: "https://reliantrealestategroup.com", logo: IMG + "reliant-logo.png", name: "Reliant Real Estate Group, LLC", desc: "Commercial real estate brokerage in Florida, covering acquisitions and dispositions, loan and note sales, and bank-owned property." },
+                { href: "https://www.fhcp-llc.com", logo: IMG + "fhcp-logo.png", name: "FHCP, LLC", desc: "Licensed private lender providing first-lien, asset-based loans on commercial and residential real estate in Florida." },
               ].map((a) => (
                 <a key={a.name} className="aff-card" href={a.href} target="_blank" rel="noopener noreferrer">
                   <div className="aff-logo"><img src={a.logo} alt={a.name} /></div>
