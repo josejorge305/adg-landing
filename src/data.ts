@@ -155,7 +155,7 @@ export const projects = [
     address: "Downtown South Miami, FL",
     coords: [25.7045, -80.2905] as [number, number],
     units: "3 Residences",
-    type: "Single-Family",
+    type: "Luxury Single-Family Homes",
     status: "DELIVERED 2015",
     statusColor: "#8A97A0",
     description:
