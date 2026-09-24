@@ -47,7 +47,11 @@ export const projects = [
     image: "/assets/site/slv-aerial-poster.jpg",
     video: "/assets/site/slv-aerial-t.mp4",
     poster: "/assets/site/slv-aerial-t-still.jpg",
-    gallery: [],
+    gallery: [
+      "/assets/hq/slv-aerial.webp",
+      "/assets/hq/slv-front.webp",
+      "/assets/hq/slv-sign.webp",
+    ],
   },
   {
     name: "Alcazar Millennium",
