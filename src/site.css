@@ -798,3 +798,20 @@ h1 em, h2 em { background: linear-gradient(currentColor, currentColor) 0 94% / 0
 /* the panoramic card keeps its cinematic 2.96:1 frame (not the narrow-card stretch rule) */
 .pgrid.dev > .pcard.pano .pcard-img { aspect-ratio: 2.96 / 1 !important; flex: none !important; min-height: 0 !important; }
 @media (max-width: 760px) { .pgrid.dev > .pcard.pano .pcard-img { aspect-ratio: 2.2 / 1 !important; } }
+/* Investment table on phones (declared last so desktop column rules never override it) */
+@media (max-width: 900px) {
+  .lp-head { display: none; }
+  .lp-row { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "prop units" "meta meta"; gap: 10px 14px; padding: 16px 4px; }
+  .lp-prop { grid-area: prop; gap: 14px; align-items: center; }
+  .lp-thumb { width: 120px; height: 80px; }
+  .lp-name { min-width: 0; }
+  .lp-prop strong { font-size: 20px; line-height: 1.2; }
+  .lp-units { grid-area: units; font-size: 21px; align-self: center; }
+  .lp-sponsor { grid-area: meta; padding-left: 134px; font-size: 14px; color: rgba(255, 255, 255, 0.8); }
+  .lp-sponsor.none, .lp-loc, .lp-type, .lp-go { display: none; }
+}
+@media (max-width: 480px) {
+  .lp-thumb { width: 96px; height: 64px; }
+  .lp-prop strong { font-size: 18px; }
+  .lp-sponsor { padding-left: 110px; }
+}
