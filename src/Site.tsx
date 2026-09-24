@@ -171,7 +171,15 @@ function LoopVideo({ src, poster, label }: { src: string; poster: string; label:
       if (!visible) { v.pause(); }
     }, { threshold: 0.35 });
     io.observe(v);
-    return () => { io.disconnect(); v.removeEventListener("ended", onEnded); window.clearTimeout(timer); };
+    // hovering the card starts the animation right away (from the top if it was resting)
+    const card = v.closest(".pcard");
+    const onEnter = () => {
+      visible = true;
+      if (resting || v.ended || v.classList.contains("settling")) { window.clearTimeout(timer); play(); }
+      else if (v.paused) v.play().catch(() => {});
+    };
+    card?.addEventListener("mouseenter", onEnter);
+    return () => { io.disconnect(); v.removeEventListener("ended", onEnded); window.clearTimeout(timer); card?.removeEventListener("mouseenter", onEnter); };
   }, [src]);
   return (
     <>
