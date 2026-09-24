@@ -169,8 +169,8 @@ export const projects = [
     ],
     award: null,
     image: "/assets/hq/somi-01.webp",
-    video: "/assets/site/somi-loop.mp4",
-    poster: "/assets/site/somi-poster.jpg",
+    video: "/assets/site/somi-loop-v2.mp4",
+    poster: "/assets/site/somi-poster-v2.jpg",
     gallery: [
       "/assets/hq/somi-01.webp",
       "/assets/hq/somi-02.webp",
