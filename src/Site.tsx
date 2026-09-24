@@ -180,13 +180,9 @@ function LoopVideo({ src, poster, label }: { src: string; poster: string; label:
 }
 
 /* ---------------- Portfolio card ---------------- */
-function firstSentence(t: string) {
-  const m = t.match(/^.*?[.!?](\s|$)/);
-  return (m ? m[0] : t).trim();
-}
 function Card({ item, layout, index = 0, onOpen }: { item: Item; layout?: "wide" | "full"; index?: number; onOpen: (el: Element | null) => void }) {
   const badge = item.kind === "lp" ? item.role! : sentence(item.status || "");
-  const excerpt = item.description ? firstSentence(item.description) : item.address;
+  const excerpt = item.description || item.address;
   return (
     <article
       className={`pcard${layout ? " " + layout : ""}`}
