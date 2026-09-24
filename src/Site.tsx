@@ -108,7 +108,7 @@ function Hero({ onContact }: { onContact: () => void }) {
     <section ref={heroEl} className={`hero hero-${phase}${night ? " hero-night" : " hero-day"}`} id="home">
       <picture>
         <source srcSet={`${base}.webp`} type="image/webp" />
-        <img className="hero-img" src={`${base}.jpg`} alt="" aria-hidden="true" fetchPriority="high" />
+        <img className="hero-img" src={`${base}.jpg`} alt="" aria-hidden="true" {...{ fetchpriority: "high" }} />
       </picture>
       {motion && (
         <video ref={heroVideo} className="hero-video" src={night ? "/assets/site/hero-dusk-v3.mp4" : "/assets/site/hero-day-v2.mp4"} poster={`${base}.jpg`} muted playsInline preload="auto" aria-hidden="true" />
