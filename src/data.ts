@@ -66,7 +66,7 @@ export const projects = [
     stats: [],
     award: null,
     image: "/assets/images/website/alcazar-millenium.jpg",
-    video: "/assets/site/alcazar-millenium-live.mp4",
+    video: "/assets/site/alcazar-millenium-live-v2.mp4",
     poster: "/assets/site/alcazar-millenium-live-poster.jpg",
     gallery: [],
   },
