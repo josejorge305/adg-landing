@@ -58,44 +58,20 @@ function Hero({ onContact }: { onContact: () => void }) {
     const play = () => { v.classList.remove("settling"); v.classList.add("on"); v.currentTime = 0; v.play().catch(() => {}); };
     const onEnded = () => {
       v.classList.add("settling");
-      timer = window.setTimeout(() => { v.classList.remove("on"); v.currentTime = 0; timer = window.setTimeout(play, 7000); }, 2200);
+      timer = window.setTimeout(() => { v.classList.remove("on"); v.currentTime = 0; timer = window.setTimeout(play, REST_MS); }, SETTLE_MS);
     };
     v.addEventListener("ended", onEnded);
     timer = window.setTimeout(play, 600);
     return () => { v.removeEventListener("ended", onEnded); window.clearTimeout(timer); };
   }, [phase]);
-  // Living hero: after the intro, the scene plays (clouds, people, cars), settles back into the still, rests, and repeats.
-  // The still is the video's exact first frame, so the restart is invisible. Desktop only; off for reduced motion.
-  const vref = useRef<HTMLVideoElement>(null);
-  const heroRef = useRef<HTMLElement>(null);
-  const [vidOn, setVidOn] = useState(false);
-  useEffect(() => {
-    if (phase !== "done" || reducedMotion() || window.innerWidth < 761) return;
-    const v = vref.current;
-    if (!v) return;
-    let timer = 0;
-    const inView = () => { const r = heroRef.current?.getBoundingClientRect(); return !!r && r.bottom > 0 && document.visibilityState === "visible"; };
-    const start = () => {
-      if (!inView()) { timer = window.setTimeout(start, 2000); return; }
-      v.currentTime = 0;
-      v.play().catch(() => {});
-    };
-    const onPlaying = () => setVidOn(true);
-    const onEnded = () => { setVidOn(false); timer = window.setTimeout(start, 9800); };
-    v.addEventListener("playing", onPlaying);
-    v.addEventListener("ended", onEnded);
-    timer = window.setTimeout(start, 1400);
-    return () => { v.removeEventListener("playing", onPlaying); v.removeEventListener("ended", onEnded); window.clearTimeout(timer); v.pause(); };
-  }, [phase]);
   return (
-    <section ref={heroRef} className={`hero hero-${phase}${night ? " hero-night" : " hero-day"}`} id="home">
+    <section className={`hero hero-${phase}${night ? " hero-night" : " hero-day"}`} id="home">
       <picture>
         <source srcSet={`${base}.webp`} type="image/webp" />
         <img className="hero-img" src={`${base}.jpg`} alt="" aria-hidden="true" fetchPriority="high" />
       </picture>
-      <video ref={vref} className={`hero-video${vidOn ? " on" : ""}`} src={night ? "/assets/site/hero-dusk.mp4" : "/assets/site/hero-day.mp4"} muted playsInline preload="none" aria-hidden="true" />
       {motion && (
-        <video ref={heroVideo} className="hero-video" src={night ? "/assets/site/hero-dusk.mp4" : "/assets/site/hero-day.mp4"} muted playsInline preload="auto" aria-hidden="true" />
+        <video ref={heroVideo} className="hero-video" src={night ? "/assets/site/hero-dusk-v2.mp4" : "/assets/site/hero-day-v2.mp4"} muted playsInline preload="auto" aria-hidden="true" />
       )}
       <div className="hero-lines" aria-hidden="true">
         <picture>

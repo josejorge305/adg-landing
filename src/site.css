@@ -612,3 +612,4 @@ h1 em, h2 em { background: linear-gradient(currentColor, currentColor) 0 94% / 0
   .pgrid.dev > .pcard:not(.wide):not(.full) .pcard-facts { margin-top: 18px; }
   .pcard.wide { align-self: stretch; }
 }
+.hero-video.settling { transition: opacity 1.6s ease; }
