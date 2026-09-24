@@ -50,9 +50,11 @@ function Hero({ onContact }: { onContact: () => void }) {
   const base = night ? "/assets/site/hero-dusk" : "/assets/site/hero";
   const heroVideo = useRef<HTMLVideoElement>(null);
   const [motion] = useState(() => typeof window !== "undefined" && !reducedMotion() && window.innerWidth > 760);
+  // the scene starts moving as the render dissolves in under the line drawing (reveal), not after it
+  const motionGo = phase !== "intro";
   useEffect(() => {
     const v = heroVideo.current;
-    if (!v || phase !== "done") return;
+    if (!v || !motionGo) return;
     v.muted = true;
     let timer = 0;
     const play = () => { v.classList.remove("settling"); v.classList.add("on"); v.currentTime = 0; v.play().catch(() => {}); };
@@ -61,9 +63,9 @@ function Hero({ onContact }: { onContact: () => void }) {
       timer = window.setTimeout(() => { v.classList.remove("on"); v.currentTime = 0; timer = window.setTimeout(play, REST_MS); }, SETTLE_MS);
     };
     v.addEventListener("ended", onEnded);
-    timer = window.setTimeout(play, 600);
+    play();                                                   // starts with the dissolve: no still pause
     return () => { v.removeEventListener("ended", onEnded); window.clearTimeout(timer); };
-  }, [phase]);
+  }, [motionGo]);
   return (
     <section className={`hero hero-${phase}${night ? " hero-night" : " hero-day"}`} id="home">
       <picture>
@@ -71,7 +73,7 @@ function Hero({ onContact }: { onContact: () => void }) {
         <img className="hero-img" src={`${base}.jpg`} alt="" aria-hidden="true" fetchPriority="high" />
       </picture>
       {motion && (
-        <video ref={heroVideo} className="hero-video" src={night ? "/assets/site/hero-dusk-v3.mp4" : "/assets/site/hero-day-v3.mp4"} muted playsInline preload="auto" aria-hidden="true" />
+        <video ref={heroVideo} className="hero-video" src={night ? "/assets/site/hero-dusk-v3.mp4" : "/assets/site/hero-day-v3.mp4"} poster={`${base}.jpg`} muted playsInline preload="auto" aria-hidden="true" />
       )}
       <div className="hero-lines" aria-hidden="true">
         <picture>

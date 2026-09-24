@@ -772,3 +772,7 @@ h1 em, h2 em { background: linear-gradient(currentColor, currentColor) 0 94% / 0
 .hero-stat-num { text-shadow: 0 0 1px rgba(4, 10, 16, 0.7), 0 0 6px rgba(4, 10, 16, 0.6), 0 0 16px rgba(4, 10, 16, 0.5), 0 0 34px rgba(4, 10, 16, 0.35); }
 .hero-stat-label { text-shadow: 0 0 1px rgba(4, 10, 16, 0.85), 0 0 5px rgba(4, 10, 16, 0.75), 0 0 12px rgba(4, 10, 16, 0.6); font-weight: 500; }
 .hero-stats { background: linear-gradient(180deg, rgba(8, 19, 29, 0) 0%, rgba(8, 19, 29, 0.05) 40%, rgba(8, 19, 29, 0.55) 100%); }
+/* The moving scene fades in together with the render during the reveal */
+.hero-video { transition: opacity 1.2s ease; }
+.hero-intro .hero-video { opacity: 0 !important; }
+.hero-video.settling { transition: opacity 1.6s ease; }
