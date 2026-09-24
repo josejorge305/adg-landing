@@ -216,23 +216,140 @@ export const limitedPartnerPositions = [
 
 export const teamMembers = [
   {
-    name: "JJ Figueroa",
-    title: "Managing Director",
-    bio: "Real estate developer, broker, and financier with over two decades of experience. Co-owner and Managing Director of Alcazar Development Group (ADG), where he leads acquisitions, financial modeling, capital structuring, and overall development strategy for the firm's multifamily portfolio throughout Florida. He is also co-founder of Figueroa-Heller Capital Partners, a private mortgage lending platform. Earlier in his career, he worked with Caribe Homes Corporation, contributing to the development and sales of 17 single-family communities across South Florida totaling more than 2,200 homes.",
-    image: "/assets/images/website/jj-figueroa.jpg",
+    "name": "JJ Figueroa",
+    "fullName": "Jose Jorge “JJ” Figueroa",
+    "title": "Managing Director",
+    "credential": "Developer, broker and lender",
+    "image": "/assets/images/website/jj-figueroa.jpg",
+    "portrait": "/assets/site/team/jj-portrait",
+    "facts": [
+      "20+ years in real estate",
+      "JV General Partner, Soleste Spring Gardens",
+      "Licensed Real Estate and Mortgage Broker"
+    ],
+    "bio": [
+      "Jose Jorge “JJ” Figueroa is a co-owner and Managing Director of Alcazar Development Group, where he leads acquisitions, financial modeling, capital structuring and overall development strategy for the firm’s multifamily portfolio throughout Florida. A real estate developer, broker and financier, he brings more than two decades of industry experience.",
+      "He is a joint-venture General Partner of Soleste Spring Gardens, a 240-unit luxury apartment community in Miami’s Health District, and co-founder of Figueroa-Heller Capital Partners (FHCP, LLC), a private mortgage lending and servicing platform operating since 2011. As Chief Executive Officer of Reliant Real Estate Group, he created the RRG Network, a proprietary platform developed in the aftermath of the 2008 financial crisis that uses algorithms to match distressed assets with qualified investors.",
+      "Mr. Figueroa began his real estate career in 2001 at Caribe Homes Corporation, where over eight years he helped refine operational processes and supported the sale of 17 single-family communities across South Florida totaling more than 2,257 homes. He is a licensed Real Estate Broker and Mortgage Broker, and lives in South Miami with his wife and three children."
+    ],
+    "timeline": [
+      {
+        "year": "2001",
+        "title": "Caribe Homes Corporation",
+        "detail": "Eight years supporting operations and the sale of 17 single-family communities, more than 2,257 homes"
+      },
+      {
+        "year": "Post-2008",
+        "title": "Reliant Real Estate Group",
+        "detail": "As CEO, created the RRG Network, matching distressed assets with qualified investors"
+      },
+      {
+        "year": "2011",
+        "title": "Figueroa-Heller Capital Partners",
+        "detail": "Co-founded FHCP, LLC, a private mortgage lending and servicing platform"
+      },
+      {
+        "year": "",
+        "title": "Soleste Spring Gardens",
+        "detail": "Joint-venture General Partner of the 240-unit community in Miami’s Health District"
+      },
+      {
+        "year": "",
+        "title": "Alcazar Development Group",
+        "detail": "Co-owner and Managing Director, leading acquisitions, capital structuring and development strategy"
+      }
+    ]
   },
   {
-    name: "Justo L. Fernandez",
-    title: "Managing Director",
-    bio: "Real estate development executive with more than four decades of industry experience. As Managing Director and co-owner at Alcazar Development Group, he oversees pre-construction planning, project execution, and construction oversight across ADG's multifamily development pipeline. Prior to entering development, he spent 30 years in the financial industry at Mercantil Commercebank, serving as Executive Vice President and leading the Commercial Real Estate Division while managing a loan portfolio exceeding $1.6 billion.",
-    image: "/assets/images/website/justo-fernandez.jpg",
+    "name": "Justo L. Fernandez",
+    "fullName": "Justo L. Fernandez",
+    "title": "Managing Director",
+    "credential": "Former EVP, Mercantil Commercebank",
+    "image": "/assets/images/website/justo-fernandez.jpg",
+    "portrait": "/assets/site/team/justo-portrait",
+    "facts": [
+      "30+ years in real estate and banking",
+      "Former EVP, Mercantil Commercebank",
+      "$1.6B+ loan portfolio managed"
+    ],
+    "bio": [
+      "Justo L. Fernandez is a co-owner and Managing Director of Alcazar Development Group, where he oversees pre-construction planning, project execution and construction across the firm’s multifamily development pipeline. He brings more than 30 years of experience in real estate and commercial banking, with expertise spanning financing, negotiation, deal structuring, acquisitions and dispositions, valuation, development, financial modeling and market research across all property types.",
+      "For more than 15 years, Mr. Fernandez served at Mercantil Commercebank as Executive Vice President and Manager of the Commercial Real Estate Division. He directed the real estate strategy for the bank’s Florida, New York and Houston markets, led initiatives that drove the unit’s growth, and managed a real estate and construction loan portfolio exceeding $1.6 billion.",
+      "For the past two decades, he has been actively involved with the Latin Builders Association, contributing to the organization’s growth and to the development of South Florida’s communities."
+    ],
+    "timeline": [
+      {
+        "year": "",
+        "title": "Commercial banking",
+        "detail": "More than 30 years in the financial and banking industry"
+      },
+      {
+        "year": "",
+        "title": "Mercantil Commercebank",
+        "detail": "Executive Vice President and Commercial Real Estate Division Manager; Florida, New York and Houston markets; $1.6B+ portfolio"
+      },
+      {
+        "year": "",
+        "title": "Latin Builders Association",
+        "detail": "Two decades of active involvement in the organization and South Florida’s communities"
+      },
+      {
+        "year": "",
+        "title": "Alcazar Development Group",
+        "detail": "Co-owner and Managing Director, overseeing pre-construction, execution and construction"
+      }
+    ]
   },
   {
-    name: "Guillermo Villar",
-    title: "Principal",
-    bio: "Principal and strategic advisor at Alcazar Development Group, bringing more than four decades of financial and real estate expertise to the firm's multifamily development initiatives. Prior to joining ADG, he built a distinguished international banking career with Chase and Mercantil, ultimately serving as President and CEO of Commercebank in Miami. His background includes leadership roles in corporate lending, financial management, and global banking operations.",
-    image: "/assets/images/website/guillermo-villar.jpg",
-  },
+    "name": "Guillermo Villar",
+    "fullName": "Guillermo Villar",
+    "title": "Principal",
+    "credential": "Former President and CEO, Commercebank",
+    "image": "/assets/images/website/guillermo-villar.jpg",
+    "portrait": "/assets/site/team/guillermo-portrait",
+    "facts": [
+      "40+ years in banking",
+      "Former President and CEO, Commercebank",
+      "MA Economics, Vanderbilt University"
+    ],
+    "bio": [
+      "Guillermo Villar is a Principal and owner of Alcazar Development Group, bringing more than four decades of experience in commercial and real estate banking to the firm.",
+      "Mr. Villar began his career with Chase in Puerto Rico in 1967. After completing the bank’s Executive Development Program, he managed its Corporate and Real Estate lending areas. In 1978, he moved to Venezuela to lead the formation and management of a financial leasing company, a joint venture between Chase and the Mercantil Group. He went on to hold a series of senior leadership positions with Mercantil, including Group Global Chief Financial Officer and Managing Director of the bank’s subsidiaries in Switzerland, Panama and Curaçao. For the final twenty years of his banking career, he served as President and Chief Executive Officer of Commercebank in Miami. He retired from Mercantil Commercebank in 2009 and continues to serve on the Board of Directors of the bank and its holding company.",
+      "Mr. Villar holds a Master’s degree in Economics from Vanderbilt University and a Bachelor’s degree in Business Administration from the University of Puerto Rico. He has served on the boards of numerous trade, community and charitable organizations, including the Red Cross and the Coral Gables Chamber of Commerce, and has taught banking and finance as a part-time university professor."
+    ],
+    "timeline": [
+      {
+        "year": "1967",
+        "title": "Chase, Puerto Rico",
+        "detail": "Executive Development Program; managed Corporate and Real Estate lending"
+      },
+      {
+        "year": "1978",
+        "title": "Chase and Mercantil Group, Venezuela",
+        "detail": "Led the formation and management of a financial leasing joint venture"
+      },
+      {
+        "year": "",
+        "title": "Mercantil",
+        "detail": "Group Global CFO; Managing Director of subsidiaries in Switzerland, Panama and Curaçao"
+      },
+      {
+        "year": "1989–2009",
+        "title": "Commercebank, Miami",
+        "detail": "President and Chief Executive Officer"
+      },
+      {
+        "year": "2009–",
+        "title": "Board of Directors",
+        "detail": "Continues to serve on the boards of the bank and its holding company"
+      },
+      {
+        "year": "",
+        "title": "Alcazar Development Group",
+        "detail": "Principal and owner"
+      }
+    ]
+  }
 ];
 
 export const stats = [
@@ -249,3 +366,65 @@ export const taglines = [
   { top: "Attainable", accent: "Living.", bottom: "Institutional Quality." },
 ];
 
+
+/* Leadership profiles (approved copy) */
+export type LeaderMilestone = { when: string; what: string };
+export type Leader = { name: string; title: string; portrait: string; glance: string[]; bio: string[]; timeline: LeaderMilestone[] };
+export const leaders: Leader[] = [
+  {
+    name: "Jose Jorge “JJ” Figueroa",
+    title: "Managing Director",
+    portrait: "/assets/site/team/jj-portrait.jpg",
+    glance: ["20+ years in real estate", "JV General Partner, Soleste Spring Gardens", "Licensed Real Estate & Mortgage Broker"],
+    bio: [
+      "Jose Jorge “JJ” Figueroa is a co-owner and Managing Director of Alcazar Development Group, where he leads acquisitions, financial modeling, capital structuring and overall development strategy for the firm’s multifamily portfolio throughout Florida. A real estate developer, broker and financier with more than two decades of experience, he also serves as a joint-venture General Partner of Soleste Spring Gardens, a 240-unit luxury apartment community in Miami’s Health District.",
+      "Mr. Figueroa is co-founder of Figueroa-Heller Capital Partners (FHCP, LLC), a private mortgage lending and servicing platform operating since 2011. As CEO of Reliant Real Estate Group, he developed the RRG Network in the aftermath of the 2008 financial crisis: a proprietary, algorithm-driven platform that matches distressed assets with qualified investors.",
+      "He began his real estate career in 2001 at Caribe Homes Corporation, where over eight years he helped refine operational processes and supported the sales of 17 single-family communities across South Florida totaling more than 2,257 homes. Mr. Figueroa is a licensed Real Estate Broker and Mortgage Broker, and lives in South Miami with his wife and three children.",
+    ],
+    timeline: [
+      { when: "2001", what: "Joins Caribe Homes Corporation; over eight years supports the sale of 17 South Florida communities, 2,257+ homes" },
+      { when: "After 2008", what: "Develops the RRG Network at Reliant Real Estate Group, matching distressed assets with investors" },
+      { when: "2011", what: "Co-founds FHCP, LLC, a private mortgage lending and servicing platform" },
+      { when: "Joint venture", what: "General Partner, Soleste Spring Gardens, 240 units in Miami’s Health District" },
+      { when: "Today", what: "Co-owner and Managing Director, Alcazar Development Group" },
+    ],
+  },
+  {
+    name: "Justo L. Fernandez",
+    title: "Managing Director",
+    portrait: "/assets/site/team/justo-portrait.jpg",
+    glance: ["30+ years in real estate and banking", "$1.6B+ loan portfolio managed", "Latin Builders Association, 20 years"],
+    bio: [
+      "Justo L. Fernandez is a co-owner and Managing Director of Alcazar Development Group, where he oversees pre-construction planning, project execution and construction across the firm’s multifamily development pipeline. He brings more than 30 years of experience in real estate and commercial banking, with expertise spanning financing, negotiation, deal structuring, acquisitions and dispositions, valuation, development, financial modeling and market research across all property types.",
+      "For more than 15 years, Mr. Fernandez served at Mercantil Commercebank as Executive Vice President and Manager of the Commercial Real Estate Division. He directed the real estate strategy for the bank’s Florida, New York and Houston markets, led initiatives that drove the unit’s growth, and managed a real estate and construction loan portfolio exceeding $1.6 billion.",
+      "For the past two decades, he has been actively involved with the Latin Builders Association, contributing to the organization’s growth and to the development of South Florida’s communities.",
+    ],
+    timeline: [
+      { when: "Banking", what: "More than 30 years in commercial banking and real estate finance" },
+      { when: "Mercantil Commercebank", what: "Executive Vice President and Commercial Real Estate Division Manager for 15+ years, across Florida, New York and Houston" },
+      { when: "Portfolio", what: "Managed a real estate and construction loan portfolio exceeding $1.6 billion" },
+      { when: "Community", what: "Latin Builders Association, two decades of active involvement" },
+      { when: "Today", what: "Co-owner and Managing Director, Alcazar Development Group" },
+    ],
+  },
+  {
+    name: "Guillermo Villar",
+    title: "Principal",
+    portrait: "/assets/site/team/guillermo-portrait.jpg",
+    glance: ["40+ years in banking", "Former President and CEO, Commercebank", "MA Economics, Vanderbilt University"],
+    bio: [
+      "Guillermo Villar is a Principal and owner of Alcazar Development Group, bringing more than four decades of experience in commercial and real estate banking to the firm.",
+      "Mr. Villar began his career with Chase in Puerto Rico in 1967. After completing the bank’s Executive Development Program, he managed its Corporate and Real Estate lending areas. In 1978, he moved to Venezuela to lead the formation and management of a financial leasing company, a joint venture between Chase and the Mercantil Group. He went on to hold a series of senior leadership positions with Mercantil, including Group Global Chief Financial Officer and Managing Director of the bank’s subsidiaries in Switzerland, Panama and Curaçao. For the final twenty years of his banking career, he served as President and Chief Executive Officer of Commercebank in Miami. He retired from Mercantil Commercebank in 2009 and continues to serve on the Board of Directors of the bank and its holding company.",
+      "Mr. Villar holds a Master’s degree in Economics from Vanderbilt University and a Bachelor’s degree in Business Administration from the University of Puerto Rico. He has served on the boards of numerous trade, community and charitable organizations, including the Red Cross and the Coral Gables Chamber of Commerce, and has taught banking and finance as a part-time university professor.",
+    ],
+    timeline: [
+      { when: "1967", what: "Begins his career with Chase in Puerto Rico; completes the Executive Development Program" },
+      { when: "Chase", what: "Manages the bank’s Corporate and Real Estate lending areas" },
+      { when: "1978", what: "Leads the formation of a Chase and Mercantil Group leasing joint venture in Venezuela" },
+      { when: "Mercantil", what: "Group Global CFO; Managing Director of subsidiaries in Switzerland, Panama and Curaçao" },
+      { when: "Twenty years", what: "President and Chief Executive Officer, Commercebank, Miami" },
+      { when: "2009", what: "Retires; continues on the Board of Directors of the bank and its holding company" },
+      { when: "Today", what: "Principal and owner, Alcazar Development Group" },
+    ],
+  },
+];

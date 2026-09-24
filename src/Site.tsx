@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { projects, limitedPartnerPositions, teamMembers, stats, taglines } from "./data";
+import { projects, limitedPartnerPositions, stats, taglines, leaders, type Leader } from "./data";
 import { ZoomMap } from "./ZoomMap";
 import { hq } from "./hq";
 
@@ -379,19 +379,118 @@ function LpTable({ items, onOpen }: { items: Item[]; onOpen: (name: string, el: 
   );
 }
 
-/* ---------------- Leadership card ---------------- */
-function Member({ m }: { m: { name: string; title: string; bio: string; image: string } }) {
-  const [open, setOpen] = useState(false);
+/* ---------------- Leadership: portrait grid and profile dossier ---------------- */
+function LeaderCard({ l, onOpen }: { l: Leader; onOpen: (el: Element | null) => void }) {
   return (
-    <article className="member">
-      <div className="member-photo"><img src={m.image.replace("/assets/images/website/", "/assets/site/").replace(".jpg", "-light.jpg")} alt={m.name} loading="lazy" /></div>
-      <div className="member-body">
-        <h3>{m.name}</h3>
-        <p className="member-title">{m.title}</p>
-        <p className={`member-bio${open ? " open" : ""}`}>{m.bio}</p>
-        <button className="member-more" onClick={() => setOpen(!open)} aria-expanded={open}>{open ? "Show less" : "Read full bio"}</button>
+    <button className="lead-card" data-name={l.name} onClick={(e) => onOpen(e.currentTarget.querySelector(".lead-photo"))} aria-label={`${l.name}, ${l.title}: view profile`}>
+      <span className="lead-photo"><img src={l.portrait} alt="" loading="lazy" /></span>
+      <span className="lead-meta">
+        <strong>{l.name}</strong>
+        <em>{l.title}</em>
+        <span className="lead-more">View profile<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
+      </span>
+    </button>
+  );
+}
+
+function LeaderModal({ l, list, origin, onClosed, onStep }: { l: Leader; list: Leader[]; origin: DOMRect | null; onClosed: () => void; onStep: (d: 1 | -1) => void }) {
+  const panel = useRef<HTMLDivElement>(null), photo = useRef<HTMLDivElement>(null), body = useRef<HTMLDivElement>(null), back = useRef<HTMLDivElement>(null), close = useRef<HTMLButtonElement>(null);
+  const closing = useRef(false);
+  const cur = useRef(l.name); cur.current = l.name;
+  const [drawn, setDrawn] = useState(false);
+  const i = list.findIndex((x) => x.name === l.name);
+  const prev = list[(i - 1 + list.length) % list.length], next = list[(i + 1) % list.length];
+  // the career line draws itself each time a profile is shown
+  useEffect(() => {
+    setDrawn(false);
+    if (body.current) body.current.scrollTop = 0;
+    const t = window.setTimeout(() => setDrawn(true), reducedMotion() ? 0 : 450);
+    return () => window.clearTimeout(t);
+  }, [l.name]);
+  useLayoutEffect(() => {
+    const p = panel.current, ph = photo.current, b = body.current;
+    if (!p || !ph || !b || reducedMotion()) return;
+    if (!origin) { p.animate([{ opacity: 0, transform: "translateY(16px)" }, { opacity: 1, transform: "none" }], { duration: 300, easing: EASE }); return; }
+    const end = ph.getBoundingClientRect();
+    p.style.overflow = "visible";
+    const a = ph.animate([{ transform: `translate(${origin.left - end.left}px, ${origin.top - end.top}px) scale(${origin.width / end.width}, ${origin.height / end.height})` }, { transform: "none" }], { duration: 520, easing: EASE });
+    p.animate([{ backgroundColor: "rgba(255,255,255,0)", boxShadow: "none" }, { backgroundColor: "rgba(255,255,255,1)" }], { duration: 380, easing: "ease-out" });
+    b.animate([{ opacity: 0, transform: "translateX(16px)" }, { opacity: 1, transform: "none" }], { duration: 380, delay: 200, easing: EASE, fill: "backwards" });
+    close.current?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 240, delay: 300, fill: "backwards" });
+    a.onfinish = () => { p.style.overflow = ""; };
+  }, []);
+  const requestClose = () => {
+    if (closing.current) return;
+    closing.current = true;
+    const p = panel.current, ph = photo.current, b = body.current;
+    if (reducedMotion() || !p || !ph || !b) { onClosed(); return; }
+    back.current?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 360, fill: "forwards" });
+    const el = document.querySelector(`.lead-card[data-name="${CSS.escape(cur.current)}"] .lead-photo`);
+    const r = el?.getBoundingClientRect();
+    if (r && r.bottom > 0 && r.top < window.innerHeight) {
+      const f = ph.getBoundingClientRect();
+      p.style.overflow = "visible";
+      b.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, fill: "forwards" });
+      close.current?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, fill: "forwards" });
+      p.animate([{ backgroundColor: "rgba(255,255,255,1)" }, { backgroundColor: "rgba(255,255,255,0)", boxShadow: "none" }], { duration: 220, fill: "forwards" });
+      const a = ph.animate([{ transform: "none" }, { transform: `translate(${r.left - f.left}px, ${r.top - f.top}px) scale(${r.width / f.width}, ${r.height / f.height})` }], { duration: 440, easing: EASE, fill: "forwards" });
+      a.onfinish = onClosed;
+    } else {
+      const a = p.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(12px)" }], { duration: 240, fill: "forwards" });
+      a.onfinish = onClosed;
+    }
+  };
+  const cb = useRef({ requestClose, onStep }); cb.current = { requestClose, onStep };
+  useEffect(() => {
+    const prevFocus = document.activeElement as HTMLElement | null;
+    close.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") cb.current.requestClose();
+      if (e.key === "ArrowRight") cb.current.onStep(1);
+      if (e.key === "ArrowLeft") cb.current.onStep(-1);
+    };
+    document.addEventListener("keydown", onKey);
+    const ov = document.body.style.overflow; document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = ov; prevFocus?.focus(); };
+  }, []);
+  return (
+    <div className="dm lm" role="dialog" aria-modal="true" aria-labelledby="lm-title">
+      <div ref={back} className="dm-backdrop" onClick={requestClose} />
+      <div ref={panel} className="lm-panel">
+        <button ref={close} className="dm-close" onClick={requestClose} aria-label="Close">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+        </button>
+        <div ref={photo} className="lm-photo"><img key={l.portrait} src={l.portrait} alt={l.name} /></div>
+        <div ref={body} className="lm-body">
+          <div className="lm-swap" key={l.name}>
+            <p className="eyebrow">Leadership</p>
+            <h2 id="lm-title">{l.name}</h2>
+            <p className="lm-title">{l.title}, Alcazar Development Group</p>
+            <ul className="lm-glance">{l.glance.map((g) => <li key={g}>{g}</li>)}</ul>
+            <div className="lm-bio">{l.bio.map((p, k) => <p key={k}>{p}</p>)}</div>
+            <h3 className="lm-h">Career</h3>
+            <ol className={`lm-timeline${drawn ? " is-drawn" : ""}`}>
+              {l.timeline.map((m, k) => (
+                <li key={k} style={{ ["--i" as string]: k } as React.CSSProperties}>
+                  <span className="lm-when">{m.when}</span>
+                  <span className="lm-what">{m.what}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div className="dm-nav">
+            <button className="dm-step" onClick={() => onStep(-1)} aria-label={`Previous: ${prev.name}`}>
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              <span><small>Previous</small>{prev.name}</span>
+            </button>
+            <button className="dm-step next" onClick={() => onStep(1)} aria-label={`Next: ${next.name}`}>
+              <span><small>Next</small>{next.name}</span>
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+          </div>
+        </div>
       </div>
-    </article>
+    </div>
   );
 }
 
@@ -400,6 +499,15 @@ export function Site() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [nav, setNav] = useState({ scrolled: false, hidden: false });
   const [open, setOpen] = useState<string | null>(null);
+  const [leader, setLeader] = useState<string | null>(null);
+  const leaderOrigin = useRef<DOMRect | null>(null);
+  const openLeader = (name: string, el: Element | null) => { leaderOrigin.current = el ? el.getBoundingClientRect() : null; setLeader(name); };
+  const leaderIt = leader ? leaders.find((x) => x.name === leader) ?? null : null;
+  const stepLeader = (d: 1 | -1) => {
+    if (!leaderIt) return;
+    const k = leaders.findIndex((x) => x.name === leaderIt.name);
+    setLeader(leaders[(k + d + leaders.length) % leaders.length].name);
+  };
   const origin = useRef<DOMRect | null>(null);
   const aboutRef = useRef<HTMLElement>(null);
   const [glow, setGlow] = useState(0);
@@ -567,8 +675,8 @@ export function Site() {
               <p className="eyebrow">Leadership</p>
               <h2>The people behind <em>the mission.</em></h2>
             </div>
-            <div className="team stagger">
-              {teamMembers.map((m) => <Member key={m.name} m={m} />)}
+            <div className="lead-grid stagger">
+              {leaders.map((l) => <LeaderCard key={l.name} l={l} onOpen={(el) => openLeader(l.name, el)} />)}
             </div>
           </div>
         </section>
@@ -658,6 +766,7 @@ export function Site() {
         </div>
       </footer>
 
+      {leaderIt && <LeaderModal l={leaderIt} list={leaders} origin={leaderOrigin.current} onClosed={() => setLeader(null)} onStep={stepLeader} />}
       {openIt && <DetailModal it={openIt} list={list} origin={origin.current} onClosed={() => setOpen(null)} onStep={step} />}
     </div>
   );
