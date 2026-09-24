@@ -696,7 +696,7 @@ export function Site() {
               <p>
                 Every project is built to institutional standards — the same rigor demanded by tax credit investors and
                 agency lenders — because the workforce deserves the same quality of construction, amenities, and management
-                as any luxury community. ADG has developed more than 1,100 units.
+                as any luxury community.
               </p>
               <div className="award">
                 <img src="/assets/site/sfbj-award-dark.png" alt="SFBJ Structures Awards" />
