@@ -1048,3 +1048,14 @@ h1 em, h2 em { background: none !important; padding-bottom: 0; }
 .lead-card:hover .lead-meta strong span, .lead-card:focus-visible .lead-meta strong span { background-size: 100% 1px; }
 .lead-card:hover .lead-meta strong svg, .lead-card:focus-visible .lead-meta strong svg { opacity: 1; transform: none; }
 .lead-meta em { font: 600 12.5px/1.4 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate); margin-top: 8px; }
+
+/* ===================== Leadership profile view ===================== */
+.lm-title { font: 600 12.5px/1.5 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate); margin: 10px 0 24px; }
+.lm-glance { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; padding: 0; margin: 0 0 28px; border-top: 1px solid var(--rule); border-bottom: 0; }
+.lm-glance li { padding: 12px 0 13px; border-bottom: 1px solid var(--rule); font: 600 15px/1.4 var(--sans); color: var(--ink); }
+.lm-bio p { line-height: 1.62; }
+.lm-bio p + p { margin-top: 14px; }
+.lm .dm-close, .lm button[aria-label="Close"] { background: #fff; box-shadow: 0 4px 14px rgba(4, 10, 16, 0.22); }
+.lm .dm-close:focus, .lm button[aria-label="Close"]:focus { outline: none; }
+.lm .dm-close:focus-visible, .lm button[aria-label="Close"]:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+@media (max-width: 760px) { .lm-glance { grid-template-columns: 1fr; } }

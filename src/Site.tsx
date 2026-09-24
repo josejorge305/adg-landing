@@ -525,7 +525,7 @@ function LeaderModal({ l, list, origin, onClosed, onStep }: { l: Leader; list: L
           <div className="lm-swap" key={l.name}>
             <p className="eyebrow">Leadership</p>
             <h2 id="lm-title">{l.name}</h2>
-            <p className="lm-title">{l.title}, Alcazar Development Group</p>
+            <p className="lm-title">{l.title} · Alcazar Development Group</p>
             <ul className="lm-glance">{l.glance.map((g) => <li key={g}>{g}</li>)}</ul>
             <div className="lm-bio">{l.bio.map((p, k) => <p key={k}>{p}</p>)}</div>
           </div>
