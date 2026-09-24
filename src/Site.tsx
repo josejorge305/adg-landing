@@ -226,6 +226,8 @@ function DetailModal({ it, list, origin, onClosed, onStep }: {
 }) {
   const gallery = [...(it.video ? [it.video] : []), ...(it.gallery.length ? it.gallery : it.video ? [] : [it.image])];
   const [gi, setGi] = useState(0);
+  // stepping to a project with fewer slides must never point past its gallery
+  const g = gi < gallery.length ? gi : 0;
   useEffect(() => { setGi(0); }, [it.name]);
   const i = list.findIndex((x) => x.name === it.name);
   const prev = list[(i - 1 + list.length) % list.length], next = list[(i + 1) % list.length];
@@ -289,16 +291,16 @@ function DetailModal({ it, list, origin, onClosed, onStep }: {
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
         </button>
         <div ref={media} className="dm-media">
-          {gallery[gi].endsWith(".mp4")
-            ? <LoopVideo key={gallery[gi]} src={gallery[gi]} poster={it.poster ?? it.image} label={`${it.name}, animated view`} />
-            : <img key={gallery[gi]} src={gallery[gi]} alt={`${it.name}, image ${gi + 1} of ${gallery.length}`} />}
+          {gallery[g].endsWith(".mp4")
+            ? <LoopVideo key={gallery[g]} src={gallery[g]} poster={it.poster ?? it.image} label={`${it.name}, animated view`} />
+            : <img key={gallery[g]} src={gallery[g]} alt={`${it.name}, image ${gi + 1} of ${gallery.length}`} />}
           {gallery.length > 1 && (
             <div className="dm-gal">
-              <button onClick={() => setGi((gi - 1 + gallery.length) % gallery.length)} aria-label="Previous image">
+              <button onClick={() => setGi((g - 1 + gallery.length) % gallery.length)} aria-label="Previous image">
                 <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </button>
-              <span>{gi + 1} / {gallery.length}</span>
-              <button onClick={() => setGi((gi + 1) % gallery.length)} aria-label="Next image">
+              <span>{g + 1} / {gallery.length}</span>
+              <button onClick={() => setGi((g + 1) % gallery.length)} aria-label="Next image">
                 <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </button>
             </div>
