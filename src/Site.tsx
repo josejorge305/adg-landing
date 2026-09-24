@@ -664,6 +664,7 @@ export function Site() {
             <div className="section-head reveal">
               <p className="eyebrow">Our Portfolio</p>
               <h2>Homes where <em>Florida's workforce</em> lives.</h2>
+              <p className="section-sub">Affordable and market-rate communities developed across Florida, from garden‑style to Class A mid‑rise.</p>
             </div>
             <div className="pgrid dev stagger">
               {PROJECTS.map((p, i) => <Card key={p.name} item={p} index={i} layout={LAYOUT[p.name]} onOpen={(el) => openItem(p.name, el)} />)}
@@ -676,6 +677,7 @@ export function Site() {
             <div className="section-head reveal">
               <p className="eyebrow light">Investment Portfolio</p>
               <h2>Capital positions alongside institutional sponsors.</h2>
+              <p className="section-sub">Limited partner positions in Class A and value-add multifamily communities with established sponsors.</p>
             </div>
             <LpTable items={LPS} onOpen={openItem} />
           </div>
@@ -726,6 +728,7 @@ export function Site() {
             <div className="section-head reveal">
               <p className="eyebrow">Leadership</p>
               <h2>The people behind <em>the mission.</em></h2>
+              <p className="section-sub">Principals with decades of experience across development, banking and finance.</p>
             </div>
             <div className="lead-grid stagger">
               {leaders.map((l) => <LeaderCard key={l.name} l={l} onOpen={(el) => openLeader(l.name, el)} />)}

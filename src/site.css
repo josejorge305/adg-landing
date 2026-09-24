@@ -968,3 +968,12 @@ h1, h2, h3 { font-variant-numeric: lining-nums; }
   .hero-lede { font-size: 17px; }
   .hero-btn { padding: 14px 20px; }
 }
+
+/* ===================== Section headings ===================== */
+/* accent words: italic + color only (no underline), site-wide */
+h1 em, h2 em { background: none !important; padding-bottom: 0; }
+/* headings set on one line where they fit; supporting line beneath */
+.section-head { max-width: none; }
+.section-head h2 { text-wrap: wrap; }
+.section-head .section-sub { max-width: 40em; }
+.band.navy .section-sub { color: rgba(255, 255, 255, 0.78); }
