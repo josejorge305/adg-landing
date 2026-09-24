@@ -770,17 +770,17 @@ export function Site() {
           <div className="wrap">
             <div className="section-head reveal">
               <p className="eyebrow">Affiliated Companies</p>
-              <h2>Development, brokerage and private lending.</h2>
+              <h2>Development, brokerage <em>and private lending.</em></h2>
               <p className="section-sub">ADG operates alongside two affiliated firms under common leadership.</p>
             </div>
             <div className="aff stagger">
               {[
-                { href: "https://www.fhcp-llc.com", logo: IMG + "fhcp-logo.png", name: "FH Capital Partners", desc: "Licensed private lender providing first-lien, asset-based loans on commercial and residential real estate in Florida." },
-                { href: "https://reliantrealestategroup.com", logo: IMG + "reliant-logo.png", name: "Reliant Real Estate Group", desc: "Commercial real estate brokerage in Florida, covering acquisitions and dispositions, loan and note sales, and bank-owned property." },
+                { href: "https://www.fhcp-llc.com", logo: IMG + "fhcp-logo-t.png", domain: "fhcp-llc.com", spec: "Private lending \u00b7 Since 2011 \u00b7 NMLS #889341", name: "FH Capital Partners", desc: "Licensed private lender providing first-lien, asset-based loans on commercial and residential real estate in Florida." },
+                { href: "https://reliantrealestategroup.com", logo: IMG + "reliant-logo-t.png", domain: "reliantrealestategroup.com", spec: "Commercial brokerage \u00b7 Since 2009", name: "Reliant Real Estate Group", desc: "Commercial real estate brokerage in Florida, covering acquisitions and dispositions, loan and note sales, and bank-owned property." },
               ].map((a) => (
                 <a key={a.name} className="aff-card" href={a.href} target="_blank" rel="noopener noreferrer">
                   <div className="aff-logo"><img src={a.logo} alt={a.name} /></div>
-                  <div><strong>{a.name}</strong><p>{a.desc}</p><span>Visit website</span></div>
+                  <div><strong>{a.name}</strong><p className="aff-spec">{a.spec}</p><p>{a.desc}</p><span className="aff-link">{a.domain}<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg></span></div>
                 </a>
               ))}
             </div>
