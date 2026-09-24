@@ -49,16 +49,6 @@ function Hero({ onContact }: { onContact: () => void }) {
   const [night] = useState(() => { const h = new Date().getHours(); return h >= 19 || h < 6; });
   const base = night ? "/assets/site/hero-dusk" : "/assets/site/hero";
   const heroVideo = useRef<HTMLVideoElement>(null);
-  // the scene ends at the top of the figures bar, so the street, cars and people stay in view above it
-  const heroEl = useRef<HTMLElement>(null);
-  useLayoutEffect(() => {
-    const h = heroEl.current, bar = h?.querySelector(".hero-stats") as HTMLElement | null;
-    if (!h || !bar) return;
-    const set = () => h.style.setProperty("--hero-bar", `${bar.offsetHeight}px`);
-    set();
-    const ro = new ResizeObserver(set); ro.observe(bar);
-    return () => ro.disconnect();
-  }, []);
   const [motion] = useState(() => typeof window !== "undefined" && !reducedMotion() && window.innerWidth > 760);
   // the scene starts moving as the render dissolves in under the line drawing (reveal), not after it
   const motionGo = phase !== "intro";
@@ -77,7 +67,7 @@ function Hero({ onContact }: { onContact: () => void }) {
     return () => { v.removeEventListener("ended", onEnded); window.clearTimeout(timer); };
   }, [motionGo]);
   return (
-    <section ref={heroEl} className={`hero hero-${phase}${night ? " hero-night" : " hero-day"}`} id="home" style={{ ["--hero-still" as string]: `url(${base}.jpg)` } as React.CSSProperties}>
+    <section className={`hero hero-${phase}${night ? " hero-night" : " hero-day"}`} id="home">
       <picture>
         <source srcSet={`${base}.webp`} type="image/webp" />
         <img className="hero-img" src={`${base}.jpg`} alt="" aria-hidden="true" fetchPriority="high" />

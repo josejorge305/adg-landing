@@ -848,14 +848,3 @@ h1 em, h2 em { background: linear-gradient(currentColor, currentColor) 0 94% / 0
   .lead-photo img { filter: grayscale(1) contrast(1.04); transform: scale(1.01); transition: filter 0.8s ease, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
   .lead-card.in-focus .lead-photo img { filter: grayscale(0) contrast(1); transform: scale(1.04); }
 }
-/* Hero: the scene ends at the top of the figures bar, anchored to its bottom edge,
-   so the street, cars and people are in view above the bar; a soft blur of the scene continues beneath the glass */
-.hero-img, .hero-video { inset: 0 0 var(--hero-bar, 0px) 0; height: auto; object-position: center 100%; }
-.hero-lines { inset: 0 0 var(--hero-bar, 0px) 0; height: auto; }
-.hero-lines img { inset: 0; height: 100%; object-position: center 100%; }
-.hero::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--hero-bar, 0px) + 24px); background: var(--hero-still) center bottom / cover no-repeat; filter: blur(14px) brightness(0.8); transform: scale(1.08); z-index: 0; pointer-events: none; }
-.hero-intro::before { opacity: 0; }
-.hero::before { transition: opacity 1.2s ease; }
-@media (max-width: 760px) { .hero-img, .hero-lines img { object-position: 30% 100%; } }
-/* images/videos ignore top+bottom stretching, so size them explicitly to end at the top of the bar */
-.hero-img, .hero-video { top: 0; bottom: auto; height: calc(100% - var(--hero-bar, 0px)); }
