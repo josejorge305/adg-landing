@@ -977,3 +977,23 @@ h1 em, h2 em { background: none !important; padding-bottom: 0; }
 .section-head h2 { text-wrap: wrap; }
 .section-head .section-sub { max-width: 40em; }
 .band.navy .section-sub { color: rgba(255, 255, 255, 0.78); }
+
+/* ===================== Portfolio cards: editorial, quiet around the video ===================== */
+.pgrid.dev > .pcard { background: transparent; border: 0; box-shadow: none !important; transform: none !important; }
+.pgrid.dev > .pcard .pcard-img { outline: 1px solid rgba(14, 26, 36, 0.16); outline-offset: -1px; }
+.pgrid.dev > .pcard .pcard-img img { transform: none !important; }
+.pgrid.dev > .pcard .pcard-body { padding: 20px 0 4px; background: transparent; }
+.pgrid.dev > .pcard.full .pcard-body { padding: 8px 0 8px 40px; }
+.pcard h3 { display: flex; align-items: center; gap: 10px; margin: 10px 0 8px; }
+.pcard h3 span { background: linear-gradient(currentColor, currentColor) 0 100% / 0% 1px no-repeat; transition: background-size 0.45s cubic-bezier(0.2, 0.8, 0.2, 1); padding-bottom: 2px; }
+.pcard h3 svg { flex: none; color: var(--blue-deep); opacity: 0; transform: translateX(-6px); transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.pcard:hover h3 span, .pcard:focus-visible h3 span { background-size: 100% 1px; }
+.pcard:hover h3 svg, .pcard:focus-visible h3 svg { opacity: 1; transform: none; }
+.pcard-spec { font: 600 12.5px/1.4 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate); margin-bottom: 10px; font-variant-numeric: lining-nums; }
+.pgrid.dev > .pcard .pcard-desc { font-size: 16px; line-height: 1.6; color: var(--body, #3b4a55); margin: 0; -webkit-line-clamp: 2; }
+/* panoramic card: name, status and spec on the left, the line on the right */
+.pcard.pano .pcard-spec { grid-column: 1; }
+.pcard.pano .pcard-desc { grid-row: 1 / span 3; }
+@media (max-width: 760px) { .pgrid.dev > .pcard.full .pcard-body { padding: 18px 0 4px; } }
+/* cards in a row share a text height, so images and status lines align */
+@media (min-width: 761px) { .pgrid.dev > .pcard:not(.full):not(.pano) .pcard-body { min-height: 196px; } }

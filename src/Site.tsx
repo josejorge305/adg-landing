@@ -15,6 +15,15 @@ type Item = {
   units: string; type: string; status?: string; role?: string; description: string;
   stats: Stat[]; award: string | null; image: string; gallery: string[]; video?: string; poster?: string; sponsor?: string;
 };
+/* One distinctive line per card (the full description lives in the detail view) */
+const TAGLINES: Record<string, string> = {
+  "Aura Living": "An eight-story mid-rise of one- to three-bedroom residences for households at or below 60% AMI.",
+  "Alcazar Millennium": "The fourth phase of ADG\u2019s Naranja neighborhood.",
+  "Alcazar Apartment Villas": "An award-winning campus of twelve buildings with a resort-style clubhouse.",
+  "Aura at Silver Lakes": "Garden-style two- to four-bedroom residences for households at or below 60% AMI.",
+  "Spring Gardens": "A rental community in the Miami Health District, developed in joint venture with The Estate Companies.",
+  "SOMI Homes": "Three custom residences, taken from site acquisition through construction and disposition.",
+};
 /* Portfolio collage order: long, short / short, long / full width */
 const ORDER = ["Aura Living", "Alcazar Millennium", "Alcazar Apartment Villas", "Aura at Silver Lakes", "Spring Gardens", "SOMI Homes"];
 const LAYOUT: Record<string, "wide" | "full" | "pano" | undefined> = { "Aura Living": "wide", "Aura at Silver Lakes": "wide", "Spring Gardens": "full", "SOMI Homes": "pano" };
@@ -215,7 +224,8 @@ function LoopVideo({ src, poster, label }: { src: string; poster: string; label:
 /* ---------------- Portfolio card ---------------- */
 function Card({ item, layout, index = 0, onOpen }: { item: Item; layout?: "wide" | "full" | "pano"; index?: number; onOpen: (el: Element | null) => void }) {
   const badge = item.kind === "lp" ? item.role! : sentence(item.status || "");
-  const excerpt = item.description || item.address;
+  const excerpt = TAGLINES[item.name] ?? item.description;
+  const spec = [item.type, item.units, item.location.split(",")[0]].filter(Boolean).join(" \u00b7 ");
   return (
     <article
       className={`pcard${layout ? " " + layout : ""}`}
@@ -239,11 +249,9 @@ function Card({ item, layout, index = 0, onOpen }: { item: Item; layout?: "wide"
       </div>
       <div className="pcard-body">
         <p className={`pill ${item.kind === "lp" ? "lp" : statusTone(item.status)}`}>{badge}</p>
-        <h3>{item.name}</h3>
-        <p className="pcard-loc">{item.location}</p>
+        <h3><span>{item.name}</span><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg></h3>
+        <p className="pcard-spec">{spec}</p>
         {excerpt && <p className="pcard-desc">{excerpt}</p>}
-        <div className="pcard-facts"><span>{item.type}</span><strong>{item.units}</strong></div>
-        <span className="pcard-more">View details</span>
       </div>
     </article>
   );
