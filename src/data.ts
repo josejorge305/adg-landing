@@ -157,7 +157,7 @@ export const projects = [
     status: "DELIVERED 2015",
     statusColor: "#8A97A0",
     description:
-      "Three custom luxury residences in the heart of downtown South Miami, taken from site acquisition and land evaluation through feasibility, construction financing, vertical construction oversight and disposition. Ground-up execution in a third residential asset class, alongside the firm’s garden, mid-rise and multifamily communities.",
+      "Three custom luxury residences in the heart of downtown South Miami, taken from site acquisition and land evaluation through feasibility, construction financing, vertical construction oversight and disposition.",
     detail: "",
     stats: [
       { label: "Residences", value: "Three custom homes" },
