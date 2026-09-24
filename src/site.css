@@ -776,3 +776,9 @@ h1 em, h2 em { background: linear-gradient(currentColor, currentColor) 0 94% / 0
 .hero-video { transition: opacity 1.2s ease; }
 .hero-intro .hero-video { opacity: 0 !important; }
 .hero-video.settling { transition: opacity 1.6s ease; }
+/* Investment table: larger thumbnails */
+.lp-head, .lp-row { grid-template-columns: minmax(0, 3.2fr) minmax(0, 1.1fr) minmax(0, 1.3fr) minmax(0, 1.3fr) 70px 24px; }
+.lp-thumb { width: 224px; height: 150px; }
+.lp-prop { gap: 22px; }
+@media (max-width: 900px) { .lp-thumb { width: 136px; height: 90px; } .lp-sponsor { padding-left: 156px; } }
+@media (max-width: 480px) { .lp-thumb { width: 108px; height: 72px; } .lp-sponsor { padding-left: 126px; } }
