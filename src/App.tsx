@@ -223,7 +223,7 @@ const stats = [
   { number: "1,100+", label: "Units Developed" },
   { number: "3", label: "Active Projects" },
   { number: "10+", label: "Years in Development" },
-  { number: "$240M+", label: "Development Pipeline" },
+  { number: "668", label: "Units in Development Pipeline" },
 ];
 
 const taglines = [
