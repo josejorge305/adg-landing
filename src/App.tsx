@@ -120,7 +120,6 @@ const projects = [
     detail: "",
     stats: [
       { label: "Stories", value: "8" },
-      { label: "Delivered", value: "2020, on schedule" },
       { label: "Role", value: "General Partner" },
       { label: "Status", value: "Owned & operated" },
     ],
