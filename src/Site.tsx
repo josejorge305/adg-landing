@@ -735,8 +735,8 @@ export function Site() {
               <p className="eyebrow light">Get in Touch</p>
               <h2>Let's house <em>Florida's workforce.</em></h2>
               <dl className="contact-list">
-                <div><dt>Office</dt><dd>7520 SW 57th Avenue Suite G{"\n"}South Miami, FL 33143</dd></div>
                 <div><dt>Phone</dt><dd><a href="tel:3057726191">(305) 772-6191</a></dd></div>
+                <div><dt>Office</dt><dd>7520 SW 57th Avenue Suite G{"\n"}South Miami, FL 33143</dd></div>
               </dl>
               <a className="office-map" href="https://www.google.com/maps/search/?api=1&query=7520+SW+57th+Avenue+Suite+G+South+Miami+FL+33143" target="_blank" rel="noopener noreferrer" aria-label="Get directions to the ADG office in Google Maps">
                 <img src="/assets/map/office-snippet.webp" alt="" loading="lazy" />
