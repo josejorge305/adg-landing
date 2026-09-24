@@ -496,6 +496,17 @@ function LeaderModal({ l, list, origin, onClosed, onStep }: { l: Leader; list: L
 /* ---------------- Page ---------------- */
 export function Site() {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Phones: a portrait turns to color while it passes through the middle of the screen, then returns to black and white
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia("(hover: none)").matches || !("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.target.classList.toggle("in-focus", e.isIntersecting)),
+      { rootMargin: "-38% 0px -38% 0px" }
+    );
+    const t = window.setTimeout(() => document.querySelectorAll(".lead-card").forEach((c) => io.observe(c)), 300);
+    return () => { window.clearTimeout(t); io.disconnect(); };
+  }, []);
   const [nav, setNav] = useState({ scrolled: false, hidden: false });
   const [open, setOpen] = useState<string | null>(null);
   const [leader, setLeader] = useState<string | null>(null);
