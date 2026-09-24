@@ -430,7 +430,7 @@ export const leaders: Leader[] = [
     name: "Jose Jorge “JJ” Figueroa",
     title: "Managing Director",
     portrait: "/assets/site/team/jj-portrait-v2-h.jpg",
-    glance: ["20+ years in real estate", "Co-founder, FH Capital Partners", "Licensed Real Estate & Mortgage Broker"],
+    glance: ["20+ years in real estate", "CEO, Reliant Real Estate Group", "Co-founder, FH Capital Partners", "Licensed Real Estate & Mortgage Broker"],
     bio: [
       "Jose Jorge “JJ” Figueroa is a co-owner and Managing Director of Alcazar Development Group, where he leads acquisitions, financial modeling, capital structuring and overall development strategy for the firm’s multifamily portfolio throughout Florida. He is a real estate developer, broker and financier with more than two decades of experience.",
       "Mr. Figueroa is co-founder of FH Capital Partners (FHCP, LLC), a private mortgage lending and servicing platform operating since 2011. As CEO of Reliant Real Estate Group, he developed the RRG Network in the aftermath of the 2008 financial crisis: a proprietary, algorithm-driven platform that matches distressed assets with qualified investors.",
