@@ -409,7 +409,7 @@ export const teamMembers = [
 ];
 
 export const stats = [
-  { number: "1,100+", label: "Units Developed" },
+  { number: "1,400+", label: "Units Developed & Invested" },
   { number: "3", label: "Active Projects" },
   { number: "10+", label: "Years Developing in Florida" },
   { number: "668", label: "Units in Development Pipeline" },
