@@ -44,9 +44,9 @@ export const projects = [
       { label: "Market", value: "Lake County MSA" },
     ],
     award: null,
-    image: "/assets/site/slv-aerial-poster.jpg",
-    video: "/assets/site/slv-aerial-t.mp4",
-    poster: "/assets/site/slv-aerial-t-still.jpg",
+    image: "/assets/site/slv-aerial-v5-t-still.jpg",
+    video: "/assets/site/slv-aerial-v5-t.mp4",
+    poster: "/assets/site/slv-aerial-v5-t-still.jpg",
     gallery: [
       "/assets/hq/slv-aerial.webp",
       "/assets/hq/slv-front.webp",
