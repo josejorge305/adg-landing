@@ -817,6 +817,7 @@ export function Site() {
               <label className="ff"><textarea name="message" required rows={4} placeholder=" " value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} /><span>Message</span></label>
               <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" checked={trap} onChange={(e) => setTrap(e.target.checked)} style={{ display: "none" }} aria-hidden="true" />
               <button type="submit" className="cf-send" disabled={status === "sending"}><span>{status === "sending" ? "Sending..." : "Send message"}</span><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg></button>
+              <p className="cf-privacy">Your information is used only to respond to your inquiry and is never sold or shared.</p>
               {status === "sent" && (
                 <p className="cform-status sent" role="status">
                   <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5" pathLength={1} /></svg>
@@ -855,6 +856,15 @@ export function Site() {
         </div>
         <div className="wrap footer-base">
           <p>© {new Date().getFullYear()} Alcazar Development Group, LLC</p>
+          <div className="footer-legal">
+            <svg className="eho" viewBox="0 0 32 32" width="26" height="26" role="img" aria-label="Equal Housing Opportunity"><path d="M16 3 2 13.5V29h28V13.5z" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round" /><rect x="9" y="15.5" width="14" height="3" fill="currentColor" /><rect x="9" y="21" width="14" height="3" fill="currentColor" /></svg>
+            <p>
+              Equal Housing Opportunity. Information on this site is provided for general purposes only and does not constitute an offer to sell,
+              or a solicitation of an offer to buy, any security or interest in any investment. Renderings and animations are artist&rsquo;s
+              conceptions; actual design, materials and features may differ. Project timelines, unit counts and status are estimates and subject
+              to change. Investment property images courtesy of their respective sponsors.
+            </p>
+          </div>
         </div>
       </footer>
 

@@ -1059,3 +1059,10 @@ h1 em, h2 em { background: none !important; padding-bottom: 0; }
 .lm .dm-close:focus, .lm button[aria-label="Close"]:focus { outline: none; }
 .lm .dm-close:focus-visible, .lm button[aria-label="Close"]:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 @media (max-width: 760px) { .lm-glance { grid-template-columns: 1fr; } }
+
+/* ===================== Fine print: quiet, never competing with the page ===================== */
+.footer-base { display: flex; flex-direction: column; gap: 14px; }
+.footer-legal { display: flex; align-items: flex-start; gap: 14px; max-width: 980px; }
+.footer-legal p { margin: 0; font-size: 12px; line-height: 1.6; color: rgba(255, 255, 255, 0.42); }
+.footer-legal .eho { flex: none; color: rgba(255, 255, 255, 0.5); margin-top: 1px; }
+.cform .cf-privacy { margin: 2px 0 0; font-size: 12.5px; line-height: 1.5; color: rgba(255, 255, 255, 0.5); text-align: center; }
