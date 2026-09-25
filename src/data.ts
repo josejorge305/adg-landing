@@ -28,7 +28,7 @@ export const projects = [
     ],
   },
   {
-    name: "Aura at Silver Lakes",
+    name: "Aura Living at Silver Lake",
     location: "Leesburg, Florida",
     address: "",
     coords: [28.838044, -81.811317] as [number, number],

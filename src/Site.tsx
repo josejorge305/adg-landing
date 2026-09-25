@@ -47,7 +47,7 @@ type Item = {
 /* Detail-view descriptions: what is distinctive (type, units and place are shown in the term strip) */
 const DETAIL_TEXT: Record<string, string> = {
   "Aura Living": "An eight-story mid-rise of one-, two- and three-bedroom residences for households at or below 60% AMI, and the third phase of ADG\u2019s Naranja neighborhood.",
-  "Aura at Silver Lakes": "Garden-style two-, three- and four-bedroom residences for households at or below 60% AMI, serving the Lake County workforce.",
+  "Aura Living at Silver Lake": "Garden-style two-, three- and four-bedroom residences for households at or below 60% AMI, serving the Lake County workforce.",
   "Alcazar Millennium": "The fourth phase of ADG\u2019s Naranja neighborhood, extending the community established by Alcazar Apartment Villas and Aura Living.",
   "Alcazar Apartment Villas": "An award-winning community of twelve buildings with one-, two- and three-bedroom residences and a resort-style clubhouse, delivered in two phases.",
   "Spring Gardens": "An eight-story rental community in the Miami Health District, developed in joint venture with The Estate Companies, with ADG as general partner.",
@@ -61,13 +61,13 @@ const TAGLINES: Record<string, string> = {
   "Aura Living": "An eight-story mid-rise of one- to three-bedroom residences for households at or below 60% AMI.",
   "Alcazar Millennium": "The fourth phase of ADG\u2019s Naranja neighborhood.",
   "Alcazar Apartment Villas": "An award-winning community of twelve buildings with a resort-style clubhouse.",
-  "Aura at Silver Lakes": "Garden-style two- to four-bedroom residences for households at or below 60% AMI.",
+  "Aura Living at Silver Lake": "Garden-style two- to four-bedroom residences for households at or below 60% AMI.",
   "Spring Gardens": "A rental community in the Miami Health District, developed in joint venture with The Estate Companies.",
   "SOMI Homes": "Three custom residences, taken from site acquisition through construction and disposition.",
 };
 /* Portfolio collage order: long, short / short, long / full width */
-const ORDER = ["Aura Living", "Alcazar Millennium", "Alcazar Apartment Villas", "Aura at Silver Lakes", "Spring Gardens", "SOMI Homes"];
-const LAYOUT: Record<string, "wide" | "full" | "pano" | undefined> = { "Aura Living": "wide", "Aura at Silver Lakes": "wide", "Spring Gardens": "full", "SOMI Homes": "pano" };
+const ORDER = ["Aura Living", "Alcazar Millennium", "Alcazar Apartment Villas", "Aura Living at Silver Lake", "Spring Gardens", "SOMI Homes"];
+const LAYOUT: Record<string, "wide" | "full" | "pano" | undefined> = { "Aura Living": "wide", "Aura Living at Silver Lake": "wide", "Spring Gardens": "full", "SOMI Homes": "pano" };
 const PROJECTS: Item[] = projects
   .map((p) => ({ ...p, kind: "project" as const, image: hq(p.image), gallery: (p.gallery as string[]).map(hq), video: (p as { video?: string }).video, poster: (p as { poster?: string }).poster }))
   .sort((a, b) => ORDER.indexOf(a.name) - ORDER.indexOf(b.name));
