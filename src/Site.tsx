@@ -49,7 +49,7 @@ const DETAIL_TEXT: Record<string, string> = {
   "Aura Living": "An eight-story mid-rise of one-, two- and three-bedroom residences for households at or below 60% AMI, and the third phase of ADG\u2019s Naranja neighborhood.",
   "Aura at Silver Lakes": "Garden-style two-, three- and four-bedroom residences for households at or below 60% AMI, serving the Lake County workforce.",
   "Alcazar Millennium": "The fourth phase of ADG\u2019s Naranja neighborhood, extending the community established by Alcazar Apartment Villas and Aura Living.",
-  "Alcazar Apartment Villas": "An award-winning campus of twelve buildings with one-, two- and three-bedroom residences and a resort-style clubhouse, delivered in two phases.",
+  "Alcazar Apartment Villas": "An award-winning community of twelve buildings with one-, two- and three-bedroom residences and a resort-style clubhouse, delivered in two phases.",
   "Spring Gardens": "An eight-story rental community in the Miami Health District, developed in joint venture with The Estate Companies, with ADG as general partner.",
   "SOMI Homes": "Three custom single-family residences, taken from site acquisition and land evaluation through feasibility, construction financing, vertical construction oversight and disposition.",
   "The Holly by Soleste": "Two towers of eight and twelve stories adjacent to Young Circle in downtown Hollywood, structured as a Qualified Opportunity Zone investment.",
@@ -60,7 +60,7 @@ const DETAIL_TEXT: Record<string, string> = {
 const TAGLINES: Record<string, string> = {
   "Aura Living": "An eight-story mid-rise of one- to three-bedroom residences for households at or below 60% AMI.",
   "Alcazar Millennium": "The fourth phase of ADG\u2019s Naranja neighborhood.",
-  "Alcazar Apartment Villas": "An award-winning campus of twelve buildings with a resort-style clubhouse.",
+  "Alcazar Apartment Villas": "An award-winning community of twelve buildings with a resort-style clubhouse.",
   "Aura at Silver Lakes": "Garden-style two- to four-bedroom residences for households at or below 60% AMI.",
   "Spring Gardens": "A rental community in the Miami Health District, developed in joint venture with The Estate Companies.",
   "SOMI Homes": "Three custom residences, taken from site acquisition through construction and disposition.",
