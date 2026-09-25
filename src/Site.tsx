@@ -86,7 +86,7 @@ function statusTone(s = "") {
 }
 
 /* ---------------- Hero: plans to built ---------------- */
-function Hero({ onContact }: { onContact: () => void }) {
+function Hero() {
   const [phase, setPhase] = useState<"intro" | "reveal" | "done">(() => {
     try { if (reducedMotion() || document.visibilityState !== "visible") return "done"; } catch { return "done"; }
     return "intro";
@@ -162,13 +162,6 @@ function Hero({ onContact }: { onContact: () => void }) {
           workforce communities that close the gap between income and rent — built to institutional standards,
           designed for real life.
         </p>
-        <div className="hero-ctas">
-          <a href="#portfolio" className="hero-btn" onClick={(e) => { e.preventDefault(); document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" }); }}>
-            View our portfolio
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-          </a>
-          <button className="text-link light" onClick={onContact}>Partner with us</button>
-        </div>
       </div>
       <div className="hero-stats" aria-label="Firm figures">
         <div className="wrap hero-stats-inner">
@@ -737,7 +730,7 @@ export function Site() {
       </header>
 
       <main>
-        <Hero onContact={() => go("contact")} />
+        <Hero />
 
         <section id="portfolio" className="band tone">
           <div className="wrap">
