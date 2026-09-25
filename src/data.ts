@@ -82,7 +82,7 @@ export const projects = [
     status: "SOLD Q4 2021",
     statusColor: "#FF6B35",
     description:
-      "288-unit market-rate multifamily community in Naranja: an award-winning campus of twelve buildings with one-, two- and three-bedroom residences and a resort-style clubhouse.",
+      "288-unit market-rate multifamily community in Naranja: an award-winning development of twelve buildings with one-, two- and three-bedroom residences and a resort-style clubhouse.",
     detail: "",
     stats: [
       { label: "Phase I", value: "216 units, 2018" },
