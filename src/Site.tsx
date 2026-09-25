@@ -16,7 +16,7 @@ const nightSubs = new Set<() => void>();
 const applyTheme = (dark: boolean, save: boolean) => {
   heroNight = dark;
   document.documentElement.dataset.theme = dark ? "dark" : "light";
-  if (save) { try { localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); } catch { /* storage blocked */ } }
+  if (save) { try { sessionStorage.setItem(THEME_KEY, dark ? "dark" : "light"); } catch { /* storage blocked */ } }
   nightSubs.forEach((f) => f());
 };
 const setHeroNight = (dark: boolean) => applyTheme(dark, true);
@@ -24,7 +24,7 @@ if (typeof window !== "undefined") {
   try {
     window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
       let saved: string | null = null;
-      try { saved = localStorage.getItem(THEME_KEY); } catch { /* storage blocked */ }
+      try { saved = sessionStorage.getItem(THEME_KEY); } catch { /* storage blocked */ }
       if (!saved) applyTheme(e.matches, false);
     });
   } catch { /* old browsers */ }
