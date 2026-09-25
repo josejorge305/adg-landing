@@ -246,7 +246,8 @@ export const limitedPartnerPositions = [
     ],
   },
   {
-    name: "Cinnamon Cove Apartments",
+    name: "Viva Tampa",
+    sponsor: "Cinnamon Cove",
     location: "Tampa, Florida",
     address: "12401 N 15th St, Tampa, FL 33612",
     coords: [28.060726, -82.442751] as [number, number],

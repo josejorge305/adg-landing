@@ -200,7 +200,6 @@ export function ZoomMap({ items, onSelect }: { items: ZItem[]; onSelect: (name: 
           <button aria-pressed={target === 0} className={target === 0 ? "on" : ""} onClick={() => flyTo(0)}>Florida</button>
           <button aria-pressed={target === 1} className={target === 1 ? "on" : ""} onClick={() => flyTo(1)}>South Florida</button>
         </div>
-        <p className="fpz-credit">Imagery: Sentinel-2 cloudless 2016 by EOX IT Services GmbH (s2maps.eu), contains modified Copernicus Sentinel data.</p>
       </div>
     </div>
   );

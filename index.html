@@ -21,6 +21,14 @@
     <link rel="canonical" href="https://alcazardg.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      (function () {
+        var t = null;
+        try { t = localStorage.getItem("adg-theme"); } catch (e) {}
+        if (t !== "dark" && t !== "light") t = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = t;
+      })();
+    </script>
     <title>Alcazar Development Group — Workforce Housing Developer</title>
     <script type="application/ld+json">
       {

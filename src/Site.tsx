@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { projects, limitedPartnerPositions, stats, taglines, leaders, type Leader } from "./data";
 import { ZoomMap } from "./ZoomMap";
 import { hq } from "./hq";
@@ -7,6 +7,35 @@ const WEB3FORMS_KEY = "fea77824-b299-49c9-b114-52bb347f7fd6";
 const EASE = "cubic-bezier(0.2, 0.8, 0.2, 1)";
 const reducedMotion = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const IMG = "/assets/images/website/";
+
+/* Site theme: light (day hero) or dark (dusk hero). Set before paint by index.html; the nav toggle flips it.
+   The Aura Living card always shows the opposite scene from the hero. */
+const THEME_KEY = "adg-theme";
+let heroNight = typeof document !== "undefined" && document.documentElement.dataset.theme === "dark";
+const nightSubs = new Set<() => void>();
+const applyTheme = (dark: boolean, save: boolean) => {
+  heroNight = dark;
+  document.documentElement.dataset.theme = dark ? "dark" : "light";
+  if (save) { try { localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); } catch { /* storage blocked */ } }
+  nightSubs.forEach((f) => f());
+};
+const setHeroNight = (dark: boolean) => applyTheme(dark, true);
+if (typeof window !== "undefined") {
+  try {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+      let saved: string | null = null;
+      try { saved = localStorage.getItem(THEME_KEY); } catch { /* storage blocked */ }
+      if (!saved) applyTheme(e.matches, false);
+    });
+  } catch { /* old browsers */ }
+}
+const useHeroNight = () => useSyncExternalStore((f) => { nightSubs.add(f); return () => { nightSubs.delete(f); }; }, () => heroNight, () => false);
+/* the popup panel's own color (light or dark theme), at a given opacity, for the expand/collapse fade */
+const panelBg = (el: Element, a: number) => {
+  const m = getComputedStyle(el).backgroundColor.match(/[\d.]+/g) ?? ["255", "255", "255"];
+  return `rgba(${m[0]}, ${m[1]}, ${m[2]}, ${a})`;
+};
+const AURA_DAY = { video: "/assets/site/aura-living-day-loop-t.mp4", poster: "/assets/site/aura-living-day-loop-t-still.jpg" };
 
 type Stat = { label: string; value: string };
 type Item = {
@@ -25,7 +54,7 @@ const DETAIL_TEXT: Record<string, string> = {
   "SOMI Homes": "Three custom single-family residences, taken from site acquisition and land evaluation through feasibility, construction financing, vertical construction oversight and disposition.",
   "The Holly by Soleste": "Two towers of eight and twelve stories adjacent to Young Circle in downtown Hollywood, structured as a Qualified Opportunity Zone investment.",
   "Gran Vista at Doral": "A gated community completed in 2015, with a resort-style pool, clubhouse and fitness center.",
-  "Cinnamon Cove Apartments": "A garden-style community acquired in 2025 for a value-add renovation.",
+  "Viva Tampa": "A garden-style community acquired in 2025 for a value-add renovation.",
 };
 /* One distinctive line per card (the full description lives in the detail view) */
 const TAGLINES: Record<string, string> = {
@@ -67,7 +96,7 @@ function Hero({ onContact }: { onContact: () => void }) {
     if (phase === "reveal") { const t = window.setTimeout(() => setPhase("done"), 1500); return () => window.clearTimeout(t); }
   }, [phase]);
   const t = taglines[0];
-  const [night] = useState(() => { const h = new Date().getHours(); return h >= 19 || h < 6; });
+  const night = useHeroNight(); // dark theme shows the dusk hero
   const base = night ? "/assets/site/hero-dusk" : "/assets/site/hero";
   const heroVideo = useRef<HTMLVideoElement>(null);
   // Framing on wide screens: trim the open sky above the roofline first (never past it), then the bottom,
@@ -103,7 +132,7 @@ function Hero({ onContact }: { onContact: () => void }) {
     v.addEventListener("ended", onEnded);
     play();                                                   // starts with the dissolve: no still pause
     return () => { v.removeEventListener("ended", onEnded); window.clearTimeout(timer); };
-  }, [motionGo]);
+  }, [motionGo, night]);
   return (
     <section ref={heroEl} className={`hero hero-${phase}${night ? " hero-night" : " hero-day"}`} id="home">
       <picture>
@@ -240,6 +269,10 @@ function Card({ item, layout, index = 0, onOpen }: { item: Item; layout?: "wide"
   const badge = item.kind === "lp" ? item.role! : sentence(item.status || "");
   const excerpt = TAGLINES[item.name] ?? item.description;
   const spec = [item.type, item.units, item.location.split(",")[0]].filter(Boolean).join(" \u00b7 ");
+  const night = useHeroNight();
+  const swap = night && item.name === "Aura Living" && item.video;
+  const video = swap ? AURA_DAY.video : item.video;
+  const poster = swap ? AURA_DAY.poster : (item.poster ?? item.image);
   return (
     <article
       className={`pcard${layout ? " " + layout : ""}`}
@@ -257,8 +290,8 @@ function Card({ item, layout, index = 0, onOpen }: { item: Item; layout?: "wide"
       }}
     >
       <div className="pcard-img">
-        {item.video
-          ? <LoopVideo src={item.video} poster={item.poster ?? item.image} label={`${item.name}, animated view`} />
+        {video
+          ? <LoopVideo src={video} poster={poster} label={`${item.name}, animated view`} />
           : <img src={item.image} alt={`${item.name}, ${item.location}`} loading="lazy" />}
       </div>
       <div className="pcard-body">
@@ -292,7 +325,7 @@ function DetailModal({ it, list, origin, onClosed, onStep }: {
     const end = m.getBoundingClientRect();
     p.style.overflow = "visible";
     const a = m.animate([{ transform: `translate(${origin.left - end.left}px, ${origin.top - end.top}px) scale(${origin.width / end.width}, ${origin.height / end.height})` }, { transform: "none" }], { duration: 460, easing: EASE });
-    p.animate([{ backgroundColor: "rgba(255,255,255,0)", boxShadow: "none" }, { backgroundColor: "rgba(255,255,255,1)" }], { duration: 360, easing: "ease-out" });
+    p.animate([{ backgroundColor: panelBg(p, 0), boxShadow: "none" }, { backgroundColor: panelBg(p, 1) }], { duration: 360, easing: "ease-out" });
     b.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 320, delay: 160, easing: EASE, fill: "backwards" });
     close.current?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 240, delay: 260, fill: "backwards" });
     a.onfinish = () => { p.style.overflow = ""; };
@@ -310,7 +343,7 @@ function DetailModal({ it, list, origin, onClosed, onStep }: {
       p.style.overflow = "visible";
       b.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, fill: "forwards" });
       close.current?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, fill: "forwards" });
-      p.animate([{ backgroundColor: "rgba(255,255,255,1)" }, { backgroundColor: "rgba(255,255,255,0)", boxShadow: "none" }], { duration: 220, fill: "forwards" });
+      p.animate([{ backgroundColor: panelBg(p, 1) }, { backgroundColor: panelBg(p, 0), boxShadow: "none" }], { duration: 220, fill: "forwards" });
       const a = m.animate([{ transform: "none" }, { transform: `translate(${r.left - f.left}px, ${r.top - f.top}px) scale(${r.width / f.width}, ${r.height / f.height})` }], { duration: 420, easing: EASE, fill: "forwards" });
       a.onfinish = onClosed;
     } else {
@@ -474,7 +507,7 @@ function LeaderModal({ l, list, origin, onClosed, onStep }: { l: Leader; list: L
     const end = ph.getBoundingClientRect();
     p.style.overflow = "visible";
     const a = ph.animate([{ transform: `translate(${origin.left - end.left}px, ${origin.top - end.top}px) scale(${origin.width / end.width}, ${origin.height / end.height})` }, { transform: "none" }], { duration: 520, easing: EASE });
-    p.animate([{ backgroundColor: "rgba(255,255,255,0)", boxShadow: "none" }, { backgroundColor: "rgba(255,255,255,1)" }], { duration: 380, easing: "ease-out" });
+    p.animate([{ backgroundColor: panelBg(p, 0), boxShadow: "none" }, { backgroundColor: panelBg(p, 1) }], { duration: 380, easing: "ease-out" });
     b.animate([{ opacity: 0, transform: "translateX(16px)" }, { opacity: 1, transform: "none" }], { duration: 380, delay: 200, easing: EASE, fill: "backwards" });
     close.current?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 240, delay: 300, fill: "backwards" });
     a.onfinish = () => { p.style.overflow = ""; };
@@ -492,7 +525,7 @@ function LeaderModal({ l, list, origin, onClosed, onStep }: { l: Leader; list: L
       p.style.overflow = "visible";
       b.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, fill: "forwards" });
       close.current?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, fill: "forwards" });
-      p.animate([{ backgroundColor: "rgba(255,255,255,1)" }, { backgroundColor: "rgba(255,255,255,0)", boxShadow: "none" }], { duration: 220, fill: "forwards" });
+      p.animate([{ backgroundColor: panelBg(p, 1) }, { backgroundColor: panelBg(p, 0), boxShadow: "none" }], { duration: 220, fill: "forwards" });
       const a = ph.animate([{ transform: "none" }, { transform: `translate(${r.left - f.left}px, ${r.top - f.top}px) scale(${r.width / f.width}, ${r.height / f.height})` }], { duration: 440, easing: EASE, fill: "forwards" });
       a.onfinish = onClosed;
     } else {
@@ -661,6 +694,22 @@ export function Site() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const dark = useHeroNight();
+  const themeBtn = (where: "desk" | "mob") => (
+    <button
+      type="button"
+      className={`nav-theme ${where}`}
+      onClick={() => setHeroNight(!dark)}
+      aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+      title={dark ? "Light mode" : "Dark mode"}
+    >
+      {dark ? (
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor" /><g stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" /></g></svg>
+      ) : (
+        <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" fill="currentColor" /></svg>
+      )}
+    </button>
+  );
   return (
     <div className="page">
       <div ref={progress} className="scroll-progress" aria-hidden="true" />
@@ -677,8 +726,10 @@ export function Site() {
               <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" strokeWidth="1.8" /><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" strokeWidth="1.8" /></svg>
               Sign in
             </a>
+            {themeBtn("desk")}
             <a href="#contact" className={`nav-cta${active === "contact" ? " is-active" : ""}`} onClick={(e) => { e.preventDefault(); go("contact"); }}>Contact</a>
           </nav>
+          {themeBtn("mob")}
           <button className={menuOpen ? "nav-toggle is-open" : "nav-toggle"} aria-expanded={menuOpen} aria-label={menuOpen ? "Close menu" : "Open menu"} onClick={() => setMenuOpen(!menuOpen)}>
             <span /><span /><span />
           </button>
@@ -728,7 +779,7 @@ export function Site() {
                 as any luxury community.
               </p>
               <div className="award">
-                <img src="/assets/site/sfbj-award-dark.png" alt="SFBJ Structures Awards" />
+                <img src={dark ? "/assets/site/sfbj-award-light.png" : "/assets/site/sfbj-award-dark.png"} alt="SFBJ Structures Awards" />
                 <div><strong>SFBJ Structures Awards</strong><span>Best Affordable Residential 2018</span></div>
               </div>
             </div>
@@ -774,11 +825,11 @@ export function Site() {
             </div>
             <div className="aff stagger">
               {[
-                { href: "https://www.fhcp-llc.com", logo: IMG + "fhcp-logo-t.png", domain: "fhcp-llc.com", spec: "Private lending \u00b7 Since 2011 \u00b7 NMLS #889341", name: "FH Capital Partners", desc: "Licensed private lender providing first-lien, asset-based loans on commercial and residential real estate in Florida." },
-                { href: "https://reliantrealestategroup.com", logo: IMG + "reliant-logo-t.png", domain: "reliantrealestategroup.com", spec: "Commercial brokerage \u00b7 Since 2009", name: "Reliant Real Estate Group", desc: "Commercial real estate brokerage in Florida, covering acquisitions and dispositions, loan and note sales, and bank-owned property." },
+                { href: "https://www.fhcp-llc.com", logo: IMG + "fhcp-logo-t.png", logoDark: IMG + "fhcp-logo-t-dark.png", domain: "fhcp-llc.com", spec: "Private lending \u00b7 Since 2011 \u00b7 NMLS #889341", name: "FH Capital Partners", desc: "Licensed private lender providing first-lien, asset-based loans on commercial and residential real estate in Florida." },
+                { href: "https://reliantrealestategroup.com", logo: IMG + "reliant-logo-t.png", logoDark: IMG + "reliant-logo-t-dark.png", domain: "reliantrealestategroup.com", spec: "Commercial brokerage \u00b7 Since 2009", name: "Reliant Real Estate Group", desc: "Commercial real estate brokerage in Florida, covering acquisitions and dispositions, loan and note sales, and bank-owned property." },
               ].map((a) => (
                 <a key={a.name} className="aff-card" href={a.href} target="_blank" rel="noopener noreferrer">
-                  <div className="aff-logo"><img src={a.logo} alt={a.name} /></div>
+                  <div className="aff-logo"><img src={dark ? a.logoDark : a.logo} alt={a.name} /></div>
                   <div><strong>{a.name}</strong><p className="aff-spec">{a.spec}</p><p>{a.desc}</p><span className="aff-link">{a.domain}<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg></span></div>
                 </a>
               ))}
@@ -862,7 +913,8 @@ export function Site() {
               Equal Housing Opportunity. Information on this site is provided for general purposes only and does not constitute an offer to sell,
               or a solicitation of an offer to buy, any security or interest in any investment. Renderings and animations are artist&rsquo;s
               conceptions; actual design, materials and features may differ. Project timelines, unit counts and status are estimates and subject
-              to change. Investment property images courtesy of their respective sponsors.
+              to change. Investment property images courtesy of their respective sponsors. Map imagery: Sentinel-2 cloudless 2016 by
+              EOX IT Services GmbH (s2maps.eu), contains modified Copernicus Sentinel data.
             </p>
           </div>
         </div>
