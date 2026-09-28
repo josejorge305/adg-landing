@@ -35,7 +35,7 @@ const panelBg = (el: Element, a: number) => {
   const m = getComputedStyle(el).backgroundColor.match(/[\d.]+/g) ?? ["255", "255", "255"];
   return `rgba(${m[0]}, ${m[1]}, ${m[2]}, ${a})`;
 };
-const AURA_DAY = { video: "/assets/site/aura-living-day-loop-t.mp4", poster: "/assets/site/aura-living-day-loop-t-still.jpg" };
+const AURA_DAY = { video: "/assets/site/aura-living-day-loop-v5-t.mp4", poster: "/assets/site/aura-living-day-loop-v5-t-still.jpg" };
 
 type Stat = { label: string; value: string };
 type Item = {
@@ -140,7 +140,7 @@ function Hero() {
         <img className="hero-img" src={`${base}.jpg`} alt="" aria-hidden="true" {...{ fetchpriority: "high" }} />
       </picture>
       {motion && (
-        <video ref={heroVideo} className="hero-video" src={night ? "/assets/site/hero-dusk-v3.mp4" : "/assets/site/hero-day-v2.mp4"} poster={`${base}.jpg`} muted playsInline preload="auto" aria-hidden="true" />
+        <video ref={heroVideo} className="hero-video" src={night ? "/assets/site/hero-dusk-v3.mp4" : "/assets/site/hero-day-v5.mp4"} poster={`${base}.jpg`} muted playsInline preload="auto" aria-hidden="true" />
       )}
       <div className="hero-lines" aria-hidden="true">
         <picture>
